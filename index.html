@@ -3,97 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اختبار الصراع مع العدو الإسرائيلي</title>
-    <!-- Font Awesome للأيقونات -->
+    <title>الامتحان: الصراع مع العدو الإسرائيلي - جامعة صنعاء</title>
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- خط عربي -->
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- شريط التحكم العلوي -->
-    <div class="header-controls">
-        <button id="darkModeToggle" class="btn">
-            <i class="fas fa-moon"></i> الوضع الليلي
-        </button>
-        
-        <div class="score-display">
-            <span>الدرجة: </span>
-            <span id="currentScore">0</span>
-        </div>
-    </div>
-
-    <!-- الحاوية الرئيسية -->
-    <div class="container">
-        <!-- العنوان الرئيسي -->
-        <div class="quiz-header">
-            <h1><i class="fas fa-graduation-cap"></i> امتحان الصراع مع العدو الإسرائيلي</h1>
-            <p class="subtitle">المستوى الأول - 50 درجة - أمة الرحيم علي عبدالله الصنعاني</p>
-        </div>
-
-        <!-- شريط التقدم -->
-        <div class="progress-container">
-            <div class="progress-info">
-                <span>التقدم: <span id="answeredCount">0</span> من <span id="totalQuestions">43</span> سؤال</span>
+    <!-- شريط التنقل -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h2><i class="fas fa-graduation-cap"></i> جامعة صنعاء</h2>
+                <p>كلية الإعلام - المستوى الأول</p>
             </div>
-            <div class="progress">
-                <div class="progress-bar" style="width: 0%">0/43</div>
-            </div>
-        </div>
-
-        <!-- حاوية الأسئلة -->
-        <div id="quizContainer">
-            <!-- سيتم إضافة الأسئلة هنا -->
-            <!-- مثال لسؤال واحد -->
-            <div class="question-card" data-question-id="1">
-                <h3>1) مسؤوليتنا اليوم تجاه العدو الإسرائيلي</h3>
-                <div class="options">
-                    <label class="option">
-                        <input type="radio" name="q1" value="1">
-                        <span class="option-text">إحياء حالة العداء له</span>
-                    </label>
-                    <label class="option">
-                        <input type="radio" name="q1" value="2">
-                        <span class="option-text">الولاء له</span>
-                    </label>
-                    <label class="option">
-                        <input type="radio" name="q1" value="3">
-                        <span class="option-text">مسح النظرة العدائية له</span>
-                    </label>
-                    <label class="option">
-                        <input type="radio" name="q1" value="4">
-                        <span class="option-text">التطبيع معه</span>
-                    </label>
-                </div>
-                <button class="btn check-btn" onclick="checkSingleAnswer(this)">
-                    <i class="fas fa-check"></i> تحقق من الإجابة
+            <div class="nav-controls">
+                <button id="darkModeToggle" class="icon-btn">
+                    <i class="fas fa-moon"></i>
                 </button>
-                <div class="result hidden"></div>
+                <button id="timerToggle" class="icon-btn">
+                    <i class="fas fa-clock"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- الشاشة الرئيسية -->
+    <main class="container">
+        <!-- شاشة البداية -->
+        <section id="startScreen" class="screen active">
+            <div class="exam-header">
+                <h1><i class="fas fa-file-alt"></i> امتحان الصراع مع العدو الإسرائيلي</h1>
+                <div class="university-info">
+                    <h3>الجمهورية اليمنية</h3>
+                    <h3>جامعة صنعاء - كلية الإعلام</h3>
+                    <h3>اللجنة العلمية</h3>
+                </div>
+                <div class="student-info">
+                    <p>المستوى: الأول</p>
+                    <p>الدرجة الكلية: 50 درجة</p>
+                    <p>عدد الأسئلة: 43 سؤال</p>
+                </div>
             </div>
             
-            <!-- باقي الأسئلة بنفس النمط -->
-        </div>
+            <div class="instructions">
+                <h3><i class="fas fa-info-circle"></i> تعليمات الامتحان:</h3>
+                <ul>
+                    <li>الامتحان مكون من 43 سؤالاً اختيار من متعدد</li>
+                    <li>اختر الإجابة الصحيحة لكل سؤال</li>
+                    <li>يمكنك تغيير إجابتك قبل إنهاء الامتحان</li>
+                    <li>الوقت المقترح: 60 دقيقة</li>
+                    <li>لبدء الامتحان، اضغط على زر "ابدأ الامتحان"</li>
+                </ul>
+            </div>
+            
+            <button id="startExamBtn" class="btn start-btn">
+                <i class="fas fa-play"></i> ابدأ الامتحان
+            </button>
+        </section>
 
-        <!-- حاوية المقارنة (مخفية في البداية) -->
-        <div id="comparisonContainer" class="hidden"></div>
-    </div>
+        <!-- شاشة الامتحان -->
+        <section id="examScreen" class="screen">
+            <div class="exam-header">
+                <div class="progress-info">
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill"></div>
+                    </div>
+                    <p id="progressText">السؤال 1 من 43</p>
+                </div>
+                <div class="exam-tools">
+                    <div id="timer" class="timer">60:00</div>
+                    <button id="endExamBtn" class="btn danger-btn">
+                        <i class="fas fa-flag"></i> إنهاء الامتحان
+                    </button>
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div id="questionNumber" class="question-number">السؤال 1</div>
+                <h2 id="questionText" class="question-text"></h2>
+                
+                <div id="optionsContainer" class="options-container">
+                    <!-- سيتم تعبئة الخيارات ديناميكياً -->
+                </div>
+                
+                <div class="navigation-buttons">
+                    <button id="prevBtn" class="btn secondary-btn">
+                        <i class="fas fa-arrow-right"></i> السابق
+                    </button>
+                    <button id="nextBtn" class="btn primary-btn">
+                        التالي <i class="fas fa-arrow-left"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
 
-    <!-- أزرار التحكم السفلية -->
-    <div class="buttons-container">
-        <button id="showResults" class="btn btn-success">
-            <i class="fas fa-chart-bar"></i> عرض النتيجة النهائية
-        </button>
-        
-        <button id="compareAnswers" class="btn btn-primary">
-            <i class="fas fa-exchange-alt"></i> مقارنة الإجابات
-        </button>
-        
-        <button id="restartQuiz" class="btn btn-warning">
-            <i class="fas fa-redo"></i> إعادة المحاولة
-        </button>
-    </div>
+        <!-- شاشة النتائج -->
+        <section id="resultsScreen" class="screen">
+            <div class="results-header">
+                <h1><i class="fas fa-chart-line"></i> نتائج الامتحان</h1>
+                <div class="score-circle">
+                    <svg width="200" height="200">
+                        <circle class="circle-bg" cx="100" cy="100" r="90"></circle>
+                        <circle id="scoreCircle" class="circle-progress" cx="100" cy="100" r="90"></circle>
+                    </svg>
+                    <div class="score-text">
+                        <h2 id="finalScore">0/50</h2>
+                        <p id="percentage">0%</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="results-details">
+                <div class="result-card">
+                    <h3><i class="fas fa-check-circle"></i> الإجابات الصحيحة</h3>
+                    <p id="correctAnswers" class="stat">0</p>
+                </div>
+                <div class="result-card">
+                    <h3><i class="fas fa-times-circle"></i> الإجابات الخاطئة</h3>
+                    <p id="wrongAnswers" class="stat">0</p>
+                </div>
+                <div class="result-card">
+                    <h3><i class="fas fa-clock"></i> الوقت المستغرق</h3>
+                    <p id="timeTaken" class="stat">0:00</p>
+                </div>
+            </div>
+            
+            <div class="results-controls">
+                <button id="reviewBtn" class="btn secondary-btn">
+                    <i class="fas fa-list"></i> مراجعة الإجابات
+                </button>
+                <button id="retryBtn" class="btn primary-btn">
+                    <i class="fas fa-redo"></i> إعادة المحاولة
+                </button>
+            </div>
+            
+            <!-- قسم مراجعة الإجابات -->
+            <div id="reviewSection" class="review-section" style="display: none;">
+                <h3><i class="fas fa-clipboard-check"></i> مراجعة الإجابات</h3>
+                <div id="reviewList" class="review-list">
+                    <!-- سيتم تعبئة مراجعة الإجابات هنا -->
+                </div>
+            </div>
+        </section>
+    </main>
 
-    <!-- JavaScript -->
+    <!-- تذييل الصفحة -->
+    <footer class="footer">
+        <p>© 2024 جامعة صنعاء - كلية الإعلام. جميع الحقوق محفوظة.</p>
+        <p>تم تطوير هذا الموقع لأغراض تعليمية</p>
+    </footer>
+
     <script src="script.js"></script>
 </body>
-</html>
+            </html>
