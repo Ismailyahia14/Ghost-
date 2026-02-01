@@ -1,4 +1,4 @@
-// البيانات - الأسئلة والإجابات
+// البيانات - جميع الأسئلة الـ 43
 const questions = [
     {
         id: 1,
@@ -30,8 +30,406 @@ const questions = [
             { text: "قضية عبثية", correct: false }
         ]
     },
-    // ... يمكنك إضافة بقية الأسئلة هنا
-    // لاحظ: لقد قمت بإضافة أول 3 أسئلة كمثال. تحتاج لإضافة بقية الأسئلة
+    {
+        id: 4,
+        question: "القيادة التي تحتاج إليها الأمة هي قيادة",
+        options: [
+            { text: "قرآنية", correct: true },
+            { text: "وطنية", correct: false },
+            { text: "قومية", correct: false },
+            { text: "عربية", correct: false }
+        ]
+    },
+    {
+        id: 5,
+        question: "عقوبات الله على اليهود",
+        options: [
+            { text: "الذلة والمسكنة", correct: false },
+            { text: "يولون الأدبار عند القتال", correct: false },
+            { text: "يقاتلون من وراء جدر", correct: false },
+            { text: "كل ما ذكر", correct: true }
+        ]
+    },
+    {
+        id: 6,
+        question: "مواقف القرآن الكريم وتوجيهات الله لنا تجاه اليهود والنصارى تضمن",
+        options: [
+            { text: "التحذير منهم واتخاذهم أعداء", correct: false },
+            { text: "التحذير من توليهم ومعاداة كل من يتولاهم", correct: false },
+            { text: "أهمية الإعداد لكل أسباب القوة لمواجهتهم", correct: false },
+            { text: "كل ما ذكر", correct: true }
+        ]
+    },
+    {
+        id: 7,
+        question: "من أهداف الحرب الشيطانية الناعمة",
+        options: [
+            { text: "إفساد الناس من أجل استعبادهم", correct: false },
+            { text: "السيطرة المباشرة والتحكم بالإنسان وتجريده من هويته الإيمانية وقيمه ومبادئه", correct: false },
+            { text: "كل ما ذكر", correct: true },
+            { text: "لا شيء مما ذكر", correct: false }
+        ]
+    },
+    {
+        id: 8,
+        question: "من أسباب لعن الله لليهود",
+        options: [
+            { text: "بما عصوا واعتدوا، وعدم التناهي عن المنكر", correct: true },
+            { text: "موقف شخصي ضدهم", correct: false },
+            { text: "كل ما ذكر", correct: false },
+            { text: "لا شيء مما ذكر", correct: false }
+        ]
+    },
+    {
+        id: 9,
+        question: "لَتَجِدَنَّ أَشَدَّ النَّاسِ عَدَاوَةً لِلَّذِينَ آمَنُوا الْيَهُودَ وَالَّذِينَ أَشْرَكُوا. هذه الآية الكريمة تؤكد على",
+        options: [
+            { text: "كراهية اليهود للمشركين", correct: false },
+            { text: "أن أشد عدو لنا هم اليهود والمشركون", correct: true },
+            { text: "عداوة المشركين لليهود", correct: false },
+            { text: "كراهية اليهود للنصارى", correct: false }
+        ]
+    },
+    {
+        id: 10,
+        question: 'قال تعالى: "مَا كَانَ إِبْرَاهِيمُ يَهُودِيًّا وَلَا نَصْرَانِيًّا وَلَكِنْ كَانَ حَنِيفًا مُسْلِمًا" إلا أن اليهود والنصارى عملوا على تقديم الدين باسم قوميتهم، وهذا من',
+        options: [
+            { text: "حقائق اليهود وصفاتهم", correct: false },
+            { text: "خطط اليهود وأساليبهم في استهدافنا", correct: true },
+            { text: "المعلومات العامة", correct: false },
+            { text: "حقائق تعاملهم مع الكتب المقدسة", correct: false }
+        ]
+    },
+    {
+        id: 11,
+        question: 'قال تعالى: "كُنْتُمْ خَيْرَ أُمَّةٍ أُخْرِجَتْ لِلنَّاسِ" هذه الخيرية مرتبطة',
+        options: [
+            { text: "بمسؤولية كبيرة وعظيمة وهي رد الناس إلى دين الله", correct: false },
+            { text: "برفع الظلم عن الناس، ولإصلاح العباد وتطهير الأرض من الفساد", correct: false },
+            { text: "بعمارة الأرض", correct: false },
+            { text: "كل ما ذكر", correct: true }
+        ]
+    },
+    {
+        id: 12,
+        question: "طرق اليهود وأساليبهم في استهداف الأمة",
+        options: [
+            { text: "الخداع والتضليل", correct: false },
+            { text: "مغالطتهم الثقافية", correct: false },
+            { text: "فصل الأمة عن هويتها الإيمانية", correct: false },
+            { text: "كل ما ذكر", correct: true }
+        ]
+    },
+    {
+        id: 13,
+        question: "سببان مهمان للنصر",
+        options: [
+            { text: "الوطنية والإخلاص", correct: false },
+            { text: "الإيمان والإسلام", correct: false },
+            { text: "الجهاد في سبيل الله تحت قيادة يختارها الله", correct: true },
+            { text: "لا شيء مما ذكر", correct: false }
+        ]
+    },
+    {
+        id: 14,
+        question: '"لَنْ يَضُرُّوكُمْ إِلَّا أَذًى وَإِنْ يُقَاتِلُوكُمْ يُوَلُّوكُمُ الْأَدْبَارَ ثُمَّ لَا يُنْصَرُونَ" هذه الآية الكريمة تخبرنا عن',
+        options: [
+            { text: "نقاط قوة العدو", correct: false },
+            { text: "نقاط ضعف العدو", correct: true },
+            { text: "كل ما ذكر", correct: false },
+            { text: "لا شيء مما ذكر", correct: false }
+        ]
+    },
+    {
+        id: 15,
+        question: "هذه الآية تحذرنا من خطورة التفرق",
+        options: [
+            { text: '"وَلَا تَكُونُوا كَالَّذِينَ تَفَرَّقُوا وَاخْتَلَفُوا مِنْ بَعْدِ مَا جَاءَهُمُ الْبَيِّنَاتُ وَأُولَئِكَ لَهُمْ عَذَابٌ عَظِيمٌ"', correct: true },
+            { text: '"وَأَمَّا الَّذِينَ ابْيَضَّتْ وُجُوهُهُمْ فَفِي رَحْمَةِ اللَّهِ هُمْ فِيهَا خَالِدُونَ"', correct: false },
+            { text: '"تِلْكَ آيَاتُ اللَّهِ نَتْلُوهَا عَلَيْكَ بِالْحَقِّ وَمَا اللَّهُ يُرِيدُ ظُلْمًا لِلْعَالَمِينَ"', correct: false },
+            { text: '"وَلِلَّهِ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ وَإِلَى اللَّهِ تُرْجَعُ الْأُمُورُ"', correct: false }
+        ]
+    },
+    {
+        id: 16,
+        question: '"يَا أَيُّهَا الَّذِينَ آمَنُوا إِنْ تُطِيعُوا فَرِيقًا مِنَ الَّذِينَ أُوتُوا الْكِتَابَ يَرُدُّوكُمْ بَعْدَ إِيمَانِكُمْ كَافِرِينَ" ... تعبر عن',
+        options: [
+            { text: "خطورة العدو، والتحذير منه", correct: true },
+            { text: "أهمية التوحد", correct: false },
+            { text: "عدم التفرق", correct: false },
+            { text: "لا شيء مما ذكر", correct: false }
+        ]
+    },
+    {
+        id: 17,
+        question: "القضية الفلسطينية وطوفان الأقصى مسؤولية",
+        options: [
+            { text: "الفلسطينيين", correct: false },
+            { text: "الأمة", correct: true },
+            { text: "الشرق الأوسط", correct: false },
+            { text: "العرب", correct: false }
+        ]
+    },
+    {
+        id: 18,
+        question: "من أسباب تعدي اليهود على المسلمين واستهداف رموزها مثل سماحة السيد حسن نصر الله شهيد الإسلام والإنسانية",
+        options: [
+            { text: "تولي أغلب الأنظمة لليهود والنصارى", correct: false },
+            { text: "الواقع الداخلي للأمة", correct: false },
+            { text: "قصور النظرة تجاه الخطر الإسرائيلي", correct: false },
+            { text: "كل ما ذكر", correct: true }
+        ]
+    },
+    {
+        id: 19,
+        question: "قامت اليهود بترويض الأمة على",
+        options: [
+            { text: "الصمت", correct: true },
+            { text: "التحرك", correct: false },
+            { text: "الثورة", correct: false },
+            { text: "المقاومة", correct: false }
+        ]
+    },
+    {
+        id: 20,
+        question: "من أهم مجالات الصراع مع العدو الإسرائيلي",
+        options: [
+            { text: "المجال الإعلامي", correct: false },
+            { text: "المجال الاقتصادي", correct: false },
+            { text: "المجال الثقافي", correct: false },
+            { text: "كل ما ذكر", correct: true }
+        ]
+    },
+    {
+        id: 21,
+        question: '"يَا أَيُّهَا الَّذِينَ آمَنُوا لَا تَتَّخِذُوا الْيَهُودَ وَالنَّصَارَى أَوْلِيَاءَ بَعْضُهُمْ أَوْلِيَاءُ بَعْضٍ وَمَنْ يَتَوَلَّهُمْ مِنْكُمْ ..."',
+        options: [
+            { text: "فإن الله غفور رحيم", correct: false },
+            { text: "فإنه منهم", correct: true },
+            { text: "فالله بكل شيء عليم", correct: false },
+            { text: "فليس بضار الله من شيء", correct: false }
+        ]
+    },
+    {
+        id: 22,
+        question: "الهدف من دراسة مادة الصراع مع العدو الإسرائيلي",
+        options: [
+            { text: "لنزداد وعياً", correct: false },
+            { text: "لنتحمل المسؤولية", correct: false },
+            { text: "لنكون الغالبين", correct: false },
+            { text: "كل ما ذكر", correct: true }
+        ]
+    },
+    {
+        id: 23,
+        question: "بعض مواصفات بني إسرائيل في القرآن",
+        options: [
+            { text: "الكفر بكتب الله ورسله وقتلهم", correct: false },
+            { text: "أكل أموال الناس بالباطل", correct: false },
+            { text: "النقض للعهود والمواثيق", correct: false },
+            { text: "كل ما ذكر", correct: true }
+        ]
+    },
+    {
+        id: 24,
+        question: "كان الحافز الأساسي لتحرك اليهود لبناء كيانهم المزعوم هو",
+        options: [
+            { text: "الحافز المالي", correct: false },
+            { text: "الحافز الاقتصادي", correct: false },
+            { text: "الحافز الاجتماعي", correct: false },
+            { text: "الحافز الديني", correct: true }
+        ]
+    },
+    {
+        id: 25,
+        question: "النظام السعودي يمثل",
+        options: [
+            { text: "الاتجاه المعادي لإسرائيل", correct: false },
+            { text: "دولة التوحيد", correct: false },
+            { text: "الاتجاه الداعم لحركات المقاومة", correct: false },
+            { text: "الاتجاه الموالي والداعم لإسرائيل", correct: true }
+        ]
+    },
+    {
+        id: 26,
+        question: "الله أمر المسلمين في مواجهة بني إسرائيل",
+        options: [
+            { text: "إعداد قوة كافية لمواجهتهم", correct: false },
+            { text: "إعداد ما استطاعوا من قوة وقتالهم", correct: true },
+            { text: "جيوش مجهزة للدفاع عن النفس", correct: false },
+            { text: "التسليم بالأمر الواقع", correct: false }
+        ]
+    },
+    {
+        id: 27,
+        question: "يدعي أهل الكتاب أنه لن يدخل الجنة إلا",
+        options: [
+            { text: "من آمن بالله ورسله", correct: false },
+            { text: "من آمن بكتب الله جميعاً", correct: false },
+            { text: "من أحب الخير للناس جميعاً", correct: false },
+            { text: "من كان يهودي أو نصراني", correct: true }
+        ]
+    },
+    {
+        id: 28,
+        question: "الإسرائيليون يثقفون أبنائهم بأن",
+        options: [
+            { text: "يتركوا العنف والعيش بسلام", correct: false },
+            { text: "بثقافة العنف والعداء للمسلمين", correct: true },
+            { text: "يكونوا مسالمين لكل شعوب العالم", correct: false },
+            { text: "كل الإجابات صحيحة", correct: false }
+        ]
+    },
+    {
+        id: 29,
+        question: "من أهداف دراسة مقرر الصراع مع العدو الإسرائيلي",
+        options: [
+            { text: "أن نعمل للتعايش السلمي مع بني إسرائيل", correct: false },
+            { text: "لنتحد ونكون الغالبيين بدون مواجهة", correct: false },
+            { text: "لنزداد وعياً وبصيرة بأعدائنا ولنكون الغالبيين", correct: true },
+            { text: "لنعمل على تقليدهم في كل شيء", correct: false }
+        ]
+    },
+    {
+        id: 30,
+        question: "عرف اليهود أن القرآن منزل من الله، ومع ذلك",
+        options: [
+            { text: "حرفوه", correct: false },
+            { text: "شككوا فيه", correct: true },
+            { text: "أنكروا معرفتهم به", correct: false },
+            { text: "عادوا الملائكة", correct: false }
+        ]
+    },
+    {
+        id: 31,
+        question: "الصراع مع بني إسرائيل",
+        options: [
+            { text: "حضاري تاريخي", correct: false },
+            { text: "تاريخي ديني", correct: false },
+            { text: "وجودي كامل", correct: false },
+            { text: "حضاري شامل", correct: true }
+        ]
+    },
+    {
+        id: 32,
+        question: "عندما لا تأخذ كتاب الله بقوة سنصل إلى",
+        options: [
+            { text: "حالة اللاوعي", correct: false },
+            { text: "مرحلة اليقظة بالته", correct: false },
+            { text: "أسوأ مما وصل إليه بني إسرائيل", correct: true },
+            { text: "بين الإيمان والكفر", correct: false }
+        ]
+    },
+    {
+        id: 33,
+        question: "من وسائل بني إسرائيل في استهدافنا",
+        options: [
+            { text: "تطوير أساليب الرباء", correct: false },
+            { text: "تحريف الكتب السماوية", correct: false },
+            { text: "ليس الحق بالباطل", correct: true },
+            { text: "تجنيد النخب علناً للعمل الاستخباراتي", correct: false }
+        ]
+    },
+    {
+        id: 34,
+        question: "بني إسرائيل يقتلون الأنبياء أي أنهم",
+        options: [
+            { text: "مجرمون بالفطرة", correct: true },
+            { text: "لا يقيمون وزناً للأنبياء", correct: false },
+            { text: "لن يوقروا أي دماء", correct: false },
+            { text: "غير ذلك", correct: false }
+        ]
+    },
+    {
+        id: 35,
+        question: "من عوامل نشوء الكيان الإسرائيلي",
+        options: [
+            { text: "إصرار أمريكا وبريطانيا", correct: false },
+            { text: "اهتمام اليهود تخاذل العرب", correct: true },
+            { text: "اهتمام الشعوب الأوروبية", correct: false },
+            { text: "رغبة العرب في إيواء اليهود", correct: false }
+        ]
+    },
+    {
+        id: 36,
+        question: "نحن خير أمة أخرجت للناس أي",
+        options: [
+            { text: "شرف مجرد العرب", correct: false },
+            { text: "العالم كله مسئوليتنا", correct: true },
+            { text: "وسام الهي برغم الذلة والمهانة", correct: false },
+            { text: "نحن أمة السلام المطلق", correct: false }
+        ]
+    },
+    {
+        id: 37,
+        question: "إحياء حالة العداء لليهود والصهيونية",
+        options: [
+            { text: "خيار قومي", correct: false },
+            { text: "خيار سياسي", correct: false },
+            { text: "فريضة فكرية", correct: false },
+            { text: "فريضة دينية", correct: true }
+        ]
+    },
+    {
+        id: 38,
+        question: "نشأ اليهود كيانهم الغاصب في فلسطين انطلاقاً من",
+        options: [
+            { text: "العامل الديني", correct: true },
+            { text: "العامل القوي", correct: false },
+            { text: "رغبة الدول الاستعمارية", correct: false },
+            { text: "العامل السياسي", correct: false }
+        ]
+    },
+    {
+        id: 39,
+        question: "الحرب الناعمة هي",
+        options: [
+            { text: "مصطلح أمريكي غربي موجه", correct: false },
+            { text: "حرب تستهدف الهوية الوطنية", correct: false },
+            { text: "حرب شيطانية تهدف لإفساد الناس واستبعادهم", correct: true },
+            { text: "حرب صهيونية غربية ساخنة لها ضحايا", correct: false }
+        ]
+    },
+    {
+        id: 40,
+        question: "بعد نشوء الكيان الصهيوني برز اتجاهان في واقع الأمة",
+        options: [
+            { text: "موالي والآخر مسالم للعدو الصهيوني", correct: false },
+            { text: "معادي والآخر مواجه للعدو الصهيوني", correct: false },
+            { text: "محايد والآخر موالي للعدو الصهيوني", correct: false },
+            { text: "معادي والآخر موالي للعدو الصهيوني", correct: true }
+        ]
+    },
+    {
+        id: 41,
+        question: "ما يحدث لليمن منذ أكثر من 7 سنوات",
+        options: [
+            { text: "أزمة داخلية", correct: false },
+            { text: "عدوان وحرب سنية شيعية", correct: false },
+            { text: "عدوان أمريكي إسرائيلي عربي غاشم", correct: true },
+            { text: "عدوان عربي ظالم وحسب", correct: false }
+        ]
+    },
+    {
+        id: 42,
+        question: "الوعي بخطورة الشيطان والاستعاذة منه",
+        options: [
+            { text: "نوع من أنواع الأذكار", correct: false },
+            { text: "من طرق الوقاية من أخطار الحرب عموماً", correct: false },
+            { text: "من طرق الوقاية من أخطار الحرب الناعمة", correct: true },
+            { text: "من طرق وأساليب العبادة القلبية", correct: false }
+        ]
+    },
+    {
+        id: 43,
+        question: "من عوامل نشوء الكيان الصهيوني على أرض فلسطين",
+        options: [
+            { text: "وعد بلفور ووعد عبدالعزيز آل سعود", correct: false },
+            { text: "وعد بلفور وكتاب برسي كوكس", correct: false },
+            { text: "قرارات مؤتمر باريس للمصالحة 1918 م", correct: false },
+            { text: "قرارات الحركة الصهيونية (بازل 1897 م)", correct: true }
+        ]
+    }
 ];
 
 // متغيرات التطبيق
@@ -122,580 +520,4 @@ function loadQuestion(index) {
     progressFill.style.width = `${progress}%`;
     progressText.textContent = `السؤال ${index + 1} من ${questions.length}`;
     
-    // تحديث أزرار التنقل
-    prevBtn.disabled = index === 0;
-    nextBtn.textContent = index === questions.length - 1 ? 'إنهاء' : 'التالي';
-    
-    // تحميل الخيارات
-    optionsContainer.innerHTML = '';
-    question.options.forEach((option, optionIndex) => {
-        const optionElement = document.createElement('div');
-        optionElement.className = 'option';
-        if (userAnswers[index] === optionIndex) {
-            optionElement.classList.add('selected');
-        }
-        
-        const marker = document.createElement('div');
-        marker.className = 'option-marker';
-        marker.textContent = String.fromCharCode(1632 + optionIndex); // أرقام عربية
-        
-        const text = document.createElement('div');
-        text.className = 'option-text';
-        text.textContent = option.text;
-        
-        optionElement.appendChild(marker);
-        optionElement.appendChild(text);
-        
-        optionElement.addEventListener('click', () => selectOption(optionIndex));
-        optionsContainer.appendChild(optionElement);
-    });
-}
-
-// اختيار إجابة
-function selectOption(optionIndex) {
-    userAnswers[currentQuestion] = optionIndex;
-    loadQuestion(currentQuestion);
-}
-
-// السؤال السابق
-function prevQuestion() {
-    if (currentQuestion > 0) {
-        currentQuestion--;
-        loadQuestion(currentQuestion);
-    }
-}
-
-// السؤال التالي
-function nextQuestion() {
-    if (currentQuestion < questions.length - 1) {
-        currentQuestion++;
-        loadQuestion(currentQuestion);
-    } else {
-        endExam();
-    }
-}
-
-// بدء المؤقت
-function startTimer() {
-    updateTimerDisplay();
-    
-    timerInterval = setInterval(() => {
-        timeLeft--;
-        updateTimerDisplay();
-        
-        if (timeLeft <= 0) {
-            endExam();
-        }
-    }, 1000);
-}
-
-// تحديث عرض المؤقت
-function updateTimerDisplay() {
-    const minutes = Math.floor(timeLeft / 60);
-    const seconds = timeLeft % 60;
-    timer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    
-    // تغيير اللون عند انخفاض الوقت
-    if (timeLeft < 300) { // أقل من 5 دقائق
-        timer.style.color = 'var(--accent-color)';
-    } else if (timeLeft < 600) { // أقل من 10 دقائق
-        timer.style.color = 'var(--warning-color)';
-    }
-}
-
-// إنهاء الامتحان
-function endExam() {
-    clearInterval(timerInterval);
-    examCompleted = true;
-    
-    examScreen.classList.remove('active');
-    resultsScreen.classList.add('active');
-    
-    calculateResults();
-}
-
-// حساب النتائج
-function calculateResults() {
-    let correctCount = 0;
-    let wrongCount = 0;
-    let unansweredCount = 0;
-    
-    // حساب الإجابات الصحيحة والخاطئة
-    questions.forEach((question, index) => {
-        const userAnswer = userAnswers[index];
-        
-        if (userAnswer === null) {
-            unansweredCount++;
-        } else if (question.options[userAnswer].correct) {
-            correctCount++;
-        } else {
-            wrongCount++;
-        }
-    });
-    
-    // حساب النتيجة
-    const score = correctCount * (50 / questions.length);
-    const scorePercentage = (correctCount / questions.length) * 100;
-    
-    // تحديث العناصر
-    finalScore.textContent = `${score.toFixed(1)}/50`;
-    percentage.textContent = `${scorePercentage.toFixed(1)}%`;
-    correctAnswers.textContent = correctCount;
-    wrongAnswers.textContent = wrongCount;
-    
-    // حساب الوقت المستغرق
-    const endTime = new Date();
-    const timeDiff = Math.floor((endTime - startTime) / 1000);
-    const minutesTaken = Math.floor(timeDiff / 60);
-    const secondsTaken = timeDiff % 60;
-    timeTaken.textContent = `${minutesTaken}:${secondsTaken.toString().padStart(2, '0')}`;
-    
-    // تحديث دائرة النتيجة
-    const circleLength = 565;
-    const offset = circleLength - (circleLength * (scorePercentage / 100));
-    scoreCircle.style.strokeDashoffset = offset;
-    
-    // تغيير لون الدائرة بناءً على النتيجة
-    if (scorePercentage >= 80) {
-        scoreCircle.style.stroke = 'var(--success-color)';
-    } else if (scorePercentage >= 60) {
-        scoreCircle.style.stroke = 'var(--warning-color)';
-    } else {
-        scoreCircle.style.stroke = 'var(--accent-color)';
-    }
-}
-
-// تبديل الوضع الليلي
-function toggleDarkMode() {
-    const isDark = document.body.getAttribute('data-theme') === 'dark';
-    
-    if (isDark) {
-        document.body.removeAttribute('data-theme');
-        darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-        localStorage.setItem('darkMode', 'false');
-    } else {
-        document.body.setAttribute('data-theme', 'dark');
-        darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-        localStorage.setItem('darkMode', 'true');
-    }
-}
-
-// تبديل عرض المؤقت
-function toggleTimer() {
-    const isVisible = timer.style.display !== 'none';
-    
-    if (isVisible) {
-        timer.style.display = 'none';
-        timerToggle.innerHTML = '<i class="fas fa-clock-slash"></i>';
-        localStorage.setItem('showTimer', 'false');
-    } else {
-        timer.style.display = 'block';
-        timerToggle.innerHTML = '<i class="fas fa-clock"></i>';
-        localStorage.setItem('showTimer', 'true');
-    }
-}
-
-// عرض/إخفاء المراجعة
-function toggleReview() {
-    const isVisible = reviewSection.style.display === 'block';
-    
-    if (isVisible) {
-        reviewSection.style.display = 'none';
-        reviewBtn.innerHTML = '<i class="fas fa-list"></i> مراجعة الإجابات';
-    } else {
-        reviewSection.style.display = 'block';
-        reviewBtn.innerHTML = '<i class="fas fa-times"></i> إخفاء المراجعة';
-        generateReview();
-    }
-}
-
-// توليد مراجعة الإجابات
-function generateReview() {
-    reviewList.innerHTML = '';
-    
-    questions.forEach((question, index) => {
-        const reviewItem = document.createElement('div');
-        reviewItem.className = 'review-item';
-        
-        const questionDiv = document.createElement('div');
-        questionDiv.className = 'review-question';
-        questionDiv.textContent = `${index + 1}. ${question.question}`;
-        
-        const answersDiv = document.createElement('div');
-        answersDiv.className = 'review-answers';
-        
-        // إضافة إجابة المستخدم
-        const userAnswerIndex = userAnswers[index];
-        if (userAnswerIndex !== null) {
-            const userAnswerItem = document.createElement('div');
-            userAnswerItem.className = 'answer-item user-answer';
-            userAnswerItem.innerHTML = `
-                <i class="fas fa-user"></i>
-                <span>إجابتك: ${question.options[userAnswerIndex].text}</span>
-            `;
-            answersDiv.appendChild(userAnswerItem);
-        }
-        
-        // إضافة الإجابة الصحيحة
-        const correctOption = question.options.find(option => option.correct);
-        const correctAnswerItem = document.createElement('div');
-        correctAnswerItem.className = 'answer-item correct-answer';
-        correctAnswerItem.innerHTML = `
-            <i class="fas fa-check"></i>
-            <span>الإجابة الصحيحة: ${correctOption.text}</span>
-        `;
-        answersDiv.appendChild(correctAnswerItem);
-        
-        reviewItem.appendChild(questionDiv);
-        reviewItem.appendChild(answersDiv);
-        reviewList.appendChild(reviewItem);
-    });
-}
-
-// إعادة المحاولة
-function retryExam() {
-    currentQuestion = 0;
-    userAnswers = new Array(questions.length).fill(null);
-    examCompleted = false;
-    
-    resultsScreen.classList.remove('active');
-    startScreen.classList.add('active');
-    
-    reviewSection.style.display = 'none';
-    reviewBtn.innerHTML = '<i class="fas fa-list"></i> مراجعة الإجابات';
-}    
-    // زر مقارنة الإجابات
-    document.getElementById('compareAnswers').addEventListener('click', compareAllAnswers);
-    
-    // متابعة تغيير الإجابات
-    document.querySelectorAll('input[type="radio"]').forEach(input => {
-        input.addEventListener('change', function() {
-            const questionId = this.name.replace('q', '');
-            const answerValue = this.value;
-            userAnswers[questionId] = parseInt(answerValue);
-            updateProgressBar();
-        });
-    });
-}
-
-// ============ وظيفة التحقق من إجابة واحدة ============
-function checkSingleAnswer(button) {
-    const questionCard = button.closest('.question-card');
-    const questionId = questionCard.dataset.questionId;
-    const selectedOption = questionCard.querySelector('input:checked');
-    const resultDiv = questionCard.querySelector('.result');
-    
-    if (!selectedOption) {
-        resultDiv.innerHTML = '<span style="color: orange;">⚠️ الرجاء اختيار إجابة</span>';
-        resultDiv.classList.remove('hidden');
-        return;
-    }
-    
-    const answerValue = parseInt(selectedOption.value);
-    userAnswers[questionId] = answerValue;
-    
-    // التحقق من الإجابة
-    const isCorrect = (answerValue === correctAnswers[questionId]);
-    
-    // تلوين الإجابات
-    const options = questionCard.querySelectorAll('.option');
-    options.forEach(option => {
-        const optionValue = parseInt(option.querySelector('input').value);
-        option.classList.remove('correct', 'wrong');
-        
-        if (optionValue === correctAnswers[questionId]) {
-            option.classList.add('correct');
-        } else if (optionValue === answerValue && !isCorrect) {
-            option.classList.add('wrong');
-        }
-    });
-    
-    // عرض النتيجة
-    if (isCorrect) {
-        resultDiv.innerHTML = '<span style="color: var(--correct-color);">✅ إجابة صحيحة</span>';
-        if (!questionCard.classList.contains('answered-correctly')) {
-            score++;
-            questionCard.classList.add('answered-correctly');
-        }
-    } else {
-        resultDiv.innerHTML = '<span style="color: var(--wrong-color);">❌ إجابة خاطئة</span>';
-    }
-    
-    resultDiv.classList.remove('hidden');
-    updateProgressBar();
-    updateScore();
-}
-
-// ============ عرض النتيجة النهائية ============
-function showFinalResults() {
-    // حساب الدرجة
-    let calculatedScore = 0;
-    const total = Object.keys(correctAnswers).length;
-    
-    Object.keys(userAnswers).forEach(qId => {
-        if (userAnswers[qId] === correctAnswers[qId]) {
-            calculatedScore++;
-        }
-    });
-    
-    score = calculatedScore;
-    
-    // إنشاء رسالة النتيجة
-    const percentage = Math.round((score / total) * 100);
-    let message = '';
-    let emoji = '';
-    
-    if (percentage >= 90) {
-        message = 'ممتاز! نتيجة رائعة';
-        emoji = '🎉';
-    } else if (percentage >= 70) {
-        message = 'جيد جداً';
-        emoji = '👍';
-    } else if (percentage >= 50) {
-        message = 'مقبول، يمكنك التحسين';
-        emoji = '📚';
-    } else {
-        message = 'يحتاج إلى مراجعة';
-        emoji = '🔍';
-    }
-    
-    // عرض النتيجة في مودال
-    const resultsHTML = `
-        <div class="results-modal">
-            <div class="results-content">
-                <h3>النتيجة النهائية ${emoji}</h3>
-                <div class="score-circle">
-                    <div class="score-number">${score}/${total}</div>
-                    <div class="score-percentage">${percentage}%</div>
-                </div>
-                <p class="result-message">${message}</p>
-                
-                <div class="detailed-results">
-                    <h4>تفاصيل النتيجة:</h4>
-                    <div class="result-stats">
-                        <div class="stat correct-stat">
-                            <span class="stat-label">الإجابات الصحيحة:</span>
-                            <span class="stat-value">${score}</span>
-                        </div>
-                        <div class="stat wrong-stat">
-                            <span class="stat-label">الإجابات الخاطئة:</span>
-                            <span class="stat-value">${total - score}</span>
-                        </div>
-                        <div class="stat unanswered-stat">
-                            <span class="stat-label">الأسئلة غير المجابة:</span>
-                            <span class="stat-value">${total - Object.keys(userAnswers).length}</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="results-buttons">
-                    <button id="closeResults" class="btn">إغلاق</button>
-                    <button id="compareAll" class="btn">مقارنة جميع الإجابات</button>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    // إضافة المودال للصفحة
-    const modalContainer = document.createElement('div');
-    modalContainer.innerHTML = resultsHTML;
-    document.body.appendChild(modalContainer);
-    
-    // إضافة أحداث للأزرار داخل المودال
-    document.getElementById('closeResults').addEventListener('click', () => {
-        modalContainer.remove();
-    });
-    
-    document.getElementById('compareAll').addEventListener('click', () => {
-        modalContainer.remove();
-        compareAllAnswers();
-    });
-}
-
-// ============ مقارنة جميع الإجابات ============
-function compareAllAnswers() {
-    // إنشاء صفحة مقارنة
-    const comparisonHTML = `
-        <div class="comparison-page">
-            <div class="comparison-header">
-                <h2>📊 مقارنة الإجابات</h2>
-                <button id="backToQuiz" class="btn">العودة للاختبار</button>
-            </div>
-            
-            <div class="comparison-summary">
-                <h3>ملخص النتائج</h3>
-                <div class="summary-grid">
-                    ${generateComparisonSummary()}
-                </div>
-            </div>
-            
-            <div class="detailed-comparison">
-                <h3>تفاصيل الإجابات</h3>
-                <div class="comparison-table-container">
-                    <table class="comparison-table">
-                        <thead>
-                            <tr>
-                                <th>رقم السؤال</th>
-                                <th>إجابتك</th>
-                                <th>الإجابة الصحيحة</th>
-                                <th>الحالة</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${generateComparisonRows()}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    // إخفاء الأسئلة وإظهار المقارنة
-    document.getElementById('quizContainer').classList.add('hidden');
-    document.getElementById('comparisonContainer').innerHTML = comparisonHTML;
-    document.getElementById('comparisonContainer').classList.remove('hidden');
-    
-    // زر العودة
-    document.getElementById('backToQuiz').addEventListener('click', () => {
-        document.getElementById('comparisonContainer').classList.add('hidden');
-        document.getElementById('quizContainer').classList.remove('hidden');
-    });
-}
-
-function generateComparisonSummary() {
-    let correctCount = 0;
-    let wrongCount = 0;
-    let unanswered = 0;
-    
-    Object.keys(correctAnswers).forEach(qId => {
-        if (userAnswers[qId]) {
-            if (userAnswers[qId] === correctAnswers[qId]) {
-                correctCount++;
-            } else {
-                wrongCount++;
-            }
-        } else {
-            unanswered++;
-        }
-    });
-    
-    return `
-        <div class="summary-item correct">
-            <div class="summary-icon">✅</div>
-            <div class="summary-text">
-                <div class="summary-count">${correctCount}</div>
-                <div class="summary-label">صحيحة</div>
-            </div>
-        </div>
-        <div class="summary-item wrong">
-            <div class="summary-icon">❌</div>
-            <div class="summary-text">
-                <div class="summary-count">${wrongCount}</div>
-                <div class="summary-label">خاطئة</div>
-            </div>
-        </div>
-        <div class="summary-item unanswered">
-            <div class="summary-icon">❓</div>
-            <div class="summary-text">
-                <div class="summary-count">${unanswered}</div>
-                <div class="summary-label">غير مجابة</div>
-            </div>
-        </div>
-    `;
-}
-
-function generateComparisonRows() {
-    let rows = '';
-    
-    Object.keys(correctAnswers).forEach(qId => {
-        const userAnswer = userAnswers[qId];
-        const correctAnswer = correctAnswers[qId];
-        const isCorrect = userAnswer === correctAnswer;
-        const isAnswered = userAnswer !== undefined;
-        
-        let userAnswerText = isAnswered ? `الخيار ${userAnswer}` : 'لم تتم الإجابة';
-        let correctAnswerText = `الخيار ${correctAnswer}`;
-        let status = isAnswered ? (isCorrect ? '✅ صحيحة' : '❌ خاطئة') : '⚠️ غير مجابة';
-        let rowClass = isAnswered ? (isCorrect ? 'correct-row' : 'wrong-row') : 'unanswered-row';
-        
-        rows += `
-            <tr class="${rowClass}">
-                <td>${qId}</td>
-                <td>${userAnswerText}</td>
-                <td>${correctAnswerText}</td>
-                <td>${status}</td>
-            </tr>
-        `;
-    });
-    
-    return rows;
-}
-
-// ============ إعادة المحاولة ============
-function restartQuiz() {
-    if (confirm('هل تريد إعادة الاختبار؟ سيتم مسح جميع إجاباتك.')) {
-        // مسح جميع الإجابات
-        document.querySelectorAll('input[type="radio"]').forEach(input => {
-            input.checked = false;
-        });
-        
-        // مسح نتائج الأسئلة
-        document.querySelectorAll('.question-card').forEach(card => {
-            card.classList.remove('answered-correctly');
-            card.querySelectorAll('.option').forEach(option => {
-                option.classList.remove('correct', 'wrong');
-            });
-            card.querySelector('.result').classList.add('hidden');
-        });
-        
-        // إعادة التعيين
-        userAnswers = {};
-        score = 0;
-        updateProgressBar();
-        updateScore();
-        
-        // إذا كان في صفحة المقارنة، العودة للأسئلة
-        document.getElementById('comparisonContainer').classList.add('hidden');
-        document.getElementById('quizContainer').classList.remove('hidden');
-        
-        // التمرير للأعلى
-        window.scrollTo(0, 0);
-    }
-}
-
-// ============ تحديث شريط التقدم ============
-function updateProgressBar() {
-    const answered = Object.keys(userAnswers).length;
-    const progressPercentage = (answered / totalQuestions) * 100;
-    
-    const progressBar = document.querySelector('.progress-bar');
-    if (progressBar) {
-        progressBar.style.width = `${progressPercentage}%`;
-        progressBar.textContent = `${answered}/${totalQuestions}`;
-    }
-}
-
-function updateScore() {
-    const scoreElement = document.getElementById('currentScore');
-    if (scoreElement) {
-        scoreElement.textContent = score;
-    }
-}
-
-// ============ تبديل الوضع الليلي ============
-function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
-    const icon = document.querySelector('#darkModeToggle i');
-    const button = document.querySelector('#darkModeToggle');
-    
-    if (document.body.classList.contains('dark-mode')) {
-        icon.className = 'fas fa-sun';
-        button.innerHTML = '<i class="fas fa-sun"></i> الوضع النهاري';
-        localStorage.setItem('theme', 'dark');
-    } else {
-        icon.className = 'fas fa-moon';
-        button.innerHTML = '<i class="fas fa-moon"></i> الوضع الليلي';
-        localStorage.setItem('theme', 'light');
-    }
-}
-
+    // 
