@@ -1,40 +1,369 @@
-// ============ المتغيرات العامة ============
-let userAnswers = {};
-let score = 0;
-let totalQuestions = 43; // عدد الأسئلة الكلي
+// البيانات - الأسئلة والإجابات
+const questions = [
+    {
+        id: 1,
+        question: "مسؤوليتنا اليوم تجاه العدو الإسرائيلي",
+        options: [
+            { text: "إحياء حالة العداء له", correct: true },
+            { text: "الولاء له", correct: false },
+            { text: "مسح النظرة العدائية له", correct: false },
+            { text: "التطبيع معه", correct: false }
+        ]
+    },
+    {
+        id: 2,
+        question: "عرض القرآن الكريم للنفسية اليهودية",
+        options: [
+            { text: "لا يودون أن ينزل على الناس من خير من ربهم", correct: false },
+            { text: "أشد عداوة للمؤمنين", correct: false },
+            { text: "العدوانية والوحشية", correct: false },
+            { text: "كل ما ذكر", correct: true }
+        ]
+    },
+    {
+        id: 3,
+        question: "الصراع بين الحق والباطل",
+        options: [
+            { text: "سنة إلهية", correct: true },
+            { text: "أمر قليل الحدوث", correct: false },
+            { text: "يحصل غالباً", correct: false },
+            { text: "قضية عبثية", correct: false }
+        ]
+    },
+    // ... يمكنك إضافة بقية الأسئلة هنا
+    // لاحظ: لقد قمت بإضافة أول 3 أسئلة كمثال. تحتاج لإضافة بقية الأسئلة
+];
 
-// ============ تهيئة الموقع ============
-document.addEventListener('DOMContentLoaded', function() {
-    initializeQuiz();
-    setupEventListeners();
+// متغيرات التطبيق
+let currentQuestion = 0;
+let userAnswers = new Array(questions.length).fill(null);
+let startTime = null;
+let timerInterval = null;
+let timeLeft = 60 * 60; // 60 دقيقة بالثواني
+let examCompleted = false;
+
+// عناصر DOM
+const startScreen = document.getElementById('startScreen');
+const examScreen = document.getElementById('examScreen');
+const resultsScreen = document.getElementById('resultsScreen');
+const startExamBtn = document.getElementById('startExamBtn');
+const endExamBtn = document.getElementById('endExamBtn');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const questionText = document.getElementById('questionText');
+const questionNumber = document.getElementById('questionNumber');
+const optionsContainer = document.getElementById('optionsContainer');
+const progressFill = document.getElementById('progressFill');
+const progressText = document.getElementById('progressText');
+const timer = document.getElementById('timer');
+const darkModeToggle = document.getElementById('darkModeToggle');
+const timerToggle = document.getElementById('timerToggle');
+const reviewBtn = document.getElementById('reviewBtn');
+const retryBtn = document.getElementById('retryBtn');
+const reviewSection = document.getElementById('reviewSection');
+const reviewList = document.getElementById('reviewList');
+const finalScore = document.getElementById('finalScore');
+const percentage = document.getElementById('percentage');
+const correctAnswers = document.getElementById('correctAnswers');
+const wrongAnswers = document.getElementById('wrongAnswers');
+const timeTaken = document.getElementById('timeTaken');
+const scoreCircle = document.getElementById('scoreCircle');
+
+// تهيئة التطبيق
+document.addEventListener('DOMContentLoaded', () => {
+    // تعيين الوضع الليلي إذا كان محفوظاً
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.body.setAttribute('data-theme', 'dark');
+        darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    }
+
+    // تعيين إعدادات المؤقت
+    if (localStorage.getItem('showTimer') === 'false') {
+        timer.style.display = 'none';
+        timerToggle.innerHTML = '<i class="fas fa-clock-slash"></i>';
+    }
+
+    // تهيئة الحدث
+    initializeEventListeners();
 });
 
-function initializeQuiz() {
-    // تخزين الإجابات الصحيحة (يمكن تحميلها من ملف JSON)
-    window.correctAnswers = {
-        1: 1, 2: 4, 3: 1, 4: 1, 5: 4, 6: 4, 7: 3, 8: 1, 9: 2, 10: 2,
-        11: 4, 12: 4, 13: 3, 14: 2, 15: 1, 16: 1, 17: 2, 18: 4, 19: 1, 20: 4,
-        21: 2, 22: 4, 23: 4, 24: 4, 25: 4, 26: 2, 27: 4, 28: 2, 29: 3, 30: 2,
-        31: 4, 32: 3, 33: 3, 34: 1, 35: 2, 36: 2, 37: 4, 38: 1, 39: 3, 40: 4,
-        41: 3, 42: 3, 43: 4
-    };
-
-    // تهيئة كائن الإجابات
-    userAnswers = {};
-    score = 0;
-    updateProgressBar();
+// تهيئة مستمعي الأحداث
+function initializeEventListeners() {
+    startExamBtn.addEventListener('click', startExam);
+    endExamBtn.addEventListener('click', endExam);
+    prevBtn.addEventListener('click', prevQuestion);
+    nextBtn.addEventListener('click', nextQuestion);
+    darkModeToggle.addEventListener('click', toggleDarkMode);
+    timerToggle.addEventListener('click', toggleTimer);
+    reviewBtn.addEventListener('click', toggleReview);
+    retryBtn.addEventListener('click', retryExam);
 }
 
-function setupEventListeners() {
-    // زر تبديل الوضع الليلي
-    document.getElementById('darkModeToggle').addEventListener('click', toggleDarkMode);
+// بدء الامتحان
+function startExam() {
+    startScreen.classList.remove('active');
+    examScreen.classList.add('active');
     
-    // زر عرض النتيجة النهائية
-    document.getElementById('showResults').addEventListener('click', showFinalResults);
+    startTime = new Date();
+    timeLeft = 60 * 60;
+    startTimer();
+    loadQuestion(currentQuestion);
+}
+
+// تحميل السؤال
+function loadQuestion(index) {
+    const question = questions[index];
     
-    // زر إعادة المحاولة
-    document.getElementById('restartQuiz').addEventListener('click', restartQuiz);
+    questionNumber.textContent = `السؤال ${question.id}`;
+    questionText.textContent = question.question;
     
+    // تحديث شريط التقدم
+    const progress = ((index + 1) / questions.length) * 100;
+    progressFill.style.width = `${progress}%`;
+    progressText.textContent = `السؤال ${index + 1} من ${questions.length}`;
+    
+    // تحديث أزرار التنقل
+    prevBtn.disabled = index === 0;
+    nextBtn.textContent = index === questions.length - 1 ? 'إنهاء' : 'التالي';
+    
+    // تحميل الخيارات
+    optionsContainer.innerHTML = '';
+    question.options.forEach((option, optionIndex) => {
+        const optionElement = document.createElement('div');
+        optionElement.className = 'option';
+        if (userAnswers[index] === optionIndex) {
+            optionElement.classList.add('selected');
+        }
+        
+        const marker = document.createElement('div');
+        marker.className = 'option-marker';
+        marker.textContent = String.fromCharCode(1632 + optionIndex); // أرقام عربية
+        
+        const text = document.createElement('div');
+        text.className = 'option-text';
+        text.textContent = option.text;
+        
+        optionElement.appendChild(marker);
+        optionElement.appendChild(text);
+        
+        optionElement.addEventListener('click', () => selectOption(optionIndex));
+        optionsContainer.appendChild(optionElement);
+    });
+}
+
+// اختيار إجابة
+function selectOption(optionIndex) {
+    userAnswers[currentQuestion] = optionIndex;
+    loadQuestion(currentQuestion);
+}
+
+// السؤال السابق
+function prevQuestion() {
+    if (currentQuestion > 0) {
+        currentQuestion--;
+        loadQuestion(currentQuestion);
+    }
+}
+
+// السؤال التالي
+function nextQuestion() {
+    if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        loadQuestion(currentQuestion);
+    } else {
+        endExam();
+    }
+}
+
+// بدء المؤقت
+function startTimer() {
+    updateTimerDisplay();
+    
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay();
+        
+        if (timeLeft <= 0) {
+            endExam();
+        }
+    }, 1000);
+}
+
+// تحديث عرض المؤقت
+function updateTimerDisplay() {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    timer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    
+    // تغيير اللون عند انخفاض الوقت
+    if (timeLeft < 300) { // أقل من 5 دقائق
+        timer.style.color = 'var(--accent-color)';
+    } else if (timeLeft < 600) { // أقل من 10 دقائق
+        timer.style.color = 'var(--warning-color)';
+    }
+}
+
+// إنهاء الامتحان
+function endExam() {
+    clearInterval(timerInterval);
+    examCompleted = true;
+    
+    examScreen.classList.remove('active');
+    resultsScreen.classList.add('active');
+    
+    calculateResults();
+}
+
+// حساب النتائج
+function calculateResults() {
+    let correctCount = 0;
+    let wrongCount = 0;
+    let unansweredCount = 0;
+    
+    // حساب الإجابات الصحيحة والخاطئة
+    questions.forEach((question, index) => {
+        const userAnswer = userAnswers[index];
+        
+        if (userAnswer === null) {
+            unansweredCount++;
+        } else if (question.options[userAnswer].correct) {
+            correctCount++;
+        } else {
+            wrongCount++;
+        }
+    });
+    
+    // حساب النتيجة
+    const score = correctCount * (50 / questions.length);
+    const scorePercentage = (correctCount / questions.length) * 100;
+    
+    // تحديث العناصر
+    finalScore.textContent = `${score.toFixed(1)}/50`;
+    percentage.textContent = `${scorePercentage.toFixed(1)}%`;
+    correctAnswers.textContent = correctCount;
+    wrongAnswers.textContent = wrongCount;
+    
+    // حساب الوقت المستغرق
+    const endTime = new Date();
+    const timeDiff = Math.floor((endTime - startTime) / 1000);
+    const minutesTaken = Math.floor(timeDiff / 60);
+    const secondsTaken = timeDiff % 60;
+    timeTaken.textContent = `${minutesTaken}:${secondsTaken.toString().padStart(2, '0')}`;
+    
+    // تحديث دائرة النتيجة
+    const circleLength = 565;
+    const offset = circleLength - (circleLength * (scorePercentage / 100));
+    scoreCircle.style.strokeDashoffset = offset;
+    
+    // تغيير لون الدائرة بناءً على النتيجة
+    if (scorePercentage >= 80) {
+        scoreCircle.style.stroke = 'var(--success-color)';
+    } else if (scorePercentage >= 60) {
+        scoreCircle.style.stroke = 'var(--warning-color)';
+    } else {
+        scoreCircle.style.stroke = 'var(--accent-color)';
+    }
+}
+
+// تبديل الوضع الليلي
+function toggleDarkMode() {
+    const isDark = document.body.getAttribute('data-theme') === 'dark';
+    
+    if (isDark) {
+        document.body.removeAttribute('data-theme');
+        darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        localStorage.setItem('darkMode', 'false');
+    } else {
+        document.body.setAttribute('data-theme', 'dark');
+        darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        localStorage.setItem('darkMode', 'true');
+    }
+}
+
+// تبديل عرض المؤقت
+function toggleTimer() {
+    const isVisible = timer.style.display !== 'none';
+    
+    if (isVisible) {
+        timer.style.display = 'none';
+        timerToggle.innerHTML = '<i class="fas fa-clock-slash"></i>';
+        localStorage.setItem('showTimer', 'false');
+    } else {
+        timer.style.display = 'block';
+        timerToggle.innerHTML = '<i class="fas fa-clock"></i>';
+        localStorage.setItem('showTimer', 'true');
+    }
+}
+
+// عرض/إخفاء المراجعة
+function toggleReview() {
+    const isVisible = reviewSection.style.display === 'block';
+    
+    if (isVisible) {
+        reviewSection.style.display = 'none';
+        reviewBtn.innerHTML = '<i class="fas fa-list"></i> مراجعة الإجابات';
+    } else {
+        reviewSection.style.display = 'block';
+        reviewBtn.innerHTML = '<i class="fas fa-times"></i> إخفاء المراجعة';
+        generateReview();
+    }
+}
+
+// توليد مراجعة الإجابات
+function generateReview() {
+    reviewList.innerHTML = '';
+    
+    questions.forEach((question, index) => {
+        const reviewItem = document.createElement('div');
+        reviewItem.className = 'review-item';
+        
+        const questionDiv = document.createElement('div');
+        questionDiv.className = 'review-question';
+        questionDiv.textContent = `${index + 1}. ${question.question}`;
+        
+        const answersDiv = document.createElement('div');
+        answersDiv.className = 'review-answers';
+        
+        // إضافة إجابة المستخدم
+        const userAnswerIndex = userAnswers[index];
+        if (userAnswerIndex !== null) {
+            const userAnswerItem = document.createElement('div');
+            userAnswerItem.className = 'answer-item user-answer';
+            userAnswerItem.innerHTML = `
+                <i class="fas fa-user"></i>
+                <span>إجابتك: ${question.options[userAnswerIndex].text}</span>
+            `;
+            answersDiv.appendChild(userAnswerItem);
+        }
+        
+        // إضافة الإجابة الصحيحة
+        const correctOption = question.options.find(option => option.correct);
+        const correctAnswerItem = document.createElement('div');
+        correctAnswerItem.className = 'answer-item correct-answer';
+        correctAnswerItem.innerHTML = `
+            <i class="fas fa-check"></i>
+            <span>الإجابة الصحيحة: ${correctOption.text}</span>
+        `;
+        answersDiv.appendChild(correctAnswerItem);
+        
+        reviewItem.appendChild(questionDiv);
+        reviewItem.appendChild(answersDiv);
+        reviewList.appendChild(reviewItem);
+    });
+}
+
+// إعادة المحاولة
+function retryExam() {
+    currentQuestion = 0;
+    userAnswers = new Array(questions.length).fill(null);
+    examCompleted = false;
+    
+    resultsScreen.classList.remove('active');
+    startScreen.classList.add('active');
+    
+    reviewSection.style.display = 'none';
+    reviewBtn.innerHTML = '<i class="fas fa-list"></i> مراجعة الإجابات';
+}    
     // زر مقارنة الإجابات
     document.getElementById('compareAnswers').addEventListener('click', compareAllAnswers);
     
@@ -369,3 +698,4 @@ function toggleDarkMode() {
         localStorage.setItem('theme', 'light');
     }
 }
+
