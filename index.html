@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار الصراع مع العدو الإسرائيلي</title>
+    <!-- Font Awesome للأيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- خط عربي -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- شريط التحكم العلوي -->
+    <div class="header-controls">
+        <button id="darkModeToggle" class="btn">
+            <i class="fas fa-moon"></i> الوضع الليلي
+        </button>
+        
+        <div class="score-display">
+            <span>الدرجة: </span>
+            <span id="currentScore">0</span>
+        </div>
+    </div>
+
+    <!-- الحاوية الرئيسية -->
+    <div class="container">
+        <!-- العنوان الرئيسي -->
+        <div class="quiz-header">
+            <h1><i class="fas fa-graduation-cap"></i> امتحان الصراع مع العدو الإسرائيلي</h1>
+            <p class="subtitle">المستوى الأول - 50 درجة - أمة الرحيم علي عبدالله الصنعاني</p>
+        </div>
+
+        <!-- شريط التقدم -->
+        <div class="progress-container">
+            <div class="progress-info">
+                <span>التقدم: <span id="answeredCount">0</span> من <span id="totalQuestions">43</span> سؤال</span>
+            </div>
+            <div class="progress">
+                <div class="progress-bar" style="width: 0%">0/43</div>
+            </div>
+        </div>
+
+        <!-- حاوية الأسئلة -->
+        <div id="quizContainer">
+            <!-- سيتم إضافة الأسئلة هنا -->
+            <!-- مثال لسؤال واحد -->
+            <div class="question-card" data-question-id="1">
+                <h3>1) مسؤوليتنا اليوم تجاه العدو الإسرائيلي</h3>
+                <div class="options">
+                    <label class="option">
+                        <input type="radio" name="q1" value="1">
+                        <span class="option-text">إحياء حالة العداء له</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q1" value="2">
+                        <span class="option-text">الولاء له</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q1" value="3">
+                        <span class="option-text">مسح النظرة العدائية له</span>
+                    </label>
+                    <label class="option">
+                        <input type="radio" name="q1" value="4">
+                        <span class="option-text">التطبيع معه</span>
+                    </label>
+                </div>
+                <button class="btn check-btn" onclick="checkSingleAnswer(this)">
+                    <i class="fas fa-check"></i> تحقق من الإجابة
+                </button>
+                <div class="result hidden"></div>
+            </div>
+            
+            <!-- باقي الأسئلة بنفس النمط -->
+        </div>
+
+        <!-- حاوية المقارنة (مخفية في البداية) -->
+        <div id="comparisonContainer" class="hidden"></div>
+    </div>
+
+    <!-- أزرار التحكم السفلية -->
+    <div class="buttons-container">
+        <button id="showResults" class="btn btn-success">
+            <i class="fas fa-chart-bar"></i> عرض النتيجة النهائية
+        </button>
+        
+        <button id="compareAnswers" class="btn btn-primary">
+            <i class="fas fa-exchange-alt"></i> مقارنة الإجابات
+        </button>
+        
+        <button id="restartQuiz" class="btn btn-warning">
+            <i class="fas fa-redo"></i> إعادة المحاولة
+        </button>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>

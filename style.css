@@ -1,0 +1,331 @@
+/* ============ شريط التقدم ============ */
+.progress-container {
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 15px;
+    margin: 20px 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.progress {
+    height: 25px;
+    background-color: #e9ecef;
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #4CAF50, #45a049);
+    transition: width 0.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* ============ بطاقة السؤال ============ */
+.question-card {
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 15px 0;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.question-card:hover {
+    border-color: var(--primary-color);
+}
+
+.option {
+    padding: 12px 15px;
+    margin: 8px 0;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.option:hover {
+    background: rgba(0, 123, 255, 0.1);
+    transform: translateX(-5px);
+}
+
+.option input[type="radio"] {
+    margin-left: 10px;
+}
+
+/* ============ التلوين بعد التحقق ============ */
+.option.correct {
+    background: rgba(40, 167, 69, 0.2);
+    border-color: #28a745;
+}
+
+.option.wrong {
+    background: rgba(220, 53, 69, 0.2);
+    border-color: #dc3545;
+}
+
+/* ============ مودال النتائج ============ */
+.results-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.results-content {
+    background: var(--bg-color);
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.score-circle {
+    width: 150px;
+    height: 150px;
+    margin: 20px auto;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.score-number {
+    font-size: 2.5em;
+    margin-bottom: 5px;
+}
+
+.score-percentage {
+    font-size: 1.2em;
+    opacity: 0.9;
+}
+
+.result-message {
+    text-align: center;
+    font-size: 1.3em;
+    margin: 20px 0;
+    color: var(--primary-color);
+}
+
+/* ============ صفحة المقارنة ============ */
+.comparison-page {
+    background: var(--bg-color);
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.comparison-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.summary-item {
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.summary-item:hover {
+    transform: translateY(-5px);
+}
+
+.summary-item.correct {
+    background: rgba(40, 167, 69, 0.1);
+    border: 2px solid #28a745;
+}
+
+.summary-item.wrong {
+    background: rgba(220, 53, 69, 0.1);
+    border: 2px solid #dc3545;
+}
+
+.summary-item.unanswered {
+    background: rgba(255, 193, 7, 0.1);
+    border: 2px solid #ffc107;
+}
+
+.summary-icon {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.summary-count {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.summary-label {
+    font-size: 1.1em;
+    opacity: 0.8;
+}
+
+/* ============ جدول المقارنة ============ */
+.comparison-table-container {
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+.comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card-bg);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.comparison-table th {
+    background: var(--primary-color);
+    color: white;
+    padding: 15px;
+    text-align: right;
+}
+
+.comparison-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.comparison-table tr:last-child td {
+    border-bottom: none;
+}
+
+.comparison-table tr:hover {
+    background: rgba(0, 123, 255, 0.05);
+}
+
+/* ============ تلوين صفوف الجدول ============ */
+.correct-row td {
+    background: rgba(40, 167, 69, 0.1);
+}
+
+.wrong-row td {
+    background: rgba(220, 53, 69, 0.1);
+}
+
+.unanswered-row td {
+    background: rgba(255, 193, 7, 0.1);
+}
+
+/* ============ الأزرار ============ */
+.buttons-container {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    background: var(--bg-color);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 10px;
+    z-index: 100;
+}
+
+.btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    background: var(--primary-color);
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    opacity: 0.9;
+}
+
+.btn-primary {
+    background: #007bff;
+}
+
+.btn-success {
+    background: #28a745;
+}
+
+.btn-danger {
+    background: #dc3545;
+}
+
+.btn-warning {
+    background: #ffc107;
+    color: #212529;
+}
+
+/* ============ التجاوب للهواتف ============ */
+@media (max-width: 768px) {
+    .buttons-container {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .comparison-table {
+        font-size: 14px;
+    }
+    
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ============ الرسوم المتحركة ============ */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.question-card {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.hidden {
+    display: none !important;
+}
