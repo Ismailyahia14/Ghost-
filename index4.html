@@ -1,0 +1,1669 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>امتحان أساسيات الحاسوب - جامعة صنعاء</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+    
+        :root {
+            --primary-color: #2c5282;
+            --secondary-color: #4299e1;
+            --accent-color: #e53e3e;
+            --success-color: #38a169;
+            --warning-color: #d69e2e;
+            --light-color: #f7fafc;
+            --dark-color: #2d3748;
+            --bg-color: #ffffff;
+            --text-color: #2d3748;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a202c;
+            --text-color: #e2e8f0;
+            --card-bg: #2d3748;
+            --light-color: #4a5568;
+            --dark-color: #171923;
+            --border-color: #4a5568;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            --primary-color: #4299e1;
+            --secondary-color: #63b3ed;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: var(--transition);
+            min-height: 100vh;
+            direction: rtl;
+        }
+
+        /* تحسين الوضع الليلي ليشمل كامل المساحة */
+        [data-theme="dark"] body {
+            background: #0f1721;
+        }
+        
+        [data-theme="dark"] .container {
+            background: transparent;
+        }
+        
+        [data-theme="dark"] .exam-header,
+        [data-theme="dark"] .instructions,
+        [data-theme="dark"] .exam-controls,
+        [data-theme="dark"] .questions-nav-grid,
+        [data-theme="dark"] .question-container,
+        [data-theme="dark"] .result-card,
+        [data-theme="dark"] .review-section,
+        [data-theme="dark"] .modal-content {
+            background: var(--card-bg);
+        }
+        
+        [data-theme="dark"] .option {
+            background: #2d3748;
+        }
+        
+        [data-theme="dark"] .option-marker {
+            background: #4a5568;
+            color: #e2e8f0;
+        }
+
+        /* شريط التنقل المتحرك - تم تصغير حجم الخط */
+        .navbar {
+            background: linear-gradient(90deg, var(--primary-color), #2b6cb0);
+            color: white;
+            padding: 0.8rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* تصغير حجم الخط في الترويسة */
+        .logo h1 {
+            font-size: 1.3rem;
+            margin-bottom: 0.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            animation: fadeIn 1s ease;
+        }
+
+        .logo p {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .icon-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px) rotate(5deg);
+        }
+
+        /* الحاوية الرئيسية */
+        .container {
+            max-width: 1100px;
+            margin: 1.5rem auto;
+            padding: 0 1.5rem;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .screen {
+            display: none;
+            animation: slideUp 0.6s ease;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* شاشة البداية - نقل مربع الأسئلة للأمام */
+        .exam-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            animation: fadeIn 0.8s ease;
+        }
+
+        .exam-header h1 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .exam-header h1:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            right: 50%;
+            transform: translateX(50%);
+            width: 70px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+            border-radius: 2px;
+        }
+
+        .university-info {
+            margin: 1.5rem 0;
+            padding: 1.2rem;
+            background: rgba(66, 153, 225, 0.05);
+            border-radius: 12px;
+            border-right: 4px solid var(--secondary-color);
+        }
+
+        .university-info h3 {
+            margin: 0.6rem 0;
+            color: var(--secondary-color);
+            font-size: 1.1rem;
+        }
+
+        .student-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.2rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid rgba(66, 153, 225, 0.2);
+        }
+
+        .info-item {
+            background: linear-gradient(135deg, rgba(66, 153, 225, 0.05), rgba(44, 82, 130, 0.05));
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px solid rgba(66, 153, 225, 0.1);
+            transition: var(--transition);
+        }
+
+        .info-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(66, 153, 225, 0.1);
+        }
+
+        .info-item p:first-child {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+        }
+
+        .info-item p:last-child {
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        .instructions {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 18px;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .instructions h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1.2rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .instructions ul {
+            list-style: none;
+            padding-right: 0;
+        }
+
+        .instructions li {
+            margin-bottom: 0.8rem;
+            padding-right: 1.8rem;
+            position: relative;
+            font-size: 1rem;
+        }
+
+        .instructions li:before {
+            content: '✓';
+            position: absolute;
+            right: 0;
+            color: var(--success-color);
+            font-weight: bold;
+            font-size: 1rem;
+            background: rgba(56, 161, 105, 0.1);
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* الأزرار */
+        .btn {
+            padding: 0.9rem 1.8rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            font-family: 'Cairo', sans-serif;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: translateX(-100%);
+        }
+
+        .btn:hover:before {
+            animation: shine 1s;
+        }
+
+        @keyframes shine {
+            100% { transform: translateX(100%); }
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            font-size: 1.2rem;
+            padding: 1.1rem 2.5rem;
+            margin: 2rem auto;
+            display: block;
+            min-width: 240px;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(66, 153, 225, 0.3);
+        }
+
+        .primary-btn {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            border: none;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(66, 153, 225, 0.25);
+        }
+
+        .secondary-btn {
+            background: transparent;
+            color: var(--secondary-color);
+            border: 2px solid var(--secondary-color);
+        }
+
+        .secondary-btn:hover {
+            background: var(--secondary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .danger-btn {
+            background: linear-gradient(135deg, var(--accent-color), #c53030);
+            color: white;
+            border: none;
+        }
+
+        .danger-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(229, 62, 62, 0.25);
+        }
+
+        .success-btn {
+            background: linear-gradient(135deg, var(--success-color), #2f855a);
+            color: white;
+            border: none;
+        }
+
+        .success-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(56, 161, 105, 0.25);
+        }
+
+        /* شاشة الامتحان - إعادة ترتيب العناصر */
+        .exam-controls {
+            background: var(--card-bg);
+            padding: 1.8rem;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            animation: fadeIn 0.6s ease;
+        }
+
+        .progress-container {
+            margin-bottom: 1.2rem;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--light-color);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .progress-fill:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 20px;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3));
+            animation: progressShine 2s infinite;
+        }
+
+        @keyframes progressShine {
+            0% { right: 0; }
+            100% { right: 100%; }
+        }
+
+        .exam-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin-top: 1.2rem;
+        }
+
+        .timer {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            background: var(--card-bg);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            border: 2px solid rgba(229, 62, 62, 0.2);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        /* شبكة التنقل بين الأسئلة */
+        .questions-nav-grid {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            animation: fadeIn 0.6s ease;
+        }
+
+        .questions-nav-grid h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1.2rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .questions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+            gap: 0.8rem;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 0.5rem;
+        }
+
+        .question-nav-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .question-nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.15);
+            border-color: var(--secondary-color);
+        }
+
+        .question-nav-btn.current {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            border-color: var(--secondary-color);
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
+        }
+
+        .question-nav-btn.answered {
+            background: rgba(56, 161, 105, 0.1);
+            color: var(--success-color);
+            border-color: var(--success-color);
+        }
+
+        .question-nav-btn.unanswered {
+            background: rgba(214, 158, 46, 0.1);
+            color: var(--warning-color);
+            border-color: var(--warning-color);
+        }
+
+        /* منطقة الأسئلة - تم نقلها للأمام */
+        .question-container {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+            animation: slideUp 0.5s ease;
+            order: -1; /* يجعل السؤال يظهر أولاً */
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .question-number {
+            color: white;
+            font-weight: 800;
+            font-size: 1.1rem;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            padding: 0.5rem 1.1rem;
+            border-radius: 50px;
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            margin-bottom: 1.8rem;
+            line-height: 1.7;
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.9rem;
+            margin-bottom: 1.8rem;
+        }
+
+        @media (min-width: 768px) {
+            .options-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .option {
+            background: var(--bg-color);
+            padding: 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--secondary-color);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .option:hover {
+            transform: translateX(-4px);
+            border-color: var(--secondary-color);
+            box-shadow: 0 6px 20px rgba(66, 153, 225, 0.15);
+        }
+
+        .option:hover:before {
+            opacity: 1;
+        }
+
+        .option.selected {
+            border-color: var(--success-color);
+            background: rgba(56, 161, 105, 0.05);
+            transform: translateX(-4px);
+        }
+
+        .option.selected:before {
+            background: var(--success-color);
+            opacity: 1;
+        }
+
+        .option.correct {
+            border-color: var(--success-color);
+            background: rgba(56, 161, 105, 0.1);
+            animation: pulse 0.5s;
+        }
+
+        .option.incorrect {
+            border-color: var(--accent-color);
+            background: rgba(229, 62, 62, 0.1);
+        }
+
+        .option-marker {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            background: var(--light-color);
+            color: var(--text-color);
+            flex-shrink: 0;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .option.selected .option-marker {
+            background: var(--success-color);
+            color: white;
+            box-shadow: 0 4px 12px rgba(56, 161, 105, 0.3);
+        }
+
+        .option-text {
+            flex: 1;
+            font-size: 1.05rem;
+            font-weight: 500;
+        }
+
+        /* تعديل أزرار التنقل لجعل "التالي" على يسار "السابق" */
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            gap: 1rem;
+            flex-direction: row-reverse; /* هذا يجعل "التالي" على اليسار و"السابق" على اليمين */
+        }
+
+        .navigation-buttons .btn {
+            min-width: 140px;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-btn-group {
+            display: flex;
+            gap: 0.8rem;
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* تنبيه الأسئلة غير المحلولة */
+        .unanswered-alert {
+            background: linear-gradient(135deg, rgba(214, 158, 46, 0.1), rgba(214, 158, 46, 0.05));
+            border: 2px solid var(--warning-color);
+            color: var(--warning-color);
+            padding: 0.9rem 1.2rem;
+            border-radius: 10px;
+            margin-top: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 600;
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* شاشة النتائج */
+        .results-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .results-header h1 {
+            color: var(--secondary-color);
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .score-display {
+            position: relative;
+            width: 260px;
+            height: 260px;
+            margin: 1.5rem auto;
+        }
+
+        .score-circle {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .circle-bg, .circle-progress {
+            fill: none;
+            stroke-width: 10;
+            stroke-linecap: round;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+
+        .circle-bg {
+            stroke: var(--light-color);
+        }
+
+        .circle-progress {
+            stroke: var(--secondary-color);
+            stroke-dasharray: 800;
+            stroke-dashoffset: 800;
+            transition: stroke-dashoffset 2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .score-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .score-text h2 {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.4rem;
+        }
+
+        .score-text p {
+            font-size: 1.3rem;
+            color: var(--text-color);
+        }
+
+        .results-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .result-card {
+            background: var(--card-bg);
+            padding: 1.8rem;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease;
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .result-card h3 {
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+        }
+
+        .stat {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-color);
+        }
+
+        .results-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        /* قسم مراجعة الإجابات - تظهر الإجابات الخطأ فقط */
+        .review-section {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 18px;
+            margin-top: 2.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            display: none;
+            animation: slideUp 0.5s ease;
+        }
+
+        .review-section h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1.8rem;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .review-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+        }
+
+        .review-item {
+            background: var(--bg-color);
+            padding: 1.8rem;
+            border-radius: 16px;
+            border-right: 5px solid var(--accent-color);
+            transition: transform 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .review-item:hover {
+            transform: translateX(-4px);
+        }
+
+        .review-question {
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            color: var(--text-color);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .review-answers {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+        }
+
+        .answer-item {
+            padding: 0.9rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            transition: all 0.3s;
+        }
+
+        .answer-item.user-answer {
+            background: rgba(229, 62, 62, 0.08);
+            border-right: 4px solid var(--accent-color);
+        }
+
+        .answer-item.correct-answer {
+            background: rgba(56, 161, 105, 0.08);
+            border-right: 4px solid var(--success-color);
+        }
+
+        .answer-item i {
+            font-size: 1.1rem;
+        }
+
+        /* التذييل */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(90deg, var(--primary-color), #2b6cb0);
+            color: white;
+            margin-top: 3rem;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+        }
+
+        .footer p {
+            margin: 0.6rem 0;
+            font-size: 0.9rem;
+        }
+
+        /* النوافذ المنبثقة */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 18px;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color);
+            animation: slideUp 0.4s ease;
+        }
+
+        .modal-content h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.3rem;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            margin-top: 1.8rem;
+        }
+
+        /* تصميم متجاوب */
+        @media (max-width: 768px) {
+            .container {
+                margin: 1rem auto;
+                padding: 0 1rem;
+            }
+            
+            .exam-header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .student-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .question-text {
+                font-size: 1.2rem;
+            }
+            
+            .option {
+                padding: 1rem;
+            }
+            
+            .option-text {
+                font-size: 1rem;
+            }
+            
+            .questions-grid {
+                grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+            }
+            
+            .question-nav-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 0.9rem;
+            }
+            
+            .navigation-buttons {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+            
+            .navigation-buttons .btn {
+                width: 100%;
+            }
+            
+            .results-controls {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .results-controls .btn {
+                width: 100%;
+            }
+            
+            .score-display {
+                width: 220px;
+                height: 220px;
+            }
+            
+            .score-text h2 {
+                font-size: 2rem;
+            }
+            
+            .stat {
+                font-size: 2rem;
+            }
+            
+            .timer {
+                font-size: 1.1rem;
+                padding: 0.5rem 1rem;
+            }
+            
+            .nav-btn-group {
+                flex-direction: column;
+            }
+        }
+
+        /* تأثيرات الكونفيتي */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #f0f;
+            opacity: 0;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        /* زر العودة إلى الأعلى */
+        .scroll-top-btn {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 100;
+            transition: var(--transition);
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .scroll-top-btn.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 18px rgba(66, 153, 225, 0.4);
+        }
+
+        /* تحسينات الوضع الليلي */
+        body {
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .theme-transition {
+            transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <button id="scrollTopBtn" class="scroll-top-btn">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1><i class="fas fa-university"></i> ملتقى الطالب الجامعي</h1>
+                <p>جامعة صنعاء - كلية الإعلام</p>
+            </div>
+            <div class="nav-controls">
+                <button id="darkModeToggle" class="icon-btn" title="الوضع الليلي">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- شاشة البداية -->
+        <section id="startScreen" class="screen active">
+            <div class="exam-header">
+                <h1><i class="fas fa-book-open"></i> امتحان أساسيات الحاسوب  </h1>
+                
+                <div class="university-info">
+                    <h3>اللجنة العلمية - الدفعة 35</h3>
+                    <h3>دكتور المقرر: عابد صلح  </h3>
+                </div>
+                
+                <div class="student-info">
+                    <div class="info-item">
+                        <p>المقرر</p>
+                        <p>أساسيات الحاسوب  </p>
+                    </div>
+                    <div class="info-item">
+                        <p>المستوى</p>
+                        <p>الأول</p>
+                    </div>
+                    <div class="info-item">
+                        <p>عدد الأسئلة</p>
+                        <p>30 سؤال</p>
+                    </div>
+                    <div class="info-item">
+                        <p>الوقت المخصص</p>
+                        <p>60 دقيقة</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="instructions">
+                <h3><i class="fas fa-info-circle"></i> تعليمات الامتحان:</h3>
+                <ul>
+                    <li>اختر الإجابة الصحيحة بالنقر على الخيار المناسب</li>
+                    <li>يمكنك تغيير إجابتك قبل إنهاء الامتحان </li>
+                    <li>سيتم تنبيهك عن الأسئلة التي لم تتم الإجابة عليها</li>
+                    <li>الوقت المخصص: 60 دقيقة</li>
+                    <li>لبدء الامتحان، اضغط على زر "ابدأ الامتحان"</li>
+                </ul>
+            </div>
+            
+            <button id="startExamBtn" class="btn start-btn">
+                <i class="fas fa-play-circle"></i> ابدأ الامتحان
+            </button>
+            
+            <div style="text-align: center; margin-top: 1.5rem; color: var(--text-color); opacity: 0.8; font-size: 1rem;">
+                <p><i class="fas fa-lightbulb"></i> تذكر: اجب مستعينًا بالله تعالى على الأسئلة التالية</p>
+            </div>
+        </section>
+
+        <!-- شاشة الامتحان -->
+        <section id="examScreen" class="screen">
+            <!-- مربع الأسئلة في المقدمة -->
+            <div class="question-container">
+                <div class="question-header">
+                    <div id="questionNumber" class="question-number">س1</div>
+                    <div id="questionStatus" style="color: var(--warning-color); font-weight: bold;">
+                        <i class="fas fa-star"></i> جديد
+                    </div>
+                </div>
+                
+                <h2 id="questionText" class="question-text"></h2>
+                
+                <div id="optionsContainer" class="options-container">
+                    <!-- سيتم تعبئة الخيارات ديناميكياً -->
+                </div>
+                
+                <div class="navigation-buttons">
+                    <button id="nextBtn" class="btn primary-btn" style="flex: 1;">
+                        التالي <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <button id="prevBtn" class="btn secondary-btn" style="flex: 1;">
+                        <i class="fas fa-arrow-right"></i> السابق
+                    </button>
+                </div>
+            </div>
+
+            <!-- شبكة التنقل بين الأسئلة -->
+            <div class="questions-nav-grid">
+                <h3><i class="fas fa-layer-group"></i> التنقل بين الأسئلة</h3>
+                <div id="questionsGrid" class="questions-grid">
+                    <!-- سيتم تعبئة أزرار الأسئلة ديناميكياً -->
+                </div>
+            </div>
+            
+            <div class="exam-controls">
+                <div class="progress-container">
+                    <div class="progress-info">
+                        <span id="progressText">السؤال 1 من 40</span>
+                        <span id="progressPercent">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill"></div>
+                    </div>
+                </div>
+                
+                <div class="exam-stats">
+                    <div id="timer" class="timer">
+                        <i class="fas fa-clock"></i>
+                        <span>60:00</span>
+                    </div>
+                    <button id="endExamBtn" class="btn danger-btn">
+                        <i class="fas fa-flag-checkered"></i> إنهاء الاختبار
+                    </button>
+                </div>
+            </div>
+            
+            <!-- تنبيه الأسئلة غير المحلولة -->
+            <div id="unansweredAlert" class="unanswered-alert" style="display: none;">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span id="unansweredCount">0</span> أسئلة لم تتم الإجابة عليها
+            </div>
+        </section>
+
+        <!-- شاشة النتائج -->
+        <section id="resultsScreen" class="screen">
+            <div class="results-header">
+                <h1><i class="fas fa-chart-line"></i> نتائج الامتحان</h1>
+                
+                <div class="score-display">
+                    <div class="score-circle">
+                        <svg width="260" height="260">
+                            <circle class="circle-bg" cx="130" cy="130" r="120"></circle>
+                            <circle id="scoreCircle" class="circle-progress" cx="130" cy="130" r="120"></circle>
+                        </svg>
+                    </div>
+                    <div class="score-text">
+                        <h2 id="finalScore">0/30</h2>
+                        <p id="percentage">0%</p>
+                        <p id="grade" style="font-size: 1.1rem; color: var(--text-color); margin-top: 0.4rem;"></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="results-details">
+                <div class="result-card">
+                    <h3><i class="fas fa-check-circle"></i> الإجابات الصحيحة</h3>
+                    <p id="correctAnswers" class="stat">0</p>
+                </div>
+                <div class="result-card">
+                    <h3><i class="fas fa-times-circle"></i> الإجابات الخاطئة</h3>
+                    <p id="wrongAnswers" class="stat">0</p>
+                </div>
+                <div class="result-card">
+                    <h3><i class="fas fa-clock"></i> الوقت المستغرق</h3>
+                    <p id="timeTaken" class="stat">0:00</p>
+                </div>
+                <div class="result-card">
+                    <h3><i class="fas fa-chart-bar"></i> النسبة المئوية</h3>
+                    <p id="scorePercentage" class="stat">0%</p>
+                </div>
+            </div>
+            
+            <div class="results-controls">
+                <button id="reviewBtn" class="btn secondary-btn">
+                    <i class="fas fa-list-check"></i> مراجعة الإجابات الخاطئة
+                </button>
+                <button id="newTestBtn" class="btn primary-btn">
+                    <i class="fas fa-redo"></i> اختبار جديد
+                </button>
+                <button id="retryBtn" class="btn success-btn">
+                    <i class="fas fa-sync-alt"></i> إعادة نفس الاختبار
+                </button>
+            </div>
+            
+            <!-- قسم مراجعة الإجابات - تظهر الإجابات الخطأ فقط -->
+            <div id="reviewSection" class="review-section">
+                <h3><i class="fas fa-clipboard-check"></i> مراجعة الإجابات الخاطئة</h3>
+                <div id="wrongAnswersList" class="review-list">
+                    <!-- سيتم تعبئة الإجابات الخاطئة هنا -->
+                </div>
+                <div id="noWrongAnswers" style="text-align: center; padding: 3rem; color: var(--success-color); display: none;">
+                    <i class="fas fa-check-circle" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                    <h3 style="color: var(--success-color);">ممتاز! لم تكن لديك إجابات خاطئة</h3>
+                    <p style="color: var(--text-color); opacity: 0.8; margin-top: 1rem;">جميع إجاباتك كانت صحيحة</p>
+                </div>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button id="closeReviewBtn" class="btn secondary-btn">
+                        <i class="fas fa-times"></i> إغلاق المراجعة
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>اللجنة العلمية لكلية الإعلام 2026©</p>
+        <p>امتحان أساسيات الحاسوب - المستوى الأول</p>
+        <p>تم تطوير هذا الموقع لأغراض تعليمية وتدريبية</p>
+    </footer>
+
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <h3><i class="fas fa-exclamation-triangle"></i> تأكيد إنهاء الاختبار</h3>
+            <p style="color: var(--text-color); margin-bottom: 1.5rem; line-height: 1.6;">
+                هل أنت متأكد أنك تريد إنهاء الاختبار؟<br>
+                لديك <span id="remainingQuestions">0</span> أسئلة لم تتم الإجابة عليها.
+            </p>
+            <div class="modal-buttons">
+                <button id="cancelEndBtn" class="btn secondary-btn">
+                    <i class="fas fa-times"></i> إلغاء
+                </button>
+                <button id="confirmEndBtn" class="btn danger-btn">
+                    <i class="fas fa-check"></i> نعم، أنه الاختبار
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    
+    <script>
+const quizQuestions = [
+    {
+        id: 1,
+        type: 'multiple',
+        question: 'للتراجع عن أي إجراء قمت به في البرامج التطبيقية نضغط على:',
+        options: ['Ctrl+S', 'Ctrl+Z', 'Ctrl+B', 'Ctrl+E'],
+        answer: 'Ctrl+Z'
+    },
+    {
+        id: 2,
+        type: 'multiple',
+        question: 'لالتقاط صورة لسطح المكتب نضغط على مفتاح:',
+        options: ['Print Screen', 'Tab', 'Home', 'Backspace'],
+        answer: 'Print Screen'
+    },
+    {
+        id: 3,
+        type: 'multiple',
+        question: 'نظام الويندوز عبارة عن نوافذ:',
+        options: ['متحركة', 'ثابتة', 'رسومية', 'ثلاثية الأبعاد'],
+        answer: 'رسومية'
+    },
+    {
+        id: 4,
+        type: 'multiple',
+        question: 'عبارة عن جهاز يتصل بالحاسوب ليعرض مخرجات الحاسوب المرئية:',
+        options: ['جهاز البروجكتر', 'الطابعة', 'الراسمات', 'لوحة الرسم'],
+        answer: 'جهاز البروجكتر'
+    },
+    {
+        id: 5,
+        type: 'multiple',
+        question: 'أحد البدائل التالية تعتبر من وحدات التخزين:',
+        options: ['الهارد ديسك', 'الطابعة', 'جهاز البروجكتر', 'السماعة'],
+        answer: 'الهارد ديسك'
+    },
+    {
+        id: 6,
+        type: 'multiple',
+        question: 'لحذف ملف أو مجلد بعد تحديده بشكل نهائي نضغط على مفتاحي:',
+        options: ['Shift + Delete', 'Ctrl + Delete', 'Delete', 'Esc'],
+        answer: 'Shift + Delete'
+    },
+    {
+        id: 7,
+        type: 'multiple',
+        question: 'يمكننا إعادة تسمية مجلد أو ملف باستخدام لوحة المفاتيح من خلال النقر على:',
+        options: ['F1', 'F3', 'F4', 'F2'],
+        answer: 'F2'
+    },
+    {
+        id: 8,
+        type: 'multiple',
+        question: 'يعد المودم من وحدات:',
+        options: ['الادخال', 'الإخراج', 'المعالجة المركزية', 'الادخال والإخراج'],
+        answer: 'الادخال والإخراج'
+    },
+    {
+        id: 9,
+        type: 'multiple',
+        question: 'نضغط على الأزرار ... لتغيير الكتابة من اللغة العربية إلى الإنجليزية في Word:',
+        options: ['Alt + Shift', 'Ctrl + Shift', 'Ctrl + Alt', 'Ctrl + Tab'],
+        answer: 'Alt + Shift'
+    },
+    {
+        id: 10,
+        type: 'multiple',
+        question: 'يمكن من خلالها التحكم بإعدادات الشبكة والبرامج والساعة والمظهر الشخصي والنظام والامان:',
+        options: ['لوحة التحكم', 'الرسام', 'شريط المهام', 'الدفتر'],
+        answer: 'لوحة التحكم'
+    },
+    {
+        id: 11,
+        type: 'multiple',
+        question: 'وحدة التخزين الأكثر سعة مما يأتي هي:',
+        options: ['الهارد ديسك', 'الفلاش', 'الديفيدي', 'السيدي'],
+        answer: 'الهارد ديسك'
+    },
+    {
+        id: 12,
+        type: 'multiple',
+        question: 'تخزن الملفات والمجلدات التي في سطح المكتب على القرص:',
+        options: ['C', 'E', 'D', 'B'],
+        answer: 'C'
+    },
+    {
+        id: 13,
+        type: 'multiple',
+        question: 'أحد البرامج التالية ليس من البرامج التطبيقية:',
+        options: ['Word', 'Excel', 'Windows', 'PowerPoint'],
+        answer: 'Windows'
+    },
+    {
+        id: 14,
+        type: 'multiple',
+        question: 'عبارة عن برنامج يسهل الوصول إلى المعلومات في الانترنت:',
+        options: ['المتصفح', 'مواقع الدردشة', 'مواقع التواصل الاجتماعي', 'موقع اليوتيوب'],
+        answer: 'المتصفح'
+    },
+    {
+        id: 15,
+        type: 'multiple',
+        question: 'عبارة عن وسيلة تراسل بين طرفين عبر الإنترنت:',
+        options: ['البريد الإلكتروني', 'أيقونة بحث', 'المفكرة', 'الرسام'],
+        answer: 'البريد الإلكتروني'
+    },
+    {
+        id: 16,
+        type: 'multiple',
+        question: 'كل ما يأتي برامج متصفحات ماعدا:',
+        options: ['Google Chrome', 'Firefox', 'Opera', 'Foxit Reader'],
+        answer: 'Foxit Reader'
+    },
+    {
+        id: 17,
+        type: 'multiple',
+        question: 'لنسخ ملف أو مجلد من مكان إلى آخر باستخدام لوحة المفاتيح يتم الضغط على:',
+        options: ['Ctrl + S', 'Ctrl + X', 'Ctrl + C', 'Ctrl + B'],
+        answer: 'Ctrl + C'
+    },
+    {
+        id: 18,
+        type: 'multiple',
+        question: 'تقاس سرعة المعالج بوحدة:',
+        options: ['الجيجا بايت', 'الجيجاهرتز', 'الميجا بايت', 'الميجاهرتز'],
+        answer: 'الميجاهرتز'
+    },
+    {
+        id: 19,
+        type: 'multiple',
+        question: 'عبارة عن وسيلة تسهل الوصول للمعلومات في الانترنت، فهي اشبه بالنافذة التي تطل منها على الانترنت:',
+        options: ['WWW', 'HTML', 'HTTP', 'FTP'],
+        answer: 'WWW'
+    },
+    {
+        id: 20,
+        type: 'multiple',
+        question: 'يمكن إدراج في مستند Word ما يأتي:',
+        options: ['صفحة', 'صفحات', 'ثلاث صفحات', 'جميع الخيارات صحيحة'],
+        answer: 'جميع الخيارات صحيحة'
+    },
+    {
+        id: 21,
+        type: 'multiple',
+        question: 'التبويب الذي من خلاله يتم إدراج رسوم واشكال توضيحية في مستند Word هو تبويب:',
+        options: ['إدراج', 'مراجع', 'مراجعة', 'تخطيط'],
+        answer: 'إدراج'
+    },
+    {
+        id: 22,
+        type: 'multiple',
+        question: 'يتم تغيير اتجاه الصفحة عمودياً أو أفقياً في مستند Word من تبويب:',
+        options: ['الصفحة الرئيسية', 'تخطيط', 'تصميم', 'عرض'],
+        answer: 'تخطيط'
+    },
+    {
+        id: 23,
+        type: 'multiple',
+        question: 'يحتوي مستند Word على مجموعة قوائم منها:',
+        options: ['ملف', 'إدراج', 'تصميم', 'جميع الخيارات صحيحة'],
+        answer: 'جميع الخيارات صحيحة'
+    },
+    {
+        id: 24,
+        type: 'multiple',
+        question: 'في مستند Word يمكن إدراج الآتي:',
+        options: ['صور', 'أشكال', 'أرقام صفحات', 'جميع الخيارات صحيحة'],
+        answer: 'جميع الخيارات صحيحة'
+    },
+    {
+        id: 25,
+        type: 'multiple',
+        question: 'يمكن إجراء تنسيق لون الخط في مستند Word:',
+        options: ['مرة واحدة', 'مرتين', 'ثلاث مرات', 'عدة مرات'],
+        answer: 'عدة مرات'
+    },
+    {
+        id: 26,
+        type: 'multiple',
+        question: 'لإجراء حفظ مستند Word نستخدم الإختصار الآتي:',
+        options: ['Ctrl+C', 'Ctrl+V', 'Ctrl+X', 'Ctrl+S'],
+        answer: 'Ctrl+S'
+    },
+    {
+        id: 27,
+        type: 'multiple',
+        question: 'يمكن إنشاء مستند Word على جهاز الكمبيوتر:',
+        options: ['مرة واحدة', 'مرتين', 'ثلاث مرات', 'عدة مرات'],
+        answer: 'عدة مرات'
+    },
+    {
+        id: 28,
+        type: 'multiple',
+        question: 'أحد البدائل الآتية يعتبر إمتداد مستند Word:',
+        options: ['.Xlsx', '.Jpg', '.Txt', '.Docx'],
+        answer: '.Docx'
+    },
+    {
+        id: 29,
+        type: 'multiple',
+        question: 'لحفظ مستند Word نستخدم قائمة تبويب:',
+        options: ['عرض', 'تصميم', 'إدراج', 'ملف'],
+        answer: 'ملف'
+    },
+    {
+        id: 30,
+        type: 'multiple',
+        question: 'يمكن إدراج في مصنف الاكسيل Excel الآتي:',
+        options: ['صورة', 'شكل', 'مخططات', 'كل الخيارات صحيحة'],
+        answer: 'كل الخيارات صحيحة'
+    },
+    {
+        id: 31,
+        type: 'multiple',
+        question: 'الدالة التي تستخدم لحساب تقديرات الطلبة في برنامج الاكسيل هي:',
+        options: ['AVERAGE', 'SUM', 'MAX', 'IF'],
+        answer: 'IF'
+    },
+    {
+        id: 32,
+        type: 'multiple',
+        question: 'تقاطع الصف مع العمود في برنامج الاكسيل Excel يسمى:',
+        options: ['خلية', 'مصنف', 'نمط', 'دمج'],
+        answer: 'خلية'
+    },
+    {
+        id: 33,
+        type: 'multiple',
+        question: 'يمكننا في مصنف Excel إدراج الدوال الآتية:',
+        options: ['AVERAGE', 'IF', 'MAX', 'كل الخيارات صحيحة'],
+        answer: 'كل الخيارات صحيحة'
+    },
+    {
+        id: 34,
+        type: 'multiple',
+        question: 'في مصنف الإكسل يمكن إجراء عملية جمع:',
+        options: ['خلية واحدة', 'خليتين', 'ثلاث خلايا', 'عدة خلايا'],
+        answer: 'عدة خلايا'
+    },
+    {
+        id: 35,
+        type: 'multiple',
+        question: 'في مصنف الإكسل يمكن إدراج ورقة عمل:',
+        options: ['مرة واحدة', 'مرتين', 'ثلاث مرات', 'عدة مرات'],
+        answer: 'عدة مرات'
+    },
+    {
+        id: 36,
+        type: 'multiple',
+        question: 'يمكن تغيير خلفية سطح المكتب إلى:',
+        options: ['صوت', 'فيديو', 'شكل', 'صورة'],
+        answer: 'صورة'
+    },
+    {
+        id: 37,
+        type: 'multiple',
+        question: 'لا يمكن الدخول إلى شبكة الإنترنت إلا عن طريق برنامج:',
+        options: ['متصفح', 'مكافح الفيروسات', 'لغة البرمجة', 'الأوفيس'],
+        answer: 'متصفح'
+    },
+    {
+        id: 38,
+        type: 'multiple',
+        question: 'للدخول إلى شبكة الإنترنت يشترط توفر الآتي:',
+        options: ['خدمة اشتراك', 'جهاز الحاسوب', 'متصفح', 'كل الخيارات صحيحة'],
+        answer: 'كل الخيارات صحيحة'
+    },
+    {
+        id: 39,
+        type: 'multiple',
+        question: 'من المكونات البرمجية لجهاز الحاسوب الآتي:',
+        options: ['وحدة المعالجة المركزية', 'وحدة التخزين', 'وحدة الإدخال', 'كل الخيارات خاطئة'],
+        answer: 'كل الخيارات خاطئة'
+    },
+    {
+        id: 40,
+        type: 'multiple',
+        question: 'تعتبر ذاكرة Rom من مكونات الحاسوب:',
+        options: ['المادية', 'البرمجية', 'التطبيقية', 'كل الخيارات خاطئة'],
+        answer: 'المادية'
+    }
+];
+
+const TOTAL_QUESTIONS_IN_DB = 40;
+const QUESTIONS_TO_SELECT = 40; 
+        function selectRandomQuestions() {
+            let available = quizQuestions.filter(q => !usedQuestionIds.has(q.id));
+            if (available.length < QUESTIONS_TO_SELECT) {
+                let used = quizQuestions.filter(q => usedQuestionIds.has(q.id));
+                const needed = QUESTIONS_TO_SELECT - available.length;
+                const randomUsed = shuffleArray([...used]).slice(0, needed);
+                available = [...available, ...randomUsed];
+                usedQuestionIds.clear();
+            }
+            currentQuestions = shuffleArray(available).slice(0, QUESTIONS_TO_SELECT);
+            currentQuestions.forEach(q => usedQuestionIds.add(q.id));
+            userAnswers = new Array(currentQuestions.length).fill(null);
+        }
+        
+        function shuffleAllOptions() {
+            shuffledQuestions = currentQuestions.map(q => {
+                if (q.type === 'multiple') {
+                    const opts = [...q.options];
+                    const correctText = q.answer;
+                    // خلط الخيارات
+                    for (let i = opts.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [opts[i], opts[j]] = [opts[j], opts[i]];
+                    }
+                    return {
+                        ...q,
+                        shuffledOptions: opts,
+                        shuffledCorrect: opts.indexOf(correctText)
+                    };
+                } else { // true/false
+                    return {
+                        ...q,
+                        shuffledOptions: ['صح', 'خطأ'],
+                        shuffledCorrect: q.answer === 'صح' ? 0 : 1
+                    };
+                }
+            });
+        }
+        
+        // ========== تهيئة التطبيق ==========
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+    
+    <!-- تضمين الملف المشترك -->
+    <script src="exam-common.js"></script>
+</body>
+</html>

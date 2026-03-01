@@ -1,0 +1,1845 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الامتحان: الصراع مع العدو الإسرائيلي - جامعة صنعاء</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* جميع الأنماط تبقى كما هي مع تعديلات طفيفة - تم حذف التكرار */
+        :root {
+            --primary-color: #2c5282;
+            --secondary-color: #4299e1;
+            --accent-color: #e53e3e;
+            --success-color: #38a169;
+            --warning-color: #d69e2e;
+            --light-color: #f7fafc;
+            --dark-color: #2d3748;
+            --bg-color: #ffffff;
+            --text-color: #2d3748;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a202c;
+            --text-color: #e2e8f0;
+            --card-bg: #2d3748;
+            --light-color: #4a5568;
+            --dark-color: #171923;
+            --border-color: #4a5568;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            --primary-color: #4299e1;
+            --secondary-color: #63b3ed;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: var(--transition);
+            min-height: 100vh;
+            direction: rtl;
+        }
+
+        [data-theme="dark"] body {
+            background: #0f1721;
+        }
+        
+        [data-theme="dark"] .container,
+        [data-theme="dark"] .exam-header,
+        [data-theme="dark"] .instructions,
+        [data-theme="dark"] .exam-controls,
+        [data-theme="dark"] .questions-nav-grid,
+        [data-theme="dark"] .question-container,
+        [data-theme="dark"] .result-card,
+        [data-theme="dark"] .review-section,
+        [data-theme="dark"] .modal-content {
+            background: var(--card-bg);
+        }
+        
+        [data-theme="dark"] .option {
+            background: #2d3748;
+        }
+        
+        [data-theme="dark"] .option-marker {
+            background: #4a5568;
+            color: #e2e8f0;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, var(--primary-color), #2b6cb0);
+            color: white;
+            padding: 0.8rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo h1 {
+            font-size: 1.3rem;
+            margin-bottom: 0.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            animation: fadeIn 1s ease;
+        }
+
+        .logo p {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .icon-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px) rotate(5deg);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 1.5rem auto;
+            padding: 0 1.5rem;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .screen {
+            display: none;
+            animation: slideUp 0.6s ease;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .exam-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            animation: fadeIn 0.8s ease;
+        }
+
+        .exam-header h1 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .exam-header h1:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            right: 50%;
+            transform: translateX(50%);
+            width: 70px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+            border-radius: 2px;
+        }
+
+        .university-info {
+            margin: 1.5rem 0;
+            padding: 1.2rem;
+            background: rgba(66, 153, 225, 0.05);
+            border-radius: 12px;
+            border-right: 4px solid var(--secondary-color);
+        }
+
+        .university-info h3 {
+            margin: 0.6rem 0;
+            color: var(--secondary-color);
+            font-size: 1.1rem;
+        }
+
+        .student-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.2rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid rgba(66, 153, 225, 0.2);
+        }
+
+        .info-item {
+            background: linear-gradient(135deg, rgba(66, 153, 225, 0.05), rgba(44, 82, 130, 0.05));
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px solid rgba(66, 153, 225, 0.1);
+            transition: var(--transition);
+        }
+
+        .info-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(66, 153, 225, 0.1);
+        }
+
+        .info-item p:first-child {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+        }
+
+        .info-item p:last-child {
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        .instructions {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 18px;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .instructions h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1.2rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .instructions ul {
+            list-style: none;
+            padding-right: 0;
+        }
+
+        .instructions li {
+            margin-bottom: 0.8rem;
+            padding-right: 1.8rem;
+            position: relative;
+            font-size: 1rem;
+        }
+
+        .instructions li:before {
+            content: '✓';
+            position: absolute;
+            right: 0;
+            color: var(--success-color);
+            font-weight: bold;
+            font-size: 1rem;
+            background: rgba(56, 161, 105, 0.1);
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 0.9rem 1.8rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            font-family: 'Cairo', sans-serif;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: translateX(-100%);
+        }
+
+        .btn:hover:before {
+            animation: shine 1s;
+        }
+
+        @keyframes shine {
+            100% { transform: translateX(100%); }
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            font-size: 1.2rem;
+            padding: 1.1rem 2.5rem;
+            margin: 2rem auto;
+            display: block;
+            min-width: 240px;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(66, 153, 225, 0.3);
+        }
+
+        .primary-btn {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            border: none;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(66, 153, 225, 0.25);
+        }
+
+        .secondary-btn {
+            background: transparent;
+            color: var(--secondary-color);
+            border: 2px solid var(--secondary-color);
+        }
+
+        .secondary-btn:hover {
+            background: var(--secondary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .danger-btn {
+            background: linear-gradient(135deg, var(--accent-color), #c53030);
+            color: white;
+            border: none;
+        }
+
+        .danger-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(229, 62, 62, 0.25);
+        }
+
+        .success-btn {
+            background: linear-gradient(135deg, var(--success-color), #2f855a);
+            color: white;
+            border: none;
+        }
+
+        .success-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(56, 161, 105, 0.25);
+        }
+
+        .exam-controls {
+            background: var(--card-bg);
+            padding: 1.8rem;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            animation: fadeIn 0.6s ease;
+        }
+
+        .progress-container {
+            margin-bottom: 1.2rem;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--light-color);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .progress-fill:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 20px;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3));
+            animation: progressShine 2s infinite;
+        }
+
+        @keyframes progressShine {
+            0% { right: 0; }
+            100% { right: 100%; }
+        }
+
+        .exam-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin-top: 1.2rem;
+        }
+
+        .timer {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            background: var(--card-bg);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            border: 2px solid rgba(229, 62, 62, 0.2);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .questions-nav-grid {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            animation: fadeIn 0.6s ease;
+        }
+
+        .questions-nav-grid h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1.2rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .questions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+            gap: 0.8rem;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 0.5rem;
+        }
+
+        .question-nav-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .question-nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.15);
+            border-color: var(--secondary-color);
+        }
+
+        .question-nav-btn.current {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            border-color: var(--secondary-color);
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
+        }
+
+        .question-nav-btn.answered {
+            background: rgba(56, 161, 105, 0.1);
+            color: var(--success-color);
+            border-color: var(--success-color);
+        }
+
+        .question-nav-btn.unanswered {
+            background: rgba(214, 158, 46, 0.1);
+            color: var(--warning-color);
+            border-color: var(--warning-color);
+        }
+
+        .question-container {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+            animation: slideUp 0.5s ease;
+            order: -1;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .question-number {
+            color: white;
+            font-weight: 800;
+            font-size: 1.1rem;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            padding: 0.5rem 1.1rem;
+            border-radius: 50px;
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            margin-bottom: 1.8rem;
+            line-height: 1.7;
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.9rem;
+            margin-bottom: 1.8rem;
+        }
+
+        @media (min-width: 768px) {
+            .options-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .option {
+            background: var(--bg-color);
+            padding: 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--secondary-color);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .option:hover {
+            transform: translateX(-4px);
+            border-color: var(--secondary-color);
+            box-shadow: 0 6px 20px rgba(66, 153, 225, 0.15);
+        }
+
+        .option:hover:before {
+            opacity: 1;
+        }
+
+        .option.selected {
+            border-color: var(--success-color);
+            background: rgba(56, 161, 105, 0.05);
+            transform: translateX(-4px);
+        }
+
+        .option.selected:before {
+            background: var(--success-color);
+            opacity: 1;
+        }
+
+        .option.correct {
+            border-color: var(--success-color);
+            background: rgba(56, 161, 105, 0.1);
+            animation: pulse 0.5s;
+        }
+
+        .option.incorrect {
+            border-color: var(--accent-color);
+            background: rgba(229, 62, 62, 0.1);
+        }
+
+        .option-marker {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            background: var(--light-color);
+            color: var(--text-color);
+            flex-shrink: 0;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .option.selected .option-marker {
+            background: var(--success-color);
+            color: white;
+            box-shadow: 0 4px 12px rgba(56, 161, 105, 0.3);
+        }
+
+        .option-text {
+            flex: 1;
+            font-size: 1.05rem;
+            font-weight: 500;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            gap: 1rem;
+            flex-direction: row-reverse;
+        }
+
+        .navigation-buttons .btn {
+            min-width: 140px;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-btn-group {
+            display: flex;
+            gap: 0.8rem;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .unanswered-alert {
+            background: linear-gradient(135deg, rgba(214, 158, 46, 0.1), rgba(214, 158, 46, 0.05));
+            border: 2px solid var(--warning-color);
+            color: var(--warning-color);
+            padding: 0.9rem 1.2rem;
+            border-radius: 10px;
+            margin-top: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 600;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .results-header h1 {
+            color: var(--secondary-color);
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .score-display {
+            position: relative;
+            width: 260px;
+            height: 260px;
+            margin: 1.5rem auto;
+        }
+
+        .score-circle {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .circle-bg, .circle-progress {
+            fill: none;
+            stroke-width: 10;
+            stroke-linecap: round;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+
+        .circle-bg {
+            stroke: var(--light-color);
+        }
+
+        .circle-progress {
+            stroke: var(--secondary-color);
+            stroke-dasharray: 800;
+            stroke-dashoffset: 800;
+            transition: stroke-dashoffset 2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .score-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .score-text h2 {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.4rem;
+        }
+
+        .score-text p {
+            font-size: 1.3rem;
+            color: var(--text-color);
+        }
+
+        .results-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .result-card {
+            background: var(--card-bg);
+            padding: 1.8rem;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease;
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .result-card h3 {
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+        }
+
+        .stat {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-color);
+        }
+
+        .results-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .review-section {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 18px;
+            margin-top: 2.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            display: none;
+            animation: slideUp 0.5s ease;
+        }
+
+        .review-section h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1.8rem;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .review-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+        }
+
+        .review-item {
+            background: var(--bg-color);
+            padding: 1.8rem;
+            border-radius: 16px;
+            border-right: 5px solid var(--accent-color);
+            transition: transform 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .review-item:hover {
+            transform: translateX(-4px);
+        }
+
+        .review-question {
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            color: var(--text-color);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .review-answers {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+        }
+
+        .answer-item {
+            padding: 0.9rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            transition: all 0.3s;
+        }
+
+        .answer-item.user-answer {
+            background: rgba(229, 62, 62, 0.08);
+            border-right: 4px solid var(--accent-color);
+        }
+
+        .answer-item.correct-answer {
+            background: rgba(56, 161, 105, 0.08);
+            border-right: 4px solid var(--success-color);
+        }
+
+        .answer-item i {
+            font-size: 1.1rem;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(90deg, var(--primary-color), #2b6cb0);
+            color: white;
+            margin-top: 3rem;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+        }
+
+        .footer p {
+            margin: 0.6rem 0;
+            font-size: 0.9rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 18px;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color);
+            animation: slideUp 0.4s ease;
+        }
+
+        .modal-content h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.3rem;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            margin-top: 1.8rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 1rem auto;
+                padding: 0 1rem;
+            }
+            
+            .exam-header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .student-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .question-text {
+                font-size: 1.2rem;
+            }
+            
+            .option {
+                padding: 1rem;
+            }
+            
+            .option-text {
+                font-size: 1rem;
+            }
+            
+            .questions-grid {
+                grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+            }
+            
+            .question-nav-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 0.9rem;
+            }
+            
+            .navigation-buttons {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+            
+            .navigation-buttons .btn {
+                width: 100%;
+            }
+            
+            .results-controls {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .results-controls .btn {
+                width: 100%;
+            }
+            
+            .score-display {
+                width: 220px;
+                height: 220px;
+            }
+            
+            .score-text h2 {
+                font-size: 2rem;
+            }
+            
+            .stat {
+                font-size: 2rem;
+            }
+            
+            .timer {
+                font-size: 1.1rem;
+                padding: 0.5rem 1rem;
+            }
+            
+            .nav-btn-group {
+                flex-direction: column;
+            }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #f0f;
+            opacity: 0;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .scroll-top-btn {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 100;
+            transition: var(--transition);
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .scroll-top-btn.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 18px rgba(66, 153, 225, 0.4);
+        }
+
+        body {
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .theme-transition {
+            transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- زر العودة إلى الأعلى -->
+    <button id="scrollTopBtn" class="scroll-top-btn">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- شريط التنقل -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1><i class="fas fa-university"></i> ملتقى الطالب الجامعي</h1>
+                <p>جامعة صنعاء - كلية الإعلام</p>
+            </div>
+            <div class="nav-controls">
+                <button id="darkModeToggle" class="icon-btn" title="الوضع الليلي">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- الشاشة الرئيسية -->
+    <main class="container">
+        <!-- شاشة البداية -->
+        <section id="startScreen" class="screen active">
+            <div class="exam-header">
+                <h1><i class="fas fa-brain"></i> امتحان الصراع مع العدو الاسرائيلي</h1>
+                
+                <div class="university-info">
+                    <h3>اللجنة العلمية - الدفعة 35 </h3>
+                    <h3>دكتورة المقرر:  أمة الرحيم الصنعاني </h3>
+                </div>
+                
+                <div class="student-info">
+                    <div class="info-item">
+                        <p>المقرر</p>
+                        <p>الصراع مع العدو الإسرائيلي </p>
+                    </div>
+                    <div class="info-item">
+                        <p>المستوى</p>
+                        <p>الأول</p>
+                    </div>
+                    <div class="info-item">
+                        <p>الوقت المخصص</p>
+                        <p>60 دقيقة</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="instructions">
+                <h3><i class="fas fa-info-circle"></i> تعليمات الامتحان:</h3>
+                <ul>
+                    <li>اختر الإجابة الصحيحة بالنقر على الخيار المناسب</li>
+                    <li>يمكنك تغيير إجابتك قبل إنهاء الامتحان </li>
+                    <li>سيتم تنبيهك عن الأسئلة التي لم تتم الإجابة عليها</li>
+                    <li>الوقت المخصص: 60 دقيقة</li>
+                    <li>لبدء الامتحان، اضغط على زر "ابدأ الامتحان"</li>
+                </ul>
+            </div>
+            
+            <button id="startExamBtn" class="btn start-btn">
+                <i class="fas fa-play-circle"></i> ابدأ الامتحان
+            </button>
+            
+            <div style="text-align: center; margin-top: 1.5rem; color: var(--text-color); opacity: 0.8; font-size: 1rem;">
+                <p><i class="fas fa-lightbulb"></i> تذكر: اجب مستعينًا بالله تعالى على الأسئلة التالية</p>
+            </div>
+        </section>
+
+        <!-- شاشة الامتحان -->
+        <section id="examScreen" class="screen">
+            <!-- مربع الأسئلة في المقدمة -->
+            <div class="question-container">
+                <div class="question-header">
+                    <div id="questionNumber" class="question-number">س1</div>
+                    <div id="questionStatus" style="color: var(--warning-color); font-weight: bold;">
+                        <i class="fas fa-star"></i> جديد
+                    </div>
+                </div>
+                
+                <h2 id="questionText" class="question-text"></h2>
+                
+                <div id="optionsContainer" class="options-container">
+                    <!-- سيتم تعبئة الخيارات ديناميكياً -->
+                </div>
+                
+                <div class="navigation-buttons">
+                    <button id="nextBtn" class="btn primary-btn" style="flex: 1;">
+                        التالي <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <button id="prevBtn" class="btn secondary-btn" style="flex: 1;">
+                        <i class="fas fa-arrow-right"></i> السابق
+                    </button>
+                </div>
+            </div>
+
+            <!-- شبكة التنقل بين الأسئلة -->
+            <div class="questions-nav-grid">
+                <h3><i class="fas fa-layer-group"></i> التنقل بين الأسئلة</h3>
+                <div id="questionsGrid" class="questions-grid">
+                    <!-- سيتم تعبئة أزرار الأسئلة ديناميكياً -->
+                </div>
+            </div>
+            
+            <div class="exam-controls">
+                <div class="progress-container">
+                    <div class="progress-info">
+                        <span id="progressText">السؤال 1 من 50</span>
+                        <span id="progressPercent">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill"></div>
+                    </div>
+                </div>
+                
+                <div class="exam-stats">
+                    <div id="timer" class="timer">
+                        <i class="fas fa-clock"></i>
+                        <span>60:00</span>
+                    </div>
+                    <button id="endExamBtn" class="btn danger-btn">
+                        <i class="fas fa-flag-checkered"></i> إنهاء الاختبار
+                    </button>
+                </div>
+            </div>
+            
+            <!-- تنبيه الأسئلة غير المحلولة -->
+            <div id="unansweredAlert" class="unanswered-alert" style="display: none;">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span id="unansweredCount">0</span> أسئلة لم تتم الإجابة عليها
+            </div>
+        </section>
+
+        <!-- شاشة النتائج -->
+        <section id="resultsScreen" class="screen">
+            <div class="results-header">
+                <h1><i class="fas fa-chart-line"></i> نتائج الامتحان</h1>
+                
+                <div class="score-display">
+                    <div class="score-circle">
+                        <svg width="260" height="260">
+                            <circle class="circle-bg" cx="130" cy="130" r="120"></circle>
+                            <circle id="scoreCircle" class="circle-progress" cx="130" cy="130" r="120"></circle>
+                        </svg>
+                    </div>
+                    <div class="score-text">
+                        <h2 id="finalScore">0/50</h2>
+                        <p id="percentage">0%</p>
+                        <p id="grade" style="font-size: 1.1rem; color: var(--text-color); margin-top: 0.4rem;"></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="results-details">
+                <div class="result-card">
+                    <h3><i class="fas fa-check-circle"></i> الإجابات الصحيحة</h3>
+                    <p id="correctAnswers" class="stat">0</p>
+                </div>
+                <div class="result-card">
+                    <h3><i class="fas fa-times-circle"></i> الإجابات الخاطئة</h3>
+                    <p id="wrongAnswers" class="stat">0</p>
+                </div>
+                <div class="result-card">
+                    <h3><i class="fas fa-clock"></i> الوقت المستغرق</h3>
+                    <p id="timeTaken" class="stat">0:00</p>
+                </div>
+                <div class="result-card">
+                    <h3><i class="fas fa-chart-bar"></i> النسبة المئوية</h3>
+                    <p id="scorePercentage" class="stat">0%</p>
+                </div>
+            </div>
+            
+            <div class="results-controls">
+                <button id="reviewBtn" class="btn secondary-btn">
+                    <i class="fas fa-list-check"></i> مراجعة الإجابات الخاطئة
+                </button>
+                <button id="newTestBtn" class="btn primary-btn">
+                    <i class="fas fa-redo"></i> اختبار جديد
+                </button>
+                <button id="retryBtn" class="btn success-btn">
+                    <i class="fas fa-sync-alt"></i> إعادة نفس الاختبار
+                </button>
+            </div>
+            
+            <!-- قسم مراجعة الإجابات - تظهر الإجابات الخطأ فقط -->
+            <div id="reviewSection" class="review-section">
+                <h3><i class="fas fa-clipboard-check"></i> مراجعة الإجابات الخاطئة</h3>
+                <div id="wrongAnswersList" class="review-list">
+                    <!-- سيتم تعبئة الإجابات الخاطئة هنا -->
+                </div>
+                <div id="noWrongAnswers" style="text-align: center; padding: 3rem; color: var(--success-color); display: none;">
+                    <i class="fas fa-check-circle" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                    <h3 style="color: var(--success-color);">ممتاز! لم تكن لديك إجابات خاطئة</h3>
+                    <p style="color: var(--text-color); opacity: 0.8; margin-top: 1rem;">جميع إجاباتك كانت صحيحة</p>
+                </div>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button id="closeReviewBtn" class="btn secondary-btn">
+                        <i class="fas fa-times"></i> إغلاق المراجعة
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>اللجنة العلمية لكلية الإعلام 2026©</p>
+        <p>  امتحان  الصراع مع العدو الإسرائيلي - المستوى الأول</p>
+        <p>تم تطوير هذا الموقع لأغراض تعليمية وتدريبية</p>
+    </footer>
+
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <h3><i class="fas fa-exclamation-triangle"></i> تأكيد إنهاء الاختبار</h3>
+            <p style="color: var(--text-color); margin-bottom: 1.5rem; line-height: 1.6;">
+                هل أنت متأكد أنك تريد إنهاء الاختبار؟<br>
+                لديك <span id="remainingQuestions">0</span> أسئلة لم تتم الإجابة عليها.
+            </p>
+            <div class="modal-buttons">
+                <button id="cancelEndBtn" class="btn secondary-btn">
+                    <i class="fas fa-times"></i> إلغاء
+                </button>
+                <button id="confirmEndBtn" class="btn danger-btn">
+                    <i class="fas fa-check"></i> نعم، أنه الاختبار
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    
+    <script>
+        const quizQuestions = [
+            {
+                id: 1,
+                question: "من هو النبي من بني إسرائيل الذي جعله الله مثالاً للعفة والنزاهة رغم كمال شبابه؟",
+                options: ["سليمان (ع)", "عيسى (ع)", "يوسف (ع)", "موسى (ع)"],
+                correct: 2
+            },
+            {
+                id: 2,
+                question: "ما هو المصطلح الذي يشمل اليهود والنصارى معاً في التعبير القرآني؟",
+                options: ["أهل الكتاب", "المشركون", "الأميون", "المنافقون"],
+                correct: 0
+            },
+            {
+                id: 3,
+                question: "وفقاً للمصادر، ما هو الهدف الحقيقي وراء ما يسمى \"أكذوبة الهيكل\" المزعوم؟",
+                options: ["البحث عن الآثار", "إثبات حق تاريخي", "ذريعة لهدم المسجد الأقصى", "بناء معلم سياحي"],
+                correct: 2
+            },
+            {
+                id: 4,
+                question: "ما هي الصفة التي وصف بها القرآن اليهود في شدة عدائهم للمؤمنين في سورة المائدة؟",
+                options: ["محبو السلام", "المترددون", "أشد الناس عداوة", "الأقرب مودة"],
+                correct: 2
+            },
+            {
+                id: 5,
+                question: "ما العقوبة التي أنزلها الله على الذين اعتدوا في السبت من بني إسرائيل؟",
+                options: ["المسخ (قردة وخنازير)", "الريح الصرصر", "الجوع", "الغرق"],
+                correct: 0
+            },
+            {
+                id: 26,
+                question: "ما هي \"سياسة التطويع\" التي يستخدمها أهل الكتاب ضد المسلمين؟",
+                options: ["رد الناس من الإيمان إلى الكفر بطاعتهم", "التدريب العسكري", "التبادل التجاري", "تقديم المنح الدراسية"],
+                correct: 0
+            },
+            {
+                id: 27,
+                question: "لماذا يقدم أهل الكتاب المساعدات والمشاريع الخدمية للأمة؟",
+                options: ["لمساعدة الدول الفقيرة", "كطعم لتدجين الناس وصرف أنظارهم عن مؤامراتهم", "لنشر الثقافة والعلوم", "بدافع إنساني بحت"],
+                correct: 1
+            },
+            {
+                id: 28,
+                question: "ما الهدف من نشر \"الفساد الأخلاقي\" في البلاد العربية كما ورد في المصادر؟",
+                options: ["إفساد الشباب وإضعاف منعة الأمة", "التطور الاجتماعي", "تعزيز الحرية الشخصية", "الانفتاح على العالم"],
+                correct: 0
+            },
+            {
+                id: 29,
+                question: "كيف يتم \"لبس الحق بالباطل\" في الوسائل الإعلامية التابعة للعدو؟",
+                options: ["بالحياد التام", "بتزييف الوعي والفكر والثقافة", "بنشر الحقائق المجردة", "بالصمت الإعلامي"],
+                correct: 1
+            },
+            {
+                id: 30,
+                question: "ما الدور الذي لعبه \"النظام السعودي\" في خدمة المخططات اليهودية وفق المصادر؟",
+                options: ["مسح الآثار الإسلامية وفصل الأمة عن تاريخها", "نشر الوعي القرآني", "بناء المراكز الثقافية", "الدفاع عن القدس"],
+                correct: 0
+            },
+            {
+                id: 31,
+                question: "ما هي \"الرموز الوهمية\" التي يصنعها اليهود للأمة عبر إعلامهم؟",
+                options: ["قدوات مزيفة لا تشكل خطورة على مصالحهم", "القادة الحقيقيون المخلصون", "العلماء الربانيون", "أبطال المقاومة"],
+                correct: 0
+            },
+            {
+                id: 32,
+                question: "ما هو المخطط الذي يهدف لفرض زعامة دينية لليهود الصهاينة تحت مسمى جديد؟",
+                options: ["العلمانية", "الحداثة", "الإبراهيمية", "العولمة"],
+                correct: 2
+            },
+            {
+                id: 33,
+                question: "لماذا يحرص العدو على \"تغذية الصراعات الطائفية والمذهبية\"؟",
+                options: ["لإصلاح الدين", "لتقوية المذاهب", "لتفتيت الأمة وإغراقها في المشاكل الداخلية", "لنشر التسامح"],
+                correct: 2
+            },
+            {
+                id: 34,
+                question: "من هو مؤسس الحركة الصهيونية الذي دعا لعقد مؤتمر بازل عام 1897م؟",
+                options: ["ويزمان", "بن غوريون", "هرتزل", "بلفور"],
+                correct: 2
+            },
+            {
+                id: 35,
+                question: "ما هي الوظيفة الأساسية لزرع \"الكيان الصهيوني\" في قلب الأمة؟",
+                options: ["منع نهضة الأمة وفصل مشرقها عن مغربها", "تطوير المنطقة اقتصادياً", "نشر الديمقراطية", "حماية الممرات المائية"],
+                correct: 0
+            },
+            {
+                id: 36,
+                question: "ما هو \"وعد بلفور\" الصادر عام 1917م؟",
+                options: ["وعد بإقامة وطن قومي لليهود في فلسطين", "وعد باستقلال العرب", "معاهدة سلام دائمة", "اتفاقية تجارية مع بريطانيا"],
+                correct: 0
+            },
+            {
+                id: 37,
+                question: "ما هو أهم سلاح في مواجهة الخطر الصهيوني وفقاً للمصادر؟",
+                options: ["الوعي والمسؤولية", "المال الكثير", "المفاوضات الدبلوماسية", "الصمت والانتظار"],
+                correct: 0
+            },
+            {
+                id: 38,
+                question: "كيف استغل العدو الصهيوني أحداث 11 سبتمبر؟",
+                options: ["تعزيز الحوار بين الأديان", "كذريعة لاستهداف الأمة وتقويض كيانها", "مساعدة المسلمين", "إنهاء الحروب"],
+                correct: 1
+            },
+            {
+                id: 39,
+                question: "ما هو دور \"الصهيونية\" في السياسة العالمية الحالية؟",
+                options: ["دور ثانوي هامشي", "دور استشاري فقط", "التحكم بالسياسات الغربية وجرها لخدمة مصالحها", "الحياد تجاه القضايا العالمية"],
+                correct: 2
+            },
+            {
+                id: 40,
+                question: "ماذا يقصد بمصطلح \"الحرب الناعمة\"؟",
+                options: ["المساعدات الغذائية", "استهداف القيم والأخلاق والوعي بدلاً من السلاح", "استخدام السلاح الخفيف", "المفاوضات السرية"],
+                correct: 1
+            },
+            {
+                id: 41,
+                question: "ما هي \"أكذوبة الأرض المقدسة\" التي يروج لها بعض المفسرين المتأثرين بالإسرائيليات؟",
+                options: ["أنها أرض للجميع", "إعطاء اليهود وثيقة بملكية الأرض بناءً على تفسيرات خاطئة", "أنها حق دائم للمسلمين", "أنها منطقة سياحية"],
+                correct: 1
+            },
+            {
+                id: 42,
+                question: "لماذا يسعى الصهاينة لتجريم حركات المقاومة ووصفها بـ \"الإرهاب\"؟",
+                options: ["تطبيق القانون الدولي", "حماية المدنيين", "شرعنة استهدافهم وتجريد الأمة من قوتها", "لأنهم يحبون السلام"],
+                correct: 2
+            },
+            {
+                id: 43,
+                question: "ما الذي يمثله \"اللوبي اليهودي الصهيوني\" في العالم؟",
+                options: ["منظمة صحية", "طرف يسعى لاستهداف الأمة ويقود السياسات الغربية", "اتحاد رياضي عالمي", "جمعية خيرية دولية"],
+                correct: 1
+            },
+            {
+                id: 44,
+                question: "ما هي نتيجة الانسياق وراء وسائل الإعلام المعادية (قنوات النفاق)؟",
+                options: ["تزييف الوعي وطمس الهوية الإيمانية", "زيادة الثقافة العامة", "التطور التقني", "معرفة الأخبار العالمية"],
+                correct: 0
+            },
+            {
+                id: 45,
+                question: "ماذا اعتبر \"بن غوريون\" السلاح الحقيقي لإسرائيل بدلاً من النووي؟",
+                options: ["الدعم المالي الأمريكي", "تفتيت الدول العربية إلى دويلات متناحرة", "الطائرات الحربية", "الجدار العازل"],
+                correct: 1
+            },
+            {
+                id: 46,
+                question: "ما هي حقيقة تنظيمات مثل \"القاعدة وداعش\" بالنسبة للعدو الصهيوني؟",
+                options: ["حركات تحرر وطني", "أدوات استخباراتية لتشويه الإسلام وضرب المسلمين من الداخل", "أعداء حقيقيون لليهود", "منظمات إغاثة"],
+                correct: 1
+            },
+            {
+                id: 47,
+                question: "كيف يتم \"اشتراء الضلالة\" في العصر الحديث وفقاً للمصادر؟",
+                options: ["بامتلاك القنوات وشركات السينما لنشر التضليل", "بشراء الكتب القديمة", "بالتجارة الحرة", "بالصياحة الخارجية"],
+                correct: 0
+            },
+            {
+                id: 48,
+                question: "ما الهدف النهائي من \"فصل الأمة عن تاريخها وأعلامها\"؟",
+                options: ["خلق فراغ روحي وتسهيل السيطرة على الأمة", "التحديث والمعاصرة", "التركيز على المستقبل فقط", "نسيان الصراعات القديمة"],
+                correct: 0
+            },
+            {
+                id: 49,
+                question: "بماذا يتميز التناول القرآني لقصص بني إسرائيل؟",
+                options: ["التحامل غير المبرر", "سرد القصص للتسلية", "التناول الموضوعي لأخذ العبرة والدروس", "مدح أخلاقهم"],
+                correct: 2
+            },
+            {
+                id: 50,
+                question: "ما هو السلاح الأقوى لمواجهة \"الحرب النفسية\" التي يشنها العدو؟",
+                options: ["شعار الصرخة والمقاطعة الاقتصادية والوعي", "الاستسلام للواقع", "الانسحاب من الميدان", "السلاح الثقيل فقط"],
+                correct: 0
+            },
+            {
+                id: 51,
+                question: "متى انعقد مؤتمر \"كامبل بنرمان\" في لندن الذي استهدف زرع جسم غريب في قلب الأمة؟",
+                options: ["1917م", "1897م", "1905 - 1907م", "1948م"],
+                correct: 2
+            },
+            {
+                id: 52,
+                question: "ما هو \"صك الانتداب\" البريطاني على فلسطين الصادر عام 1922م؟",
+                options: ["وثيقة شرعنت الاحتلال البريطاني لتنفيذ وعد بلفور", "اتفاقية تجارية", "تقسيم للموارد المائية", "صلح دائم بين العرب واليهود"],
+                correct: 0
+            },
+            {
+                id: 53,
+                question: "من هو المندوب السامي البريطاني (اليهودي) الذي سهل تمليك اليهود للأراضي في فلسطين؟",
+                options: ["آرثر بلفور", "هربرت صمويل", "روزفلت", "وينستون تشرشل"],
+                correct: 1
+            },
+            {
+                id: 54,
+                question: "في أي عام أعلن الكيان الصهيوني احتلاله الرسمي لأرض فلسطين؟",
+                options: ["1948م", "1967م", "1917م", "1973م"],
+                correct: 0
+            },
+            {
+                id: 55,
+                question: "ما هو التوصيف الدقيق لدور أمريكا تجاه الكيان الصهيوني؟",
+                options: ["وسيط سلام محايد", "الحضن الدافئ والدعم اللامحدود بالمال والسلاح", "معارضة الاحتلال في المحافل الدولية", "مانح للمساعدات الإنسانية فقط"],
+                correct: 1
+            },
+            {
+                id: 56,
+                question: "ما هي \"عملية طوفان الأقصى\" التي انطلقت في 7 أكتوبر 2023م؟",
+                options: ["عملية جهادية كبرى حققت نصراً تاريخياً للأمة", "مناورة عسكرية تدريبية", "مظاهرة شعبية سلمية", "اتفاقية سياسية جديدة"],
+                correct: 0
+            },
+            {
+                id: 57,
+                question: "ما هي \"الحتميات القرآنية الثلاث\" تجاه العدو الصهيوني والمنافقين؟",
+                options: ["السلام الدائم والتبادل التجاري", "زوال العدو، خسارة المنافقين، غلبة المؤمنين", "البقاء والازدهار والتعايش", "التفوق العسكري المادي للعدو"],
+                correct: 1
+            },
+            {
+                id: 58,
+                question: "من هو القائد الفلسطيني الذي اغتاله العدو في طهران في يوليو 2024م؟",
+                options: ["حسن نصر الله", "فؤاد شكر", "إسماعيل هنية", "يحيى السنوار"],
+                correct: 2
+            },
+            {
+                id: 59,
+                question: "ما هو الاسم الذي أطلقه قائد الثورة في اليمن على معركة مساندة غزة؟",
+                options: ["معركة الفتح الموعود والجهاد المقدس", "عاصفة الحزم", "فجر الحرية", "الحرب العالمية الثالثة"],
+                correct: 0
+            },
+            {
+                id: 60,
+                question: "كيف تستخدم أمريكا \"حق الفيتو\" في مجلس الأمن بخصوص غزة؟",
+                options: ["لدعم قرارات السلام", "لتوزيع المساعدات", "لإيقاف أي قرار يهدف لوقف العدوان أو يدين جرائم العدو", "لحماية حقوق الإنسان"],
+                correct: 2
+            },
+            {
+                id: 61,
+                question: "ما هي \"الهجرة العكسية\" التي نتجت عن عملية طوفان الأقصى؟",
+                options: ["هروب مئات الآلاف من المستوطنين الصهاينة إلى الخارج", "عودة الفلسطينيين لمدنهم", "هجرة العمال الأجانب", "سياحة خارجية لليهود"],
+                correct: 0
+            },
+            {
+                id: 62,
+                question: "ماذا يعني تحرك اليهود من \"نقطة الصفر\" لبناء كيانهم؟",
+                options: ["تحركهم من حالة الشتات والضعف بجدية واهتمام كبير", "التحرك بالاعتماد على الأمم المتحدة منذ البداية", "التحرك من داخل فلسطين فقط", "التحرك من موقع القوة العظمى"],
+                correct: 0
+            },
+            {
+                id: 63,
+                question: "ما هو الدور الذي تلعبه \"الأنظمة العميلة\" في حماية العدو؟",
+                options: ["ترويض الشعوب وتدجينها وتغييب قضية فلسطين", "تحرير الأراضي المحتلة", "دعم المقاومة بالسلاح", "مقاطعة المنتجات الصهيونية"],
+                correct: 0
+            },
+            {
+                id: 64,
+                question: "أي من الجبهات التالية تُعد من \"جبهات المساندة\" الفعلية لغزة؟",
+                options: ["اليمن، لبنان، العراق، إيران", "مجلس الأمن الدولي", "القمم العربية الرسمية", "الاتحاد الأوروبي"],
+                correct: 0
+            },
+            {
+                id: 65,
+                question: "ما هو \"سلاح النفط\" الذي تمتلكه الأمة كعنصر قوة؟",
+                options: ["وسيلة ضغط اقتصادية فعالة لوقف العدوان على فلسطين", "وسيلة للبيع والربح فقط", "مادة لتطوير الصناعة المحلية فقط", "لا قيمة له في الصراع الحالي"],
+                correct: 0
+            },
+            {
+                id: 66,
+                question: "ما هو الموقف المعلن لـ \"محور القدس والجهاد والمقاومة\"؟",
+                options: ["المساندة الكاملة والمباشرة للشعب الفلسطيني بالمال والسلاح", "الحياد في الصراعات", "التعاون مع أمريكا لإنهاء الصراع", "الاكتفاء بالتنديد الإعلامي"],
+                correct: 0
+            },
+            {
+                id: 67,
+                question: "لماذا يخشى العدو الصهيوني من انتشار \"الوعي القرآني\"؟",
+                options: ["لأنه يكشف مكائدهم ويحيي روح المسؤولية والجهاد", "لأنه ثقافة قديمة", "لأنه صعب التعلم", "لأنه يدعو للانعزال"],
+                correct: 0
+            },
+            {
+                id: 68,
+                question: "ما هو \"الفشل الاستخباري\" الأكبر للعدو في طوفان الأقصى؟",
+                options: ["تعطل الرادارات بسبب الأمطار", "عدم معرفتهم بالعملية وتوقيتها رغم إمكانياتهم الهائلة", "نقص عدد الجنود في الثكنات", "نقص المعلومات عن الطقس"],
+                correct: 1
+            },
+            {
+                id: 69,
+                question: "كيف تعامل العدو الصهيوني مع المدنيين في قطاع غزة؟",
+                options: ["ارتكب جرائم إبادة جماعية ووحشية غير مسبوقة", "وفر لهم ممرات آمنة حقيقية", "التزم بالقوانين الدولية للحروب", "قدم لهم المساعدات الطبية"],
+                correct: 0
+            },
+            {
+                id: 70,
+                question: "ما هو الإجراء الذي أعلنته القوات المسلحة اليمنية ضد مطارات العدو؟",
+                options: ["إغلاق مطار صنعاء", "فرض حصار جوي شامل على كافة مطارات الكيان", "قصفها بالمدفعية فقط", "التنديد عبر الراديو"],
+                correct: 1
+            },
+            {
+                id: 71,
+                question: "ما هي \"السفن المستهدفة\" من قبل القوات البحرية اليمنية؟",
+                options: ["سفن الإغاثة الإنسانية", "السفن الإسرائيلية أو المرتبطة بالكيان والذاهبة إليه", "كل السفن التجارية في العالم", "السفن العربية فقط"],
+                correct: 1
+            },
+            {
+                id: 72,
+                question: "ما الهدف من استهداف المدن المحتلة (يافا، حيفا، أم الرشراش) بالصواريخ؟",
+                options: ["دك معاقل العدو وإيقاع خسائر باهظة باقتصاده وأمنه", "استعراض القوة العسكرية فقط", "لفت انتباه الإعلام", "لا يوجد هدف عسكري محدد"],
+                correct: 0
+            },
+            {
+                id: 73,
+                question: "ما هو التوصيف الدقيق للموقف العربي الرسمي في القمم الطارئة تجاه غزة؟",
+                options: ["تخاذل وصمت مخزي وبيانات هزيلة لا تسمن ولا تغني من جوع", "دعم عسكري مباشر", "طرد جميع السفراء الصهاينة", "فتح الحدود للمجاهدين"],
+                correct: 0
+            },
+            {
+                id: 74,
+                question: "ماذا يعني مطلب المقاومة بـ \"تبييض السجون\"؟",
+                options: ["الإفراج الكامل عن كافة الأسرى الفلسطينيين في سجون العدو", "طلاء جدرانها باللون الأبيض", "بناء سجون جديدة", "تحسين الوجبات الغذائية للأسرى"],
+                correct: 0
+            },
+            {
+                id: 75,
+                question: "ما الذي ميز \"الجولة الثانية\" من معركة طوفان الأقصى في 2025م؟",
+                options: ["استمرار الصمود ونقض العدو للاتفاقات ومواصلة المواجهة", "توقف العمليات العسكرية تماماً", "توقيع معاهدة سلام دائمة", "انسحاب المقاومة من غزة"],
+                correct: 0
+            },
+            {
+                id: 76,
+                question: "ما هو \"الجانب الثقافي\" في الصراع مع العدو الصهيوني؟",
+                options: ["صناعة التصور والتفكير والوعي وفق المنهج القرآني", "قراءة الروايات العالمية", "الاهتمام بالفنون والمسرح", "تعلم اللغات الأجنبية"],
+                correct: 0
+            },
+            {
+                id: 77,
+                question: "لماذا يحارب الأعداء \"اللغة العربية\" ويسعون لاستبدالها بالإنجليزية؟",
+                options: ["لأنها لغة القرآن والوحدة الإيمانية للأمة", "للتطور التكنولوجي", "لصعوبة قواعدها", "لقلة المتحدثين بها"],
+                correct: 0
+            },
+            {
+                id: 78,
+                question: "ما معنى \"العودة إلى الثقافة القرآنية\" كحل للأمة؟",
+                options: ["وضع المصحف في البيوت للبركة", "قراءة القرآن دون فهم معانيه", "الاستيعاب الفكري والسلوكي للقرآن كمنهج حياة ومواجهة", "حفظ الكلمات فقط"],
+                correct: 2
+            },
+            {
+                id: 79,
+                question: "ما هو \"شعار الصرخة\" (الله أكبر.. الموت لأمريكا..)؟",
+                options: ["شعار حزبي ضيق", "براءة من أعداء الله وحرب نفسية فعالة ضدهم", "مجرد هتاف عاطفي", "دعوة للحرب الشاملة فوراً"],
+                correct: 1
+            },
+            {
+                id: 80,
+                question: "ما هو الأثر الاقتصادي الفعلي لـ \"المقاطعة الاقتصادية\"؟",
+                options: ["خسائر بمليارات الدولارات وضرب لمقومات اقتصاد العدو", "تضرر المستهلك المسلم فقط", "لا أثر لها على الإطلاق", "زيادة أرباح العدو"],
+                correct: 0
+            },
+            {
+                id: 81,
+                question: "كيف يستخدم اليهود \"الربا\" كأداة لاستهداف الأمة؟",
+                options: ["لاستعباد الأمة وتدمير اقتصادها وإعلان حرب من الله عليها", "كنشاط تجاري طبيعي", "مساعدة الفقراء بالدين", "زيادة الإنتاج المحلي"],
+                correct: 0
+            },
+            {
+                id: 82,
+                question: "ما هو دور \"صندوق النقد والبنك الدولي\" تجاه الدول العربية والنامية؟",
+                options: ["إغراق الدول بالديون للتحكم في قرارها السياسي والسيادي", "محاربة الفقر العالمي", "تطوير التعليم مجاناً", "تقديم مساعدات بلا مقابل"],
+                correct: 0
+            },
+            {
+                id: 83,
+                question: "ماذا يعني تحقيق \"الاكتفاء الذاتي\" للأمة؟",
+                options: ["أن تنتج الأمة غذاءها ودواءها وسلاحها بذاتها", "شراء المنتجات من الدول الصديقة فقط", "الاعتماد الكلي على الاستيراد", "تقليل الاستهلاك الشخصي"],
+                correct: 0
+            },
+            {
+                id: 84,
+                question: "لماذا يركز الأعداء على \"الجانب الإعلامي\" بشكل رئيسي؟",
+                options: ["للترفيه عن الشعوب", "للحرب النفسية وتزييف الوعي وصناعة قناعات مضللة", "لنشر العلم والمعرفة", "للتواصل الاجتماعي"],
+                correct: 1
+            },
+            {
+                id: 85,
+                question: "ما هي خطورة \"مواقع التواصل الاجتماعي\" وفقاً للمصادر؟",
+                options: ["أدوات استخباراتية واستهداف للأخلاق والقيم والحياء", "سرعة نقل الأخبار", "زيادة الروابط الأسرية", "تعليم المهارات الجديدة"],
+                correct: 0
+            },
+            {
+                id: 86,
+                question: "ما هو \"التحرك العسكري\" المطلوب إسلامياً تجاه العدو؟",
+                options: ["الجهاد في سبيل الله لإعلاء كلمته ودفع الظلم", "الاستسلام لتجنب الخسائر", "الهجوم على المدنيين الأبرياء", "القتال لأجل الشهرة"],
+                correct: 0
+            },
+            {
+                id: 87,
+                question: "ما هي أهم \"أسباب النصر\" المعنوية في الميدان العسكري؟",
+                options: ["كثرة عدد الجنود فقط", "الثبات، ذكر الله، الطاعة، الصبر", "الدعم الإعلامي الخارجي", "امتلاك أحدث الطائرات الغربية"],
+                correct: 1
+            },
+            {
+                id: 88,
+                question: "ما هي نتيجة \"التنازع والاضطراب\" في صفوف المقاتلين؟",
+                options: ["الفشل وذهاب الريح (الهزيمة المحققة)", "لا يؤثر على النتيجة", "زيادة القوة", "التنوع في الآراء"],
+                correct: 0
+            },
+            {
+                id: 89,
+                question: "ما هو الموقف الصحيح تجاه \"القنوات المضللة والمفسدة\"؟",
+                options: ["تقليل وقت المشاهدة", "مشاهدتها للحذر منها", "المقاطعة الشاملة وإبعاد الأهل والأبناء عنها تماماً", "الرد عليها في التعليقات"],
+                correct: 2
+            },
+            {
+                id: 90,
+                question: "كيف يتم \"تحصين المجتمع\" من الداخل ضد مؤامرات العدو؟",
+                options: ["برفع مستوى الوعي واليقظة والارتباط بالقرآن", "بالانعزال عن العالم", "بالفقر والزهد", "ببناء المخابئ"],
+                correct: 0
+            },
+            {
+                id: 91,
+                question: "ما هي \"الحرب الاقتصادية\" التي يدعو إليها المنهج القرآني؟",
+                options: ["ضرب اقتصاد العدو بالمقاطعة وعدم تمويل جرائمه", "شراء المنتجات الأمريكية بكثرة", "العمل في البنوك الدولية", "المضاربة في البورصة"],
+                correct: 0
+            },
+            {
+                id: 92,
+                question: "بماذا وصف الله تعالى \"الشهداء\" الذين يقتلون في سبيله؟",
+                options: ["أحياء عند ربهم يرزقون ويستبشرون", "ضحايا الحروب العبثية", "أموات انتهت حياتهم", "منسيون في التاريخ"],
+                correct: 0
+            },
+            {
+                id: 93,
+                question: "ما أهمية \"الإكثار من ذكر الله\" عند لقاء العدو في المعركة؟",
+                options: ["تعزيز الطمأنينة والقوة المعنوية وتبديد الرعب", "جذب انتباه الآخرين", "لا فائدة منه في الحرب", "جلب النوم"],
+                correct: 0
+            },
+            {
+                id: 94,
+                question: "ما هو المخطط العالمي الذي يسعى لنشر الخلافات وتدمير الدول؟",
+                options: ["بروتوكولات حكماء صهيون", "ميثاق الأمم المتحدة", "اتفاقيات التجارة الحرة", "منظمة الصحة العالمية"],
+                correct: 0
+            },
+            {
+                id: 95,
+                question: "ما الذي يمثل \"الهوية الإيمانية\" الحقيقية للأمة؟",
+                options: ["الارتباط بمنهج الله ورسوله وأعلام الهدى", "الحصول على شهادات عليا", "الانتماء العرقي أو القبلي", "ارتداء ملابس معينة"],
+                correct: 0
+            },
+            {
+                id: 96,
+                question: "كيف يتم مواجهة \"التزييف التاريخي\" للحقائق من قبل الصهاينة؟",
+                options: ["بالدراسة والوعي بالحقائق القرآنية والواقعية وكشف المؤامرات", "بتقليد المناهج الغربية", "بالصمت الإعلامي", "بتجاهل التاريخ تماماً"],
+                correct: 0
+            },
+            {
+                id: 97,
+                question: "ما الذي يمثله \"الجهاد\" في التصور الإسلامي الصحيح؟",
+                options: ["مشروع بناء وحضارة وعز وكرامة وحماية للمستضعفين", "مشروع لجمع الغنائم", "وسيلة للتخريب", "تعصب ديني أعمى"],
+                correct: 0
+            },
+            {
+                id: 98,
+                question: "ما هو أثر \"الصبر\" في تحقيق نتائج المعارك؟",
+                options: ["يحقق معية الله والقدرة على تجاوز المشاق للوصول للنصر", "علامة على الضعف", "يؤدي للتعب فقط", "لا علاقة له بالنتائج العسكرية"],
+                correct: 0
+            },
+            {
+                id: 99,
+                question: "ما هو مفهوم \"الأمة الوديعة\" الذي يسعى الغرب لفرضه علينا؟",
+                options: ["الأمة المجردة من القوة والمنعة والمسلوبة الإرادة", "الأمة الغنية بالموارد", "الأمة المحبة للسلام العادل", "الأمة المتطورة علمياً"],
+                correct: 0
+            },
+            {
+                id: 100,
+                question: "ما هو المصير المحتوم للعدو الإسرائيلي وفق الوعود القرآنية؟",
+                options: ["الزوال الحتمي على أيدي عباد الله المؤمنين الصادقين", "التوسع في كل الدول العربية", "البقاء كقوة عظمى للأبد", "قيادة العالم اقتصادياً"],
+                correct: 0
+            }
+        ];
+
+        const TOTAL_QUESTIONS_IN_DB = 100;
+        const QUESTIONS_TO_SELECT = 50;
+const QUESTIONS_TO_SELECT = 40; 
+        function selectRandomQuestions() {
+            let available = quizQuestions.filter(q => !usedQuestionIds.has(q.id));
+            if (available.length < QUESTIONS_TO_SELECT) {
+                let used = quizQuestions.filter(q => usedQuestionIds.has(q.id));
+                const needed = QUESTIONS_TO_SELECT - available.length;
+                const randomUsed = shuffleArray([...used]).slice(0, needed);
+                available = [...available, ...randomUsed];
+                usedQuestionIds.clear();
+            }
+            currentQuestions = shuffleArray(available).slice(0, QUESTIONS_TO_SELECT);
+            currentQuestions.forEach(q => usedQuestionIds.add(q.id));
+            userAnswers = new Array(currentQuestions.length).fill(null);
+        }
+        
+        function shuffleAllOptions() {
+            shuffledQuestions = currentQuestions.map(q => {
+                if (q.type === 'multiple') {
+                    const opts = [...q.options];
+                    const correctText = q.answer;
+                    // خلط الخيارات
+                    for (let i = opts.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [opts[i], opts[j]] = [opts[j], opts[i]];
+                    }
+                    return {
+                        ...q,
+                        shuffledOptions: opts,
+                        shuffledCorrect: opts.indexOf(correctText)
+                    };
+                } else { // true/false
+                    return {
+                        ...q,
+                        shuffledOptions: ['صح', 'خطأ'],
+                        shuffledCorrect: q.answer === 'صح' ? 0 : 1
+                    };
+                }
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+    
+    <script src="exam-common.js"></script>
+</body>
+</html>

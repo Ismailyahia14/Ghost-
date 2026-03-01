@@ -1,0 +1,2642 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>امتحان علم النفس الإعلامي - جامعة صنعاء</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* جميع الأنماط تبقى كما هي مع تعديلات طفيفة */
+        :root {
+            --primary-color: #2c5282;
+            --secondary-color: #4299e1;
+            --accent-color: #e53e3e;
+            --success-color: #38a169;
+            --warning-color: #d69e2e;
+            --light-color: #f7fafc;
+            --dark-color: #2d3748;
+            --bg-color: #ffffff;
+            --text-color: #2d3748;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a202c;
+            --text-color: #e2e8f0;
+            --card-bg: #2d3748;
+            --light-color: #4a5568;
+            --dark-color: #171923;
+            --border-color: #4a5568;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            --primary-color: #4299e1;
+            --secondary-color: #63b3ed;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: var(--transition);
+            min-height: 100vh;
+            direction: rtl;
+        }
+
+        /* تحسين الوضع الليلي ليشمل كامل المساحة */
+        [data-theme="dark"] body {
+            background: #0f1721;
+        }
+        
+        [data-theme="dark"] .container {
+            background: transparent;
+        }
+        
+        [data-theme="dark"] .exam-header,
+        [data-theme="dark"] .instructions,
+        [data-theme="dark"] .exam-controls,
+        [data-theme="dark"] .questions-nav-grid,
+        [data-theme="dark"] .question-container,
+        [data-theme="dark"] .result-card,
+        [data-theme="dark"] .review-section,
+        [data-theme="dark"] .modal-content {
+            background: var(--card-bg);
+        }
+        
+        [data-theme="dark"] .option {
+            background: #2d3748;
+        }
+        
+        [data-theme="dark"] .option-marker {
+            background: #4a5568;
+            color: #e2e8f0;
+        }
+
+        /* شريط التنقل المتحرك - تم تصغير حجم الخط */
+        .navbar {
+            background: linear-gradient(90deg, var(--primary-color), #2b6cb0);
+            color: white;
+            padding: 0.8rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* تصغير حجم الخط في الترويسة */
+        .logo h1 {
+            font-size: 1.3rem;
+            margin-bottom: 0.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            animation: fadeIn 1s ease;
+        }
+
+        .logo p {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .icon-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px) rotate(5deg);
+        }
+
+        /* الحاوية الرئيسية */
+        .container {
+            max-width: 1100px;
+            margin: 1.5rem auto;
+            padding: 0 1.5rem;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .screen {
+            display: none;
+            animation: slideUp 0.6s ease;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* شاشة البداية - نقل مربع الأسئلة للأمام */
+        .exam-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            animation: fadeIn 0.8s ease;
+        }
+
+        .exam-header h1 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .exam-header h1:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            right: 50%;
+            transform: translateX(50%);
+            width: 70px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+            border-radius: 2px;
+        }
+
+        .university-info {
+            margin: 1.5rem 0;
+            padding: 1.2rem;
+            background: rgba(66, 153, 225, 0.05);
+            border-radius: 12px;
+            border-right: 4px solid var(--secondary-color);
+        }
+
+        .university-info h3 {
+            margin: 0.6rem 0;
+            color: var(--secondary-color);
+            font-size: 1.1rem;
+        }
+
+        .student-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.2rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid rgba(66, 153, 225, 0.2);
+        }
+
+        .info-item {
+            background: linear-gradient(135deg, rgba(66, 153, 225, 0.05), rgba(44, 82, 130, 0.05));
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px solid rgba(66, 153, 225, 0.1);
+            transition: var(--transition);
+        }
+
+        .info-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(66, 153, 225, 0.1);
+        }
+
+        .info-item p:first-child {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+        }
+
+        .info-item p:last-child {
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        .instructions {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 18px;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .instructions h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1.2rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .instructions ul {
+            list-style: none;
+            padding-right: 0;
+        }
+
+        .instructions li {
+            margin-bottom: 0.8rem;
+            padding-right: 1.8rem;
+            position: relative;
+            font-size: 1rem;
+        }
+
+        .instructions li:before {
+            content: '✓';
+            position: absolute;
+            right: 0;
+            color: var(--success-color);
+            font-weight: bold;
+            font-size: 1rem;
+            background: rgba(56, 161, 105, 0.1);
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* الأزرار */
+        .btn {
+            padding: 0.9rem 1.8rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            font-family: 'Cairo', sans-serif;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: translateX(-100%);
+        }
+
+        .btn:hover:before {
+            animation: shine 1s;
+        }
+
+        @keyframes shine {
+            100% { transform: translateX(100%); }
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            font-size: 1.2rem;
+            padding: 1.1rem 2.5rem;
+            margin: 2rem auto;
+            display: block;
+            min-width: 240px;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(66, 153, 225, 0.3);
+        }
+
+        .primary-btn {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            border: none;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(66, 153, 225, 0.25);
+        }
+
+        .secondary-btn {
+            background: transparent;
+            color: var(--secondary-color);
+            border: 2px solid var(--secondary-color);
+        }
+
+        .secondary-btn:hover {
+            background: var(--secondary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .danger-btn {
+            background: linear-gradient(135deg, var(--accent-color), #c53030);
+            color: white;
+            border: none;
+        }
+
+        .danger-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(229, 62, 62, 0.25);
+        }
+
+        .success-btn {
+            background: linear-gradient(135deg, var(--success-color), #2f855a);
+            color: white;
+            border: none;
+        }
+
+        .success-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(56, 161, 105, 0.25);
+        }
+
+        /* شاشة الامتحان - إعادة ترتيب العناصر */
+        .exam-controls {
+            background: var(--card-bg);
+            padding: 1.8rem;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            animation: fadeIn 0.6s ease;
+        }
+
+        .progress-container {
+            margin-bottom: 1.2rem;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--light-color);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary-color), var(--primary-color));
+            width: 0%;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .progress-fill:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 20px;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3));
+            animation: progressShine 2s infinite;
+        }
+
+        @keyframes progressShine {
+            0% { right: 0; }
+            100% { right: 100%; }
+        }
+
+        .exam-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin-top: 1.2rem;
+        }
+
+        .timer {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            background: var(--card-bg);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            border: 2px solid rgba(229, 62, 62, 0.2);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        /* شبكة التنقل بين الأسئلة */
+        .questions-nav-grid {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            animation: fadeIn 0.6s ease;
+        }
+
+        .questions-nav-grid h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1.2rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .questions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+            gap: 0.8rem;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 0.5rem;
+        }
+
+        .question-nav-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .question-nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.15);
+            border-color: var(--secondary-color);
+        }
+
+        .question-nav-btn.current {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            border-color: var(--secondary-color);
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
+        }
+
+        .question-nav-btn.answered {
+            background: rgba(56, 161, 105, 0.1);
+            color: var(--success-color);
+            border-color: var(--success-color);
+        }
+
+        .question-nav-btn.unanswered {
+            background: rgba(214, 158, 46, 0.1);
+            color: var(--warning-color);
+            border-color: var(--warning-color);
+        }
+
+        /* منطقة الأسئلة - تم نقلها للأمام */
+        .question-container {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+            animation: slideUp 0.5s ease;
+            order: -1; /* يجعل السؤال يظهر أولاً */
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .question-number {
+            color: white;
+            font-weight: 800;
+            font-size: 1.1rem;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            padding: 0.5rem 1.1rem;
+            border-radius: 50px;
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            margin-bottom: 1.8rem;
+            line-height: 1.7;
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.9rem;
+            margin-bottom: 1.8rem;
+        }
+
+        @media (min-width: 768px) {
+            .options-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .option {
+            background: var(--bg-color);
+            padding: 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--secondary-color);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .option:hover {
+            transform: translateX(-4px);
+            border-color: var(--secondary-color);
+            box-shadow: 0 6px 20px rgba(66, 153, 225, 0.15);
+        }
+
+        .option:hover:before {
+            opacity: 1;
+        }
+
+        .option.selected {
+            border-color: var(--success-color);
+            background: rgba(56, 161, 105, 0.05);
+            transform: translateX(-4px);
+        }
+
+        .option.selected:before {
+            background: var(--success-color);
+            opacity: 1;
+        }
+
+        .option.correct {
+            border-color: var(--success-color);
+            background: rgba(56, 161, 105, 0.1);
+            animation: pulse 0.5s;
+        }
+
+        .option.incorrect {
+            border-color: var(--accent-color);
+            background: rgba(229, 62, 62, 0.1);
+        }
+
+        .option-marker {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            background: var(--light-color);
+            color: var(--text-color);
+            flex-shrink: 0;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .option.selected .option-marker {
+            background: var(--success-color);
+            color: white;
+            box-shadow: 0 4px 12px rgba(56, 161, 105, 0.3);
+        }
+
+        .option-text {
+            flex: 1;
+            font-size: 1.05rem;
+            font-weight: 500;
+        }
+
+        /* تعديل أزرار التنقل لجعل "التالي" على يسار "السابق" */
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            gap: 1rem;
+            flex-direction: row-reverse; /* هذا يجعل "التالي" على اليسار و"السابق" على اليمين */
+        }
+
+        .navigation-buttons .btn {
+            min-width: 140px;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-btn-group {
+            display: flex;
+            gap: 0.8rem;
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* تنبيه الأسئلة غير المحلولة */
+        .unanswered-alert {
+            background: linear-gradient(135deg, rgba(214, 158, 46, 0.1), rgba(214, 158, 46, 0.05));
+            border: 2px solid var(--warning-color);
+            color: var(--warning-color);
+            padding: 0.9rem 1.2rem;
+            border-radius: 10px;
+            margin-top: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 600;
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* شاشة النتائج */
+        .results-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .results-header h1 {
+            color: var(--secondary-color);
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .score-display {
+            position: relative;
+            width: 260px;
+            height: 260px;
+            margin: 1.5rem auto;
+        }
+
+        .score-circle {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .circle-bg, .circle-progress {
+            fill: none;
+            stroke-width: 10;
+            stroke-linecap: round;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+
+        .circle-bg {
+            stroke: var(--light-color);
+        }
+
+        .circle-progress {
+            stroke: var(--secondary-color);
+            stroke-dasharray: 800;
+            stroke-dashoffset: 800;
+            transition: stroke-dashoffset 2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .score-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .score-text h2 {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.4rem;
+        }
+
+        .score-text p {
+            font-size: 1.3rem;
+            color: var(--text-color);
+        }
+
+        .results-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .result-card {
+            background: var(--card-bg);
+            padding: 1.8rem;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease;
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .result-card h3 {
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+        }
+
+        .stat {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-color);
+        }
+
+        .results-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        /* قسم مراجعة الإجابات - تظهر الإجابات الخطأ فقط */
+        .review-section {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 18px;
+            margin-top: 2.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            display: none;
+            animation: slideUp 0.5s ease;
+        }
+
+        .review-section h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1.8rem;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .review-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+        }
+
+        .review-item {
+            background: var(--bg-color);
+            padding: 1.8rem;
+            border-radius: 16px;
+            border-right: 5px solid var(--accent-color);
+            transition: transform 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .review-item:hover {
+            transform: translateX(-4px);
+        }
+
+        .review-question {
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            color: var(--text-color);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .review-answers {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+        }
+
+        .answer-item {
+            padding: 0.9rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            transition: all 0.3s;
+        }
+
+        .answer-item.user-answer {
+            background: rgba(229, 62, 62, 0.08);
+            border-right: 4px solid var(--accent-color);
+        }
+
+        .answer-item.correct-answer {
+            background: rgba(56, 161, 105, 0.08);
+            border-right: 4px solid var(--success-color);
+        }
+
+        .answer-item i {
+            font-size: 1.1rem;
+        }
+
+        /* التذييل */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(90deg, var(--primary-color), #2b6cb0);
+            color: white;
+            margin-top: 3rem;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+        }
+
+        .footer p {
+            margin: 0.6rem 0;
+            font-size: 0.9rem;
+        }
+
+        /* النوافذ المنبثقة */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 18px;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color);
+            animation: slideUp 0.4s ease;
+        }
+
+        .modal-content h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1.3rem;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            margin-top: 1.8rem;
+        }
+
+        /* تصميم متجاوب */
+        @media (max-width: 768px) {
+            .container {
+                margin: 1rem auto;
+                padding: 0 1rem;
+            }
+            
+            .exam-header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .student-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .question-text {
+                font-size: 1.2rem;
+            }
+            
+            .option {
+                padding: 1rem;
+            }
+            
+            .option-text {
+                font-size: 1rem;
+            }
+            
+            .questions-grid {
+                grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+            }
+            
+            .question-nav-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 0.9rem;
+            }
+            
+            .navigation-buttons {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+            
+            .navigation-buttons .btn {
+                width: 100%;
+            }
+            
+            .results-controls {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .results-controls .btn {
+                width: 100%;
+            }
+            
+            .score-display {
+                width: 220px;
+                height: 220px;
+            }
+            
+            .score-text h2 {
+                font-size: 2rem;
+            }
+            
+            .stat {
+                font-size: 2rem;
+            }
+            
+            .timer {
+                font-size: 1.1rem;
+                padding: 0.5rem 1rem;
+            }
+            
+            .nav-btn-group {
+                flex-direction: column;
+            }
+        }
+
+        /* تأثيرات الكونفيتي */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #f0f;
+            opacity: 0;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        /* زر العودة إلى الأعلى */
+        .scroll-top-btn {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 100;
+            transition: var(--transition);
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .scroll-top-btn.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 18px rgba(66, 153, 225, 0.4);
+        }
+
+        /* تحسينات الوضع الليلي */
+        body {
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .theme-transition {
+            transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- زر العودة إلى الأعلى -->
+    <button id="scrollTopBtn" class="scroll-top-btn">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h1><i class="fas fa-university"></i> ملتقى الطالب الجامعي</h1>
+                <p>جامعة صنعاء - كلية الإعلام</p>
+            </div>
+            <div class="nav-controls">
+                <button id="darkModeToggle" class="icon-btn" title="الوضع الليلي">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- الشاشة الرئيسية -->
+    <main class="container">
+        <!-- شاشة البداية -->
+        <section id="startScreen" class="screen active">
+            <div class="exam-header">
+                <h1><i class="fas fa-brain"></i> امتحان علم النفس الإعلامي</h1>
+                
+                <div class="university-info">
+                    <h3>اللجنة العلمية - الدفعة 35 </h3>
+                    <h3>دكتور المقرر: خالد عمر</h3>
+                </div>
+                
+                <div class="student-info">
+                    <div class="info-item">
+                        <p>المقرر</p>
+                        <p>علم النفس الإعلامي</p>
+                    </div>
+                    <div class="info-item">
+                        <p>المستوى</p>
+                        <p>الأول</p>
+                    </div>
+                    <div class="info-item">
+                        <p>الوقت المخصص</p>
+                        <p>60 دقيقة</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="instructions">
+                <h3><i class="fas fa-info-circle"></i> تعليمات الامتحان:</h3>
+                <ul>
+                    <li>اختر الإجابة الصحيحة بالنقر على الخيار المناسب</li>
+                    <li>يمكنك تغيير إجابتك قبل إنهاء الامتحان </li>
+                    <li>سيتم تنبيهك عن الأسئلة التي لم تتم الإجابة عليها</li>
+                    <li>الوقت المخصص: 60 دقيقة</li>
+                    <li>لبدء الامتحان، اضغط على زر "ابدأ الامتحان"</li>
+                </ul>
+            </div>
+            
+            <button id="startExamBtn" class="btn start-btn">
+                <i class="fas fa-play-circle"></i> ابدأ الامتحان
+            </button>
+            
+            <div style="text-align: center; margin-top: 1.5rem; color: var(--text-color); opacity: 0.8; font-size: 1rem;">
+                <p><i class="fas fa-lightbulb"></i> تذكر: اجب مستعينًا بالله تعالى على الأسئلة التالية</p>
+            </div>
+        </section>
+
+        <!-- شاشة الامتحان -->
+        <section id="examScreen" class="screen">
+            <!-- مربع الأسئلة في المقدمة -->
+            <div class="question-container">
+                <div class="question-header">
+                    <div id="questionNumber" class="question-number">س1</div>
+                    <div id="questionStatus" style="color: var(--warning-color); font-weight: bold;">
+                        <i class="fas fa-star"></i> جديد
+                    </div>
+                </div>
+                
+                <h2 id="questionText" class="question-text"></h2>
+                
+                <div id="optionsContainer" class="options-container">
+                    <!-- سيتم تعبئة الخيارات ديناميكياً -->
+                </div>
+                
+                <div class="navigation-buttons">
+                    <button id="nextBtn" class="btn primary-btn" style="flex: 1;">
+                        التالي <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <button id="prevBtn" class="btn secondary-btn" style="flex: 1;">
+                        <i class="fas fa-arrow-right"></i> السابق
+                    </button>
+                </div>
+            </div>
+
+            <!-- شبكة التنقل بين الأسئلة -->
+            <div class="questions-nav-grid">
+                <h3><i class="fas fa-layer-group"></i> التنقل بين الأسئلة</h3>
+                <div id="questionsGrid" class="questions-grid">
+                    <!-- سيتم تعبئة أزرار الأسئلة ديناميكياً -->
+                </div>
+            </div>
+            
+            <div class="exam-controls">
+                <div class="progress-container">
+                    <div class="progress-info">
+                        <span id="progressText">السؤال 1 من 50</span>
+                        <span id="progressPercent">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill"></div>
+                    </div>
+                </div>
+                
+                <div class="exam-stats">
+                    <div id="timer" class="timer">
+                        <i class="fas fa-clock"></i>
+                        <span>60:00</span>
+                    </div>
+                    <button id="endExamBtn" class="btn danger-btn">
+                        <i class="fas fa-flag-checkered"></i> إنهاء الاختبار
+                    </button>
+                </div>
+            </div>
+            
+            <!-- تنبيه الأسئلة غير المحلولة -->
+            <div id="unansweredAlert" class="unanswered-alert" style="display: none;">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span id="unansweredCount">0</span> أسئلة لم تتم الإجابة عليها
+            </div>
+        </section>
+
+        <!-- شاشة النتائج -->
+        <section id="resultsScreen" class="screen">
+            <div class="results-header">
+                <h1><i class="fas fa-chart-line"></i> نتائج الامتحان</h1>
+                
+                <div class="score-display">
+                    <div class="score-circle">
+                        <svg width="260" height="260">
+                            <circle class="circle-bg" cx="130" cy="130" r="120"></circle>
+                            <circle id="scoreCircle" class="circle-progress" cx="130" cy="130" r="120"></circle>
+                        </svg>
+                    </div>
+                    <div class="score-text">
+                        <h2 id="finalScore">0/50</h2>
+                        <p id="percentage">0%</p>
+                        <p id="grade" style="font-size: 1.1rem; color: var(--text-color); margin-top: 0.4rem;"></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="results-details">
+                <div class="result-card">
+                    <h3><i class="fas fa-check-circle"></i> الإجابات الصحيحة</h3>
+                    <p id="correctAnswers" class="stat">0</p>
+                </div>
+                <div class="result-card">
+                    <h3><i class="fas fa-times-circle"></i> الإجابات الخاطئة</h3>
+                    <p id="wrongAnswers" class="stat">0</p>
+                </div>
+                <div class="result-card">
+                    <h3><i class="fas fa-clock"></i> الوقت المستغرق</h3>
+                    <p id="timeTaken" class="stat">0:00</p>
+                </div>
+                <div class="result-card">
+                    <h3><i class="fas fa-chart-bar"></i> النسبة المئوية</h3>
+                    <p id="scorePercentage" class="stat">0%</p>
+                </div>
+            </div>
+            
+            <div class="results-controls">
+                <button id="reviewBtn" class="btn secondary-btn">
+                    <i class="fas fa-list-check"></i> مراجعة الإجابات الخاطئة
+                </button>
+                <button id="newTestBtn" class="btn primary-btn">
+                    <i class="fas fa-redo"></i> اختبار جديد
+                </button>
+                <button id="retryBtn" class="btn success-btn">
+                    <i class="fas fa-sync-alt"></i> إعادة نفس الاختبار
+                </button>
+            </div>
+            
+            <!-- قسم مراجعة الإجابات - تظهر الإجابات الخطأ فقط -->
+            <div id="reviewSection" class="review-section">
+                <h3><i class="fas fa-clipboard-check"></i> مراجعة الإجابات الخاطئة</h3>
+                <div id="wrongAnswersList" class="review-list">
+                    <!-- سيتم تعبئة الإجابات الخاطئة هنا -->
+                </div>
+                <div id="noWrongAnswers" style="text-align: center; padding: 3rem; color: var(--success-color); display: none;">
+                    <i class="fas fa-check-circle" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                    <h3 style="color: var(--success-color);">ممتاز! لم تكن لديك إجابات خاطئة</h3>
+                    <p style="color: var(--text-color); opacity: 0.8; margin-top: 1rem;">جميع إجاباتك كانت صحيحة</p>
+                </div>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button id="closeReviewBtn" class="btn secondary-btn">
+                        <i class="fas fa-times"></i> إغلاق المراجعة
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- تذييل الصفحة -->
+    <footer class="footer">
+        <p>اللجنة العلمية لكلية الإعلام 2026©</p>
+        <p>امتحان علم النفس الإعلامي - المستوى الأول</p>
+        <p>تم تطوير هذا الموقع لأغراض تعليمية وتدريبية</p>
+    </footer>
+
+    <!-- نموذج تأكيد إنهاء الاختبار فقط -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <h3><i class="fas fa-exclamation-triangle"></i> تأكيد إنهاء الاختبار</h3>
+            <p style="color: var(--text-color); margin-bottom: 1.5rem; line-height: 1.6;">
+                هل أنت متأكد أنك تريد إنهاء الاختبار؟<br>
+                لديك <span id="remainingQuestions">0</span> أسئلة لم تتم الإجابة عليها.
+            </p>
+            <div class="modal-buttons">
+                <button id="cancelEndBtn" class="btn secondary-btn">
+                    <i class="fas fa-times"></i> إلغاء
+                </button>
+                <button id="confirmEndBtn" class="btn danger-btn">
+                    <i class="fas fa-check"></i> نعم، أنه الاختبار
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    
+    <script>
+        // قاعدة بيانات الأسئلة
+        const quizQuestions = [
+            // أسئلة الصح والخطأ (1-53)
+            {
+                id: 1,
+                type: 'truefalse',
+                question: 'التنبؤ يعني مقدرة الباحثين على توقع سلوكيات الجمهور تجاه القضية الإعلامية المطروحة، وهو أول أهداف علم النفس الإعلامي',
+                answer: 'خطأ',
+                explanation: 'الإجابة الصحيحة ثلاث اهداف علم النفس الإعلامي.'
+            },
+            {
+                id: 2,
+                type: 'truefalse',
+                question: 'القيم حكم تفضيلي يعتبر إطاراً مرجعياً يحكم تصرفات الإنسان في حياته الخاص',
+                answer: 'صح'
+            },
+            {
+                id: 3,
+                type: 'truefalse',
+                question: 'يمكن للأفراد تعلم مهارات اتقنها الآخرين من خلال الصحافة',
+                answer: 'خطأ',
+                explanation: 'الإجابة الصحيحة من خلال الحاسوب.'
+            },
+            {
+                id: 4,
+                type: 'truefalse',
+                question: 'تعد كيمبر لي يونج من أوائل الاطباء الذين عكفوا على دراسة ظاهرة إدمان الإنترنت في بريطانيا عام 1994م',
+                answer: 'خطأ',
+                explanation: 'الإجابة الصحيحة في أمريكا.'
+            },
+            {
+                id: 5,
+                type: 'truefalse',
+                question: 'تشير الدراسات إلى أن الطفل يقضي أمام التلفاز ساعات معادلة للمدة التي يقضيها في المدرسة',
+                answer: 'صح'
+            },
+            {
+                id: 6,
+                type: 'truefalse',
+                question: 'يتميز المسرح بتواصل مباشر بين المرسل والمستقبل',
+                answer: 'صح'
+            },
+            {
+                id: 7,
+                type: 'truefalse',
+                question: 'الاتصال حسب درجة الرسمية لفظي وغير لفظي',
+                answer: 'خطأ',
+                explanation: 'الإجابة الصحيحة رسمي وغير رسمي'
+            },
+            {
+                id: 8,
+                type: 'truefalse',
+                question: 'الافراط في مقدار المعلومات لن يؤدي للعمل الفعال في المؤسسات الإعلامية',
+                answer: 'صح'
+            },
+            {
+                id: 9,
+                type: 'truefalse',
+                question: 'يعتبر هتلر قدم من استخدموا الحرب النفسية ضد خصومهم',
+                answer: 'خطأ',
+                explanation: 'الإجابة الصحيحة الإسكندر الأكبر.'
+            },
+            {
+                id: 10,
+                type: 'truefalse',
+                question: 'الطابور الخامس ساعد فرانسيكو فرانكو في الهجوم على اسبانيا من الخلف',
+                answer: 'خطأ',
+                explanation: 'الإجابة الصحيحة من الداخل.'
+            },
+            {
+                id: 11,
+                type: 'truefalse',
+                question: 'يعتبر علم النفس أحد اسهامات التقدم الحضاري فهو يبحث في كل ما يفعله و ما يشعر به الانسان',
+                answer: 'صح'
+            },
+            {
+                id: 12,
+                type: 'truefalse',
+                question: 'علم النفس العام هو دراسة العملية التي تؤدي إلى حل المشكلات النفسية التي تظهر في الميدان الإعلامي لرفع الكفاءة العملية لدى العاملين',
+                answer: 'خطأ',
+                explanation: 'علم النفس الإعلامي'
+            },
+            {
+                id: 13,
+                type: 'truefalse',
+                question: 'من أهمية علم النفس الإعلامي دراسة تأثير وسائل الإعلام في ترتيب فئات الجمهور لأولوياتها',
+                answer: 'صح'
+            },
+            {
+                id: 14,
+                type: 'truefalse',
+                question: 'تنطلق عملية الضبط والتحكم من منظور تقويمي نقدي عملي',
+                answer: 'صح'
+            },
+            {
+                id: 15,
+                type: 'truefalse',
+                question: 'العقد النفسية استعداد وجداني مكتسب دائم يؤثر في سلوك الفرد',
+                answer: 'صح'
+            },
+            {
+                id: 16,
+                type: 'truefalse',
+                question: 'التبرير هو تصرفات تهدف إلى تخفيف حدة التوتر النفسي المؤلم',
+                answer: 'خطأ',
+                explanation: 'الحيل العقلية اللاشعورية'
+            },
+            {
+                id: 17,
+                type: 'truefalse',
+                question: 'يعتبر الكتاب أب لوسائل الإعلام',
+                answer: 'صح'
+            },
+            {
+                id: 18,
+                type: 'truefalse',
+                question: 'وظيفة الصحافة التسلية والترفيه فقط',
+                answer: 'خطأ',
+                explanation: 'للصحافة عدة وظائف'
+            },
+            {
+                id: 19,
+                type: 'truefalse',
+                question: 'تعتمد اللافتة على الجملة المعبرة وتمتاز بالألوان',
+                answer: 'صح'
+            },
+            {
+                id: 20,
+                type: 'truefalse',
+                question: 'الشعار هو رمز لهدف يسعى الفرد إلى تحقيقه',
+                answer: 'خطأ',
+                explanation: 'تسعى الجماعات لتحقيقه.'
+            },
+            {
+                id: 21,
+                type: 'truefalse',
+                question: 'الحاسب الالي ثورة صناعية',
+                answer: 'صح'
+            },
+            {
+                id: 22,
+                type: 'truefalse',
+                question: 'جون جرهول أول من وضع مصطلح إدمان الإنترنت في دراسة في أمريكا عام 1994م',
+                answer: 'خطأ',
+                explanation: 'العالمة كيمبر لي يونج.'
+            },
+            {
+                id: 23,
+                type: 'truefalse',
+                question: 'تأثير السينما على حديثي السن يمكن من توجيه الناشئين بواسطته توجيهاً وطنياً خيراً',
+                answer: 'صح'
+            },
+            {
+                id: 24,
+                type: 'truefalse',
+                question: 'يعتبر المسرح من اقدام الفنون التي عرفها الإنسان',
+                answer: 'صح'
+            },
+            {
+                id: 25,
+                type: 'truefalse',
+                question: 'يتميز التلفزيون بأنه اقل تكلفة وأكثر انتشار',
+                answer: 'خطأ',
+                explanation: 'تتميز الإذاعة'
+            },
+            {
+                id: 26,
+                type: 'truefalse',
+                question: 'تبادل المشاعر ونقل الأفكار هي نوع من أنواع الاتصال',
+                answer: 'خطأ',
+                explanation: 'من اهداف الاتصال'
+            },
+            {
+                id: 27,
+                type: 'truefalse',
+                question: 'علم النفس اللغوي هو وسيلة الاتصال والتخاطب بين الناس',
+                answer: 'خطأ',
+                explanation: 'اللغة.'
+            },
+            {
+                id: 28,
+                type: 'truefalse',
+                question: 'جنكيز خان هو أقدم من استخدموا الحرب النفسية ضد خصومهم',
+                answer: 'خطأ',
+                explanation: 'الإسكندر الأكبر.'
+            },
+            {
+                id: 29,
+                type: 'truefalse',
+                question: 'تهدف مدرسة الفكر الإعلامي التبعي إلى هزيمة الشعوب معنويا وقتل الأمل والعقول',
+                answer: 'صح'
+            },
+            {
+                id: 30,
+                type: 'truefalse',
+                question: 'علم النفس الإعلامي هو علم يبحث في الحياة النفسية للإنسان، وكل ما يتعلق به من علاقاته بكل ما يفعله الإنسان',
+                answer: 'خطأ',
+                explanation: 'علم النفس العام.'
+            },
+            {
+                id: 31,
+                type: 'truefalse',
+                question: 'من أهمية علم النفس الإعلامي التعرف على مدى اعتماد الجمهور على الإعلام كمصدر ثقافي هام',
+                answer: 'صح'
+            },
+            {
+                id: 32,
+                type: 'truefalse',
+                question: 'علم النفس الإعلامي يمكن القائمين على الاتصال من التواصل الفعال والمؤثر',
+                answer: 'صح'
+            },
+            {
+                id: 33,
+                type: 'truefalse',
+                question: 'العقدة النفسية تعني استعداد وجداني مكتسب ودائم يؤثر في سلوك المرء وشعوره، ويفرغ عليه طابعاً خاصاً وذلك على غير علم أو إرادة منه',
+                answer: 'صح'
+            },
+            {
+                id: 34,
+                type: 'truefalse',
+                question: 'عقدة الكترا تنشأ من الإسراف في تأثيم الطفل وتهويل ذنوبه وإخطائه فيعتريه شعور بأنه، مذنب كبير ويستحق العقاب',
+                answer: 'خطأ',
+                explanation: 'عقدة الذنب'
+            },
+            {
+                id: 35,
+                type: 'truefalse',
+                question: 'عقدة الذنب هي ميل الأبنة ميلاً شديداً لا شعورين للتعلق بأبيها لدرجة التضحية بأمها',
+                answer: 'خطأ',
+                explanation: 'عقدة الكترا'
+            },
+            {
+                id: 36,
+                type: 'truefalse',
+                question: 'عقدة الأم تنشأ نتيجة التدليل الزائد عن الحد للولد أيام طفولته، مما يجعله أنانياً عند الكبر شديد الانفعال',
+                answer: 'صح'
+            },
+            {
+                id: 37,
+                type: 'truefalse',
+                question: 'التقمص هو محاولة يقوم فيها الشخص بتأجيل إشباع الدافع أو التعبير عنه، إلى أن تتهيأ الظروف المناسبة لهذا الإشباع أو التعبير',
+                answer: 'خطأ',
+                explanation: 'القمع'
+            },
+            {
+                id: 38,
+                type: 'truefalse',
+                question: 'عدم التقبّل هو العناد ومعارضة آراء الغير ومخالفة التعليمات، وعدم الطاعة',
+                answer: 'خطأ',
+                explanation: 'المخالفة.'
+            },
+            {
+                id: 39,
+                type: 'truefalse',
+                question: 'التبرير يقصد به التلاعب اللاشعوري باختراع أسباب معقولة إلى حد ما (غير حقيقية)، تقي الإنسان من الاعتراف بالخطأ أو الفشل أو النقص، وهو نوع من الوهم',
+                answer: 'صح'
+            },
+            {
+                id: 40,
+                type: 'truefalse',
+                question: 'العملية التي تتضمن مرسلاً ومستقبلاً لتبادل الأفكار من أجل إيجاد فهم مشترك وثقة هي الرقابة',
+                answer: 'خطأ',
+                explanation: 'هذه العملية هي الاتصال.'
+            },
+            {
+                id: 41,
+                type: 'truefalse',
+                question: 'الاتصال الذي يتم بين المدرسين ببعضهم البعض لتعزيز العلاقات التعاونية يسمى اتصالاً رأسياً صاعداً',
+                answer: 'خطأ',
+                explanation: 'يسمى هذا النوع من الاتصال اتصالاً أفقياً.'
+            },
+            {
+                id: 42,
+                type: 'truefalse',
+                question: 'الوسائل المطبوعة كالصحف والتقارير تُعد من وسائل الاتصال المسموعة',
+                answer: 'خطأ',
+                explanation: 'تعد من وسائل الاتصال المقروءة (الكتابية).'
+            },
+            {
+                id: 43,
+                type: 'truefalse',
+                question: 'تعريف "علم النفس اللغوي" هو الدراسة التجريبية للعمليات النفسية التي يُكتسب بها نظام اللغة',
+                answer: 'صح'
+            },
+            {
+                id: 44,
+                type: 'truefalse',
+                question: 'تتسم اللغة الإعلامية المثالية بضرورة الحرص على الجمل الطويلة والمعقدة',
+                answer: 'خطأ',
+                explanation: 'تتسم بضرورة الحرص على الجمل القصيرة والاختصار.'
+            },
+            {
+                id: 45,
+                type: 'truefalse',
+                question: 'تعد العلاقة بين اللغة والإعلام غير متوازنة لأن الإعلام هو الطرف الأقوى',
+                answer: 'صح'
+            },
+            {
+                id: 46,
+                type: 'truefalse',
+                question: 'أول مهارة في إعداد الحديث المؤثر هي معرفة صفات الجمهور',
+                answer: 'صح'
+            },
+            {
+                id: 47,
+                type: 'truefalse',
+                question: 'من مزايا "قراءة الحديث من الأوراق" أنها تزيد من العفوية والتفاعل مع الجمهور',
+                answer: 'خطأ',
+                explanation: 'من مزاياها الرئيسية أنها تمنع نسيان نقاط معينة، لكنها قد تقلل من العفوية.'
+            },
+            {
+                id: 48,
+                type: 'truefalse',
+                question: 'في نهج "الترهيب أو التخويف" لعلاج الإدمان، يتم التركيز على تقديم معرفة دقيقة ومتوازنة عن المخدرات',
+                answer: 'خطأ',
+                explanation: 'نهج التخويف يركز على الآثار الضارة وعواقب الاستعمال، بينما يقدم النهج الواقعي المعرفة المتوازنة.'
+            },
+            {
+                id: 49,
+                type: 'truefalse',
+                question: 'الهدف الأساسي من "الحرب النفسية" هو تجريد الخصم من الروح المعنوية',
+                answer: 'صح'
+            },
+            {
+                id: 50,
+                type: 'truefalse',
+                question: 'تنقسم أهداف الحرب النفسية إلى قسمين هما: سياسية واقتصادية',
+                answer: 'خطأ',
+                explanation: 'تنقسم إلى أهداف إستراتيجية وتكتيكية.'
+            },
+            {
+                id: 51,
+                type: 'truefalse',
+                question: 'يقصد بـ "غسيل الدماغ" أنه أحد أهداف التنمية اللغوية',
+                answer: 'خطأ',
+                explanation: 'هو أحد أساليب الحرب النفسية.'
+            },
+            {
+                id: 52,
+                type: 'truefalse',
+                question: 'السمتان الأساسيتان اللتان تمدان الشائعة بالحياة هما الصدق والوضوح',
+                answer: 'خطأ',
+                explanation: 'هما الأهمية والغموض.'
+            },
+            {
+                id: 53,
+                type: 'truefalse',
+                question: 'يطلق مصطلح "الطابور الخامس" على الجماعة التي تدافع عن الوطن ببسالة',
+                answer: 'خطأ',
+                explanation: 'يطلق على الجماعة الخائنة والمتخاذلة من داخل المجتمع لصالح العدو.'
+            },
+
+            // أسئلة الاختيار من متعدد (54-128)
+            {
+                id: 54,
+                type: 'multiple',
+                question: 'دراسة العملية التي تؤدي إلى حل المشكلات النفسية التي تظهر في الميدان الإعلامي لرفع الكفاءة العملية لدى العاملين؟',
+                options: [
+                    'علم النفس الإداري',
+                    'علم النفس الإعلامي',
+                    'علم النفس التجاري',
+                    'علم النفس العام'
+                ],
+                answer: 'علم النفس الإعلامي'
+            },
+            {
+                id: 55,
+                type: 'multiple',
+                question: 'وهي شعور الذلة والخضوع وتتولد من إحساس الإنسان بعجزة وقصوره في المجتمع المحيط به؟',
+                options: [
+                    'عقدة الذنب',
+                    'عقدة النقص',
+                    'عقدة أوديب',
+                    'نفوذ الأب'
+                ],
+                answer: 'عقدة النقص'
+            },
+            {
+                id: 56,
+                type: 'multiple',
+                question: 'هي مجموعة من التصرفات تهدف تخفيف حدة التوتر النفسي المؤلم، وحالات الضيق؟',
+                options: [
+                    'الحيلة العقلية اللاشعورية',
+                    'الكذب',
+                    'التحويل',
+                    'التبرير'
+                ],
+                answer: 'الحيلة العقلية اللاشعورية'
+            },
+            {
+                id: 57,
+                type: 'multiple',
+                question: 'حيلة تدفع الإنسان لتحويل عواطفه وانفعالاته من موضعها الأصلي إلى موضع مختلف؟',
+                options: [
+                    'الحيل العقلية اللاشعورية',
+                    'الكذب',
+                    'التحويل',
+                    'التبرير'
+                ],
+                answer: 'التحويل'
+            },
+            {
+                id: 58,
+                type: 'multiple',
+                question: 'التعبير الذي يدلي به الفرد رداً على سؤال أو حول موضوع أو قضية معينة',
+                options: [
+                    'القيم',
+                    'الاعتقاد',
+                    'الرأي',
+                    'الاتجاه'
+                ],
+                answer: 'الرأي'
+            },
+            {
+                id: 59,
+                type: 'multiple',
+                question: 'من خلاله يستطيع الفرد الاحتفاظ بأكبر قدر من المعلومات واسترجاعها وقت الحاجة؟',
+                options: [
+                    'الكتاب',
+                    'التلفاز',
+                    'الشعار',
+                    'الحاسوب'
+                ],
+                answer: 'الحاسوب'
+            },
+            {
+                id: 60,
+                type: 'multiple',
+                question: 'الآثار النفسية للإدمان على الإنترنت؟',
+                options: [
+                    'الفراغ',
+                    'الانطواء',
+                    'تقليل التوتر',
+                    'بناء علاقات اجتماعية'
+                ],
+                answer: 'الانطواء'
+            },
+            {
+                id: 61,
+                type: 'multiple',
+                question: 'عبارة عن قصة تمثيلية تدور احداثها عن طريق الصراع بين المواقف واتجاهات الشخصيات؟',
+                options: [
+                    'الشائعات',
+                    'الإذاعة',
+                    'المسرحية',
+                    'السينما'
+                ],
+                answer: 'المسرحية'
+            },
+            {
+                id: 62,
+                type: 'multiple',
+                question: 'الإذاعة موجة منظمة الموجة بواسطة جهاز ......، لنشر المواد الإخبارية، والثقافية والتعليمية؟',
+                options: [
+                    'الفيديو',
+                    'الصوت',
+                    'الراديو',
+                    'الصورة'
+                ],
+                answer: 'الراديو'
+            },
+            {
+                id: 63,
+                type: 'multiple',
+                question: 'اهداف الشائعات على مستوى الدول؟',
+                options: [
+                    'تبرير الفشل',
+                    'إضعاف القيم الدينية',
+                    'ترويج المنتجات',
+                    'ارضاء الاصدقاء'
+                ],
+                answer: 'إضعاف القيم الدينية'
+            },
+            {
+                id: 64,
+                type: 'multiple',
+                question: 'يبحث علم النفس العام في كل ما يشعر به وما يفعله الإنسان للإجابة عن سؤالين هم:',
+                options: [
+                    'أين و متى يفعل',
+                    'كيف ولماذا يفعل',
+                    'كم وماذا يفعل',
+                    'هل و من يفعل'
+                ],
+                answer: 'كيف ولماذا يفعل'
+            },
+            {
+                id: 65,
+                type: 'multiple',
+                question: 'ينسب الفرد لغيره ما يتصف به من صفات سيئة، بحيث يرى الصفات غير مرغوبة عنه:',
+                options: [
+                    'المخالفة',
+                    'التبرير',
+                    'الإسقاط',
+                    'النقص'
+                ],
+                answer: 'الإسقاط'
+            },
+            {
+                id: 66,
+                type: 'multiple',
+                question: 'يُعتبر إعلاماً كاملاً وهو أبٌ لجميع وسائل الإعلام:',
+                options: [
+                    'الإذاعة',
+                    'التلفزيون',
+                    'الصحف',
+                    'الكتاب'
+                ],
+                answer: 'الكتاب'
+            },
+            {
+                id: 67,
+                type: 'multiple',
+                question: 'تُعرَّف بأنها النافذة التي يرى من خلاله الفرد العالم، وهي وسيلة موجهة للتثقيف:',
+                options: [
+                    'الإذاعة',
+                    'السينما',
+                    'الصحيفة',
+                    'التلفزيون'
+                ],
+                answer: 'الصحيفة'
+            },
+            {
+                id: 68,
+                type: 'multiple',
+                question: 'من مهام الصحافة أن تربط المجتمع بتوجه العقيدة والفكر الذي تتبناه الدولة:',
+                options: [
+                    'هدف تثقيفي',
+                    'هدف عقائدي أو أيديولوجي',
+                    'هدف اجتماعي',
+                    'هدف إرشادي'
+                ],
+                answer: 'هدف عقائدي أو أيديولوجي'
+            },
+            {
+                id: 69,
+                type: 'multiple',
+                question: 'تعتمد على الجملة المعبرة الواضحة، وتمتاز بالألوان والتنسيق وكبر الخط:',
+                options: [
+                    'اللافتة',
+                    'المجلة السياسية',
+                    'التلفزيون',
+                    'المسرح'
+                ],
+                answer: 'اللافتة'
+            },
+            {
+                id: 70,
+                type: 'multiple',
+                question: 'هو رمز معروف تسعى إلى تحقيقه الجماعات المختلفة:',
+                options: [
+                    'السينما',
+                    'الصحيفة',
+                    'الشعار',
+                    'الكتاب'
+                ],
+                answer: 'الشعار'
+            },
+            {
+                id: 71,
+                type: 'multiple',
+                question: 'هي العملية التي تتضمن مرسلاً ومستقبلاً لتبادل الأفكار والمعلومات:',
+                options: [
+                    'الكتاب',
+                    'الاتصال',
+                    'الصحف',
+                    'المجلات'
+                ],
+                answer: 'الاتصال'
+            },
+            {
+                id: 72,
+                type: 'multiple',
+                question: 'من أنواع وأشكال الاتصال حسب وسيلة الاستقبال:',
+                options: [
+                    'رسمي',
+                    'أفقي',
+                    'رأسي صاعد',
+                    'شفوي لفظي'
+                ],
+                answer: 'شفوي لفظي'
+            },
+            {
+                id: 73,
+                type: 'multiple',
+                question: 'وهي الاتصالات التي لا تنظمها اللوائح والإجراءات الرسمية، وأنما تحددها الصلات الشخصية، والعلاقات الاجتماعية:',
+                options: [
+                    'غير رسمية',
+                    'رسمية',
+                    'شفوية',
+                    'أفقية'
+                ],
+                answer: 'غير رسمية'
+            },
+            {
+                id: 74,
+                type: 'multiple',
+                question: 'هي صورة من صور التواصل تستخدم القناة غير النظامية من الفم إلى الأذن:',
+                options: [
+                    'غسيل الدماغ',
+                    'الفعل الآمن',
+                    'الشائعات',
+                    'إثارة الرعب والفوضى'
+                ],
+                answer: 'الشائعات'
+            },
+            {
+                id: 75,
+                type: 'multiple',
+                question: 'لعلم النفس الإعلامي عدة اهداف ماعدا:',
+                options: [
+                    'الفهم والتفسير',
+                    'البحث في كل ما يفعله الانسان',
+                    'الضبط والتحكم',
+                    'التنبؤ'
+                ],
+                answer: 'البحث في كل ما يفعله الانسان'
+            },
+            {
+                id: 76,
+                type: 'multiple',
+                question: 'ميول الولد للاستئثار بأمه، تصاحبها غيرة ونفور واحياناً كراهية للأب:',
+                options: [
+                    'عقدة الأم',
+                    'عقدة الكترا',
+                    'عقدة أوديب',
+                    'عقدة السلطة أو نفوذ الأب'
+                ],
+                answer: 'عقدة أوديب'
+            },
+            {
+                id: 77,
+                type: 'multiple',
+                question: 'ميول الابنة ميلاً شديداً للتعلق بأبيها، لدرجة التضحية بأمها:',
+                options: [
+                    'عقدة الأم',
+                    'عقدة الكترا',
+                    'عقدة أوديب',
+                    'عقدة السلطة أو نفوذ الأب'
+                ],
+                answer: 'عقدة الكترا'
+            },
+            {
+                id: 78,
+                type: 'multiple',
+                question: 'هو شعور يجعل الشخص انانياً عند البلوغ وسريع الانفعال، ضد كل من يتهاون في تحقيق رغبته:',
+                options: [
+                    'عقدة الأم',
+                    'عقدة الكترا',
+                    'عقدة أوديب',
+                    'عقدة النقص'
+                ],
+                answer: 'عقدة الأم'
+            },
+            {
+                id: 79,
+                type: 'multiple',
+                question: 'تأجيل إشباع الدافع أو التعبير عنه إلى أن تتهيأ الظروف المناسبة للإشباع أو التعبير عنه:',
+                options: [
+                    'القمع',
+                    'المخالفة',
+                    'التقمص',
+                    'التبرير'
+                ],
+                answer: 'القمع'
+            },
+            {
+                id: 80,
+                type: 'multiple',
+                question: 'المعارضة في الرأي وعدم الطاعة، للرغبة في اثبات الذات:',
+                options: [
+                    'القمع',
+                    'المخالفة',
+                    'التقمص',
+                    'التبرير'
+                ],
+                answer: 'المخالفة'
+            },
+            {
+                id: 81,
+                type: 'multiple',
+                question: 'يكون الشخص مدركاً بأنه يخدع الغير ولا يخدع نفسة:',
+                options: [
+                    'التبرير',
+                    'الكذب',
+                    'التحويل',
+                    'الإسقاط'
+                ],
+                answer: 'الكذب'
+            },
+            {
+                id: 82,
+                type: 'multiple',
+                question: 'حيلة تدفع الإنسان لتحويل عواطفه وانفعالاته من موضعها الأصلي إلى موضع مختلف:',
+                options: [
+                    'التبرير',
+                    'الكذب',
+                    'التحويل',
+                    'الإسقاط'
+                ],
+                answer: 'التحويل'
+            },
+            {
+                id: 83,
+                type: 'multiple',
+                question: 'هو توصيف الفرد لشخص ما بصفة يتصف به من صفات سيئة:',
+                options: [
+                    'التبرير',
+                    'الكذب',
+                    'التحويل',
+                    'الإسقاط'
+                ],
+                answer: 'الإسقاط'
+            },
+            {
+                id: 84,
+                type: 'multiple',
+                question: 'ميل مؤيد أو معارض إزاء موضوعات معينة أو شخصيات أو مؤسسات أو شعوب:',
+                options: [
+                    'الاتجاه',
+                    'الرأي',
+                    'الإسقاط',
+                    'الاعتقاد'
+                ],
+                answer: 'الاتجاه'
+            },
+            {
+                id: 85,
+                type: 'multiple',
+                question: 'التعبير الذي يدلي به الفرد رداً على سؤال أو حول موضوع أو قضية معينة:',
+                options: [
+                    'الاتجاه',
+                    'القيم',
+                    'الرأي',
+                    'الاعتقاد'
+                ],
+                answer: 'الرأي'
+            },
+            {
+                id: 86,
+                type: 'multiple',
+                question: 'يستعين علم النفس الإعلامي بمبادئ وقوانين .......... لكي يفسر السلوك الإعلامي من خلال تحليل وتفسير اتجاهات هذا السلوك والتنبؤ به:',
+                options: [
+                    'علم النفس التجاري',
+                    'علم النفس الإداري',
+                    'علم النفس العام',
+                    'علم النفس الاجتماعي'
+                ],
+                answer: 'علم النفس العام'
+            },
+            {
+                id: 87,
+                type: 'multiple',
+                question: 'من أهداف علم النفس الإعلامي السعي إلى جذب المعلنين لشراء الخدمات الإعلامية وهذا بوضوح علاقته ب .......:',
+                options: [
+                    'علم النفس التجاري',
+                    'علم النفس الإداري',
+                    'علم النفس العام',
+                    'علم النفس الاجتماعي'
+                ],
+                answer: 'علم النفس التجاري'
+            },
+            {
+                id: 88,
+                type: 'multiple',
+                question: 'يستطيع الفرد الاحتفاظ بأكبر قدر من المعلومات واسترجاعها وقت الحاجة، وتوسيع المدارك دون الحاجة إلى جهد كبير:',
+                options: [
+                    'الحاسب الألي',
+                    'المسرح',
+                    'الكتاب',
+                    'الإذاعة'
+                ],
+                answer: 'الحاسب الألي'
+            },
+            {
+                id: 89,
+                type: 'multiple',
+                question: 'الوسيلة التواصلية بين الأفراد التي لا تعتبر الحدود الدولية حاجز:',
+                options: [
+                    'الهاتف',
+                    'التلفاز',
+                    'الانترنت',
+                    'الإذاعة'
+                ],
+                answer: 'الانترنت'
+            },
+            {
+                id: 90,
+                type: 'multiple',
+                question: 'وتعرف يونج إدمان الإنترنت بأنه استخدام شبكة الإنترنت لأكثر من  .....  اسبوعيًا:',
+                options: [
+                    '48 ساعة',
+                    '38 ساعة',
+                    '28 ساعة',
+                    '58 ساعة'
+                ],
+                answer: '38 ساعة'
+            },
+            {
+                id: 91,
+                type: 'multiple',
+                question: 'يتميز بتواصل مباشر بين المرسل والمستقبل:',
+                options: [
+                    'الإذاعة',
+                    'السينما',
+                    'المسرح',
+                    'التلفاز'
+                ],
+                answer: 'المسرح'
+            },
+            {
+                id: 92,
+                type: 'multiple',
+                question: 'اتصال تقوم به هيئات أو أفراد بهدف الوصول إلى عدد كبير من الناس:',
+                options: [
+                    'ذاتي',
+                    'شخصي',
+                    'جماهيري',
+                    'جمعي'
+                ],
+                answer: 'جماهيري'
+            },
+            {
+                id: 93,
+                type: 'multiple',
+                question: 'عرف الطابور الخامس ابان الحرب العالمية الثانية على يد ....:',
+                options: [
+                    'هتلر',
+                    'جوبلز',
+                    'فرانسيكو فرانكو',
+                    'جورج واشنطن'
+                ],
+                answer: 'فرانسيكو فرانكو'
+            },
+            {
+                id: 94,
+                type: 'multiple',
+                question: 'أي مما يلي يُعد من أنواع الاتصال "غير الرسمية"؟',
+                options: [
+                    'التقارير والمذكرات الرسمية',
+                    'اللوائح والقرارات المؤسسية',
+                    'جماعات الأصدقاء والمعارف',
+                    'الاجتماعات الدورية للمصانع'
+                ],
+                answer: 'جماعات الأصدقاء والمعارف'
+            },
+            {
+                id: 95,
+                type: 'multiple',
+                question: 'يُصنف الاتصال عبر المكالمات التلفونية والمقابلات كنوع من الاتصال:',
+                options: [
+                    'غير الشفوي',
+                    'المكتوب',
+                    'الشفوي (اللفظي)',
+                    'الجماهيري فقط'
+                ],
+                answer: 'الشفوي (اللفظي)'
+            },
+            {
+                id: 96,
+                type: 'multiple',
+                question: 'الاتصال الرأسي الصاعد لا يحقق أهدافه إلا إذا شعر المرؤوسون بـ:',
+                options: [
+                    'الخوف من الرئيس',
+                    'درجة من الثقة مع الرئيس',
+                    'ضغط الوقت',
+                    'الغموض في التعليمات'
+                ],
+                answer: 'درجة من الثقة مع الرئيس'
+            },
+            {
+                id: 97,
+                type: 'multiple',
+                question: 'يهدف الاتصال "الرأسي النازل" بشكل أساسي إلى:',
+                options: [
+                    'شرح المعوقات والصعوبات',
+                    'تقديم المقترحات والإثراء',
+                    'نقل الأوامر والتعليمات والتوجيهات',
+                    'تعزيز العلاقات الشخصية'
+                ],
+                answer: 'نقل الأوامر والتعليمات والتوجيهات'
+            },
+            {
+                id: 98,
+                type: 'multiple',
+                question: 'الإعلام الجماهيري هو عملية اتصال تهدف إلى الوصول إلى:',
+                options: [
+                    'الفرد نفسه ذاتياً',
+                    'شخص واحد بعينه',
+                    'عدد كبير من الناس',
+                    'المجموعات السرية المحدودة'
+                ],
+                answer: 'عدد كبير من الناس'
+            },
+            {
+                id: 99,
+                type: 'multiple',
+                question: 'من أهداف الإعلام الجماهيري توحيد مشاعر المجتمع عبر مشاركة إيجابية:',
+                options: [
+                    'فردية وذاتية',
+                    'قطرية وقومية',
+                    'سلبية ومعارضة',
+                    'غامضة ومبهمة'
+                ],
+                answer: 'قطرية وقومية'
+            },
+            {
+                id: 100,
+                type: 'multiple',
+                question: 'يُصنف "الإنترنت" ضمن الوسائل الإعلامية:',
+                options: [
+                    'المسموعة فقط',
+                    'المقروءة فقط',
+                    'المرئية',
+                    'الشفوية الفردية'
+                ],
+                answer: 'المرئية'
+            },
+            {
+                id: 101,
+                type: 'multiple',
+                question: 'يحدث "تحريف المعلومات" نتيجة أربعة معوقات أساسية، منها:',
+                options: [
+                    'جودة الوسيلة',
+                    'الإدراك الانتقائي للرسالة',
+                    'توفر المعلومات بكثرة',
+                    'غياب الجمهور'
+                ],
+                answer: 'الإدراك الانتقائي للرسالة'
+            },
+            {
+                id: 102,
+                type: 'multiple',
+                question: 'ما هو أثر "الإفراط في مقدار المعلومات" على المؤسسات الإعلامية؟',
+                options: [
+                    'تحسين جودة الإنتاج',
+                    'عدم أداء العمل الفعلي كما ينبغي',
+                    'زيادة الثقة مع الجمهور',
+                    'تسهيل عملية الفهم'
+                ],
+                answer: 'عدم أداء العمل الفعلي كما ينبغي'
+            },
+            {
+                id: 103,
+                type: 'multiple',
+                question: 'يُنسب الفضل للصحافة في الوصول باللغة المعاصرة إلى:',
+                options: [
+                    'التعقيد اللفظي',
+                    'الأسلوب السهل',
+                    'الانغلاق الثقافي',
+                    'غياب الجماهيرية'
+                ],
+                answer: 'الأسلوب السهل'
+            },
+            {
+                id: 104,
+                type: 'multiple',
+                question: 'من الآثار السلبية لضعف الكوادر الصحفية الكتابة بأسلوب:',
+                options: [
+                    'إعلامي مبسط',
+                    'أدبي ذاتي بعيد عن الجماهير',
+                    'لغوي فصيح',
+                    'علمي دقيق'
+                ],
+                answer: 'أدبي ذاتي بعيد عن الجماهير'
+            },
+            {
+                id: 105,
+                type: 'multiple',
+                question: 'ساعدت وسائل الإعلام في نشر كثير من الألفاظ والأساليب:',
+                options: [
+                    'الفلسفية القديمة',
+                    'العامية',
+                    'التقنية الصعبة',
+                    'اللاتينية'
+                ],
+                answer: 'العامية'
+            },
+            {
+                id: 106,
+                type: 'multiple',
+                question: 'اللغة الإعلامية هي لغة بُنيت على نسق:',
+                options: [
+                    'غامض وفلسفي',
+                    'علمي اجتماعي عادي',
+                    'أدبي نخبوي',
+                    'رياضي معقد'
+                ],
+                answer: 'علمي اجتماعي عادي'
+            },
+            {
+                id: 107,
+                type: 'multiple',
+                question: 'في اللغة الإعلامية، يُفضل قول "أعدَّ بحثاً" بدلاً من:',
+                options: [
+                    'كتب بحثاً',
+                    'قام بإعداد بحث',
+                    'أنجز بحثاً',
+                    'قدم بحثاً'
+                ],
+                answer: 'قام بإعداد بحث'
+            },
+            {
+                id: 108,
+                type: 'multiple',
+                question: 'عند الحديث في موضوع "جدلي"، يجب على المرسل معرفة:',
+                options: [
+                    'طول المستمعين',
+                    'اتجاهات الجمهور نحو الموضوع',
+                    'أسماء الحاضرين جميعاً',
+                    'الحالة الجوية'
+                ],
+                answer: 'اتجاهات الجمهور نحو الموضوع'
+            },
+            {
+                id: 109,
+                type: 'multiple',
+                question: 'تحديد الغرض من الحديث الإعلامي قد يكون للإخبار أو الإقناع أو:',
+                options: [
+                    'التضليل',
+                    'الإمتاع',
+                    'الصمت',
+                    'التحذير فقط'
+                ],
+                answer: 'الإمتاع'
+            },
+            {
+                id: 110,
+                type: 'multiple',
+                question: 'طريقة الإلقاء التي تمتاز بالعفوية وتستخدم في اجتماعات اللجان هي:',
+                options: [
+                    'الاستظهار',
+                    'القراءة',
+                    'الارتجال',
+                    'الارتجال المعزز'
+                ],
+                answer: 'الارتجال'
+            },
+            {
+                id: 111,
+                type: 'multiple',
+                question: '"الارتجال المعزز" يعني كتابة النقاط الرئيسية فقط، ومن مزاياه:',
+                options: [
+                    'صعوبة التعديل',
+                    'القدرة على الحذف والإضافة حسب رد فعل الجمهور',
+                    'نسيان الخاتمة',
+                    'عدم النظر للمستمعين'
+                ],
+                answer: 'القدرة على الحذف والإضافة حسب رد فعل الجمهور'
+            },
+            {
+                id: 112,
+                type: 'multiple',
+                question: 'أفضل وسيلة لزيادة الثقة بالنفس عند الإلقاء هي:',
+                options: [
+                    'السرعة في الكلام',
+                    'التدرب أمام المرآة ومسجل الصوت',
+                    'تجنب استخدام المقدمة',
+                    'عدم سؤال الأصدقاء عن رأيهم'
+                ],
+                answer: 'التدرب أمام المرآة ومسجل الصوت'
+            },
+            {
+                id: 113,
+                type: 'multiple',
+                question: 'النهج الذي يقدم "معرفة دقيقة ومتوازنة" عن المخدرات هو:',
+                options: [
+                    'نهج الترويج',
+                    'النهج الواقعي',
+                    'نهج التخويف',
+                    'النهج العاطفي'
+                ],
+                answer: 'النهج الواقعي'
+            },
+            {
+                id: 114,
+                type: 'multiple',
+                question: 'تسيير السياسة الإعلامية بسرعة منتظمة متأنية يُعرف بـ:',
+                options: [
+                    'سياسة الصدمة',
+                    'سياسة النفس الطويل',
+                    'السياسة المكثفة',
+                    'سياسة التجربة والخطأ'
+                ],
+                answer: 'سياسة النفس الطويل'
+            },
+            {
+                id: 115,
+                type: 'multiple',
+                question: 'عرّف "لينبارجر" الحرب النفسية بأنها أضمن سلاح لتحقيق:',
+                options: [
+                    'السلام الدائم',
+                    'المصالح التي يجري الصراع من أجلها',
+                    'التنمية الاقتصادية',
+                    'التواصل الاجتماعي'
+                ],
+                answer: 'المصالح التي يجري الصراع من أجلها'
+            },
+            {
+                id: 116,
+                type: 'multiple',
+                question: 'نجح "جوبلز" في ترسيخ شعار داخل وجدان الشعب الألماني هو:',
+                options: [
+                    'السلام للجميع',
+                    'ألمانيا فوق الجميع',
+                    'القوة في الاتحاد',
+                    'الديمقراطية أولاً'
+                ],
+                answer: 'ألمانيا فوق الجميع'
+            },
+            {
+                id: 117,
+                type: 'multiple',
+                question: 'استخدم الإسكندر الأكبر "الدروع والخوذات الضخمة" ليوهم العدو بوجود:',
+                options: [
+                    'أسلحة سحرية',
+                    'عمالقة من الرجال في جيشه',
+                    'كمين خلف الجبال',
+                    'رغبة في التفاوض'
+                ],
+                answer: 'عمالقة من الرجال في جيشه'
+            },
+            {
+                id: 118,
+                type: 'multiple',
+                question: 'كان القائد "جنكيز خان" يرسل مخبرين لنشر شائعات تدل على:',
+                options: [
+                    'عدالته ورحمته',
+                    'وحشية أفعاله وضخامة جيشه',
+                    'رغبته في التجارة',
+                    'قلة عدد جنوده'
+                ],
+                answer: 'وحشية أفعاله وضخامة جيشه'
+            },
+            {
+                id: 119,
+                type: 'multiple',
+                question: 'الأهداف "الإستراتيجية" للحرب النفسية هي أهداف:',
+                options: [
+                    'مؤقتة ومرحلية',
+                    'كبرى رئيسية بعيدة المدى',
+                    'ثانوية وغير مهمة',
+                    'تستغرق أياماً فقط'
+                ],
+                answer: 'كبرى رئيسية بعيدة المدى'
+            },
+            {
+                id: 120,
+                type: 'multiple',
+                question: 'المدرسة التي تروج للغرب باعتباره "الخلاص الوحيد" من التخلف والظلم هي:',
+                options: [
+                    'مدرسة الفكر التبعي',
+                    'مدرسة الفكر البرجوازي',
+                    'مدرسة الفكر المتلاعب',
+                    'مدرسة الفكر الواقعي'
+                ],
+                answer: 'مدرسة الفكر البرجوازي'
+            },
+            {
+                id: 121,
+                type: 'multiple',
+                question: 'مدرسة الفكر الإعلامي "المتلاعب" تصدر أفكاراً تافهة للشباب بهدف:',
+                options: [
+                    'زيادة الوعي',
+                    'تقليل الهمم ونشر الجهل',
+                    'تشجيع الابتكار',
+                    'تطوير المهارات'
+                ],
+                answer: 'تقليل الهمم ونشر الجهل'
+            },
+            {
+                id: 122,
+                type: 'multiple',
+                question: 'تُعرف الشائعة بأنها صورة من صور التواصل التي تستخدم القناة:',
+                options: [
+                    'الرسمية',
+                    'غير النظامية (من الفم إلى الأذن)',
+                    'المكتوبة الموثقة',
+                    'الحكومية المعلنة'
+                ],
+                answer: 'غير النظامية (من الفم إلى الأذن)'
+            },
+            {
+                id: 123,
+                type: 'multiple',
+                question: 'تنمو "الإشاعة الزاحفة" عادة في:',
+                options: [
+                    'الأنظمة الديمقراطية الشفافة',
+                    'الأنظمة الاستبدادية والمؤسسات بصورة سرية',
+                    'أوقات الحروب الكبرى فقط',
+                    'الصحف الرسمية'
+                ],
+                answer: 'الأنظمة الاستبدادية والمؤسسات بصورة سرية'
+            },
+            {
+                id: 124,
+                type: 'multiple',
+                question: 'يكثر حدوث "الإشاعات العنيفة" التي تعتمد على الذعر والغضب أثناء:',
+                options: [
+                    'أوقات السلم',
+                    'الحروب والكوارث والأزمات الحادة',
+                    'الاجتماعات الدورية للأصدقاء',
+                    'المناسبات الرياضية'
+                ],
+                answer: 'الحروب والكوارث والأزمات الحادة'
+            },
+            {
+                id: 125,
+                type: 'multiple',
+                question: 'من الدوافع النفسية لمروجي الشائعات "حب الظهور"، حيث يهمهم الإيحاء بـ:',
+                options: [
+                    'صدق مشاعرهم',
+                    'امتلاك مصادر إعلامية سرية',
+                    'رغبتهم في مساعدة الآخرين',
+                    'التزامهم باللوائح الرسمية'
+                ],
+                answer: 'امتلاك مصادر إعلامية سرية'
+            },
+            {
+                id: 126,
+                type: 'multiple',
+                question: 'تعد ...... من أخطر أساليب نشر الشائعات لسرعة انتشارها وبراءتها الظاهرة:',
+                options: [
+                    'التقارير العلمية',
+                    'الخطب الرسمية',
+                    'النكتة',
+                    'الكتب التاريخية'
+                ],
+                answer: 'النكتة'
+            },
+            {
+                id: 127,
+                type: 'multiple',
+                question: 'من أهداف الشائعات على مستوى "الدول":',
+                options: [
+                    'تشجيع السياحة',
+                    'تحطيم المعنويات وإثارة البلبلة',
+                    'تعزيز القيم الدينية',
+                    'تقوية ثقة الشعوب بنفسها'
+                ],
+                answer: 'تحطيم المعنويات وإثارة البلبلة'
+            },
+            
+            {
+                id: 128,
+                type: 'multiple',
+                question: 'يهدف الرسم "الكاريكاتيري" في نشر الشائعات إلى:',
+                options: [
+                    'توثيق الحقائق التاريخية',
+                    'قوة الجاذبية بعيدة الأثر والمدى',
+                    'منع انتشار الأكاذيب',
+                    'شرح القوانين المعقدة'
+                ],
+                answer: 'قوة الجاذبية بعيدة الأثر والمدى'
+            }
+        ];
+
+        // ثوابت التطبيق
+        const TOTAL_QUESTIONS_IN_DB = 128;
+        const QUESTIONS_TO_SELECT = 50
+const QUESTIONS_TO_SELECT = 40; 
+        function selectRandomQuestions() {
+            let available = quizQuestions.filter(q => !usedQuestionIds.has(q.id));
+            if (available.length < QUESTIONS_TO_SELECT) {
+                let used = quizQuestions.filter(q => usedQuestionIds.has(q.id));
+                const needed = QUESTIONS_TO_SELECT - available.length;
+                const randomUsed = shuffleArray([...used]).slice(0, needed);
+                available = [...available, ...randomUsed];
+                usedQuestionIds.clear();
+            }
+            currentQuestions = shuffleArray(available).slice(0, QUESTIONS_TO_SELECT);
+            currentQuestions.forEach(q => usedQuestionIds.add(q.id));
+            userAnswers = new Array(currentQuestions.length).fill(null);
+        }
+        
+        function shuffleAllOptions() {
+            shuffledQuestions = currentQuestions.map(q => {
+                if (q.type === 'multiple') {
+                    const opts = [...q.options];
+                    const correctText = q.answer;
+                    // خلط الخيارات
+                    for (let i = opts.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [opts[i], opts[j]] = [opts[j], opts[i]];
+                    }
+                    return {
+                        ...q,
+                        shuffledOptions: opts,
+                        shuffledCorrect: opts.indexOf(correctText)
+                    };
+                } else { // true/false
+                    return {
+                        ...q,
+                        shuffledOptions: ['صح', 'خطأ'],
+                        shuffledCorrect: q.answer === 'صح' ? 0 : 1
+                    };
+                }
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+    
+    <script src="exam-common.js"></script>
+</body>
+</html>
